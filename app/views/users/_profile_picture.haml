@@ -1,0 +1,4 @@
+- target ||= ""
+- if user && user.authenticated?
+  %a{:href => url_for(user), :target => target}
+    %img{:src => user.profile_pic, :class => :profile, :title => user.display_name, :alt => user.display_name}        

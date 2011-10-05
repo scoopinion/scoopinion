@@ -1,0 +1,8 @@
+.stats-container
+  %h2= title
+  
+  %table
+    - stats.each do |day, records|
+      %tr
+        %td= day.strftime("%a %d %b")
+        %td= records.count

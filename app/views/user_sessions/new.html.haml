@@ -1,0 +1,28 @@
+- title "Sign In"
+
+#nosto
+  %h1 Sign in
+#news.login-wrapper
+  #list.login
+    %p.bigtext You can log in below by using your Facebook account.
+    = link_to "Sign in with Facebook", authentication_path(:facebook), :id => "facebook_login"
+
+  #sidebar
+    %h2 Not connected to Facebook? Log in here.
+    = form_for @user_session, :url => {:action => "create"} do |f|
+
+      = render :partial => "errors", :locals => { :record => @user_session }
+
+      %div
+        %label{:for => "user_session_login"} Email
+        %br
+        = f.text_field :login, :class => 'text'
+      %div
+        = f.label :password
+        %br
+        = f.password_field :password, :class => 'text'
+      %div
+        = f.check_box :remember_me, :checked => "checked"
+        = f.label :remember_me, :class => "checkbox"
+      %div
+        %input{:type => 'image', :src => '/assets/login.png', :id => 'submit_login'}

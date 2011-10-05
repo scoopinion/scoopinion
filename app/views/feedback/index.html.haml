@@ -1,0 +1,12 @@
+#nosto
+  %h1 Feedback
+
+= form_tag({:action => 'create'}, :id => 'feedback') do
+  %p.intro We really appreciate you do this. Many features and design decisions are already motivated by feedback given by you or people like you.
+
+  %p
+    = text_area_tag('message')
+  %p.intro
+    By default, your feedback is <strong>anonymous</strong>. If you wish that we get in touch, please include your name and email address.
+  %p
+    %input#more{:name => "submit", :type => "submit", :value => "Submit"}

@@ -1,0 +1,19 @@
+%ul
+  - @sites.confirmed.group_by(&:language).sort_by{|a| -a[1].size}.each do |language, sites|
+    %li.letter
+      %a{"data-toggle" => "#sites-in-#{language}"}
+        = language_name(language)
+        %span{:style => "font-weight: normal"} (#{sites.size})
+
+    %div.site-list{:id => "sites-in-#{language}"}
+      - sites.group_by(&:initial).each do |initial, sites2|
+        %li.letter= initial
+        - sites2.each do |site|
+          %li
+            .left
+              = link_to site.title, site
+              = link_to "(#{site.url})", "http://" + site.url, :target => "_blank"
+            .right
+              - if admin?
+                = render :partial => "state_change_button", :locals => { :site => site, :new_state => "rejected", :submit => "Remove" }
+            .clear

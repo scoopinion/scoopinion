@@ -1,0 +1,64 @@
+.users.show{
+    ol.most_frequent {
+        max-width: 580px;
+        padding: 10px 0 10px 0;
+        overflow-x: hidden;
+        list-style: normal
+        }
+    ol.most_frequent li::before {
+        float: left;
+        width: 0;
+        white-space: nowrap;
+        content:
+     ". . . . . . . . . . . . . . . . . . . . "
+     ". . . . . . . . . . . . . . . . . . . . "
+     ". . . . . . . . . . . . . . . . . . . . "
+     ". . . . . . . . . . . . . . . . . . . . "
+     ". . . . . . . . . . . . . . . . . . . . "
+     }
+    ol.most_frequent span:first-child {
+        padding-right: 0.33em;
+        background: white
+        }
+    ol.most_frequent span + span {
+        float: right;
+        padding-left: 0.33em;
+        background: white
+        }
+    #list .profile {
+        padding: 15px;
+        background: white;
+        border-color: rgba(193, 205, 215, .6);
+        border-width: 0;
+        border-style: solid;
+        overflow: hidden;
+        width: 586px;
+	min-height: 700px;
+    }
+    #list > h2, #sidebar h2{
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .activity, .notifications, .most_frequent{
+        margin-bottom: 20px;
+    }
+    .notifications{
+        color: #5a5a5a;
+    }
+
+    h2 {
+    }
+
+    .tags {
+
+	a {
+	    float: left;
+	    display: block;
+	    margin-right: 10px;
+	    margin-bottom: 10px;
+	}
+
+    }
+
+}

@@ -1,0 +1,1661 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <script type="text/javascript">
+siteName = 'digitoday';
+siteCookieLifeTime = 30;
+xmlHttp = '';
+mobileVersion = 'main';
+// newsId
+
+function varIsSet(varname)  {
+    return(typeof(window[varname])!='undefined');
+}
+
+function generateMobileUrl(mversion) {
+    var originalUrl = window.location.href;
+
+    var searchString = "http:\/\/www\." + siteName + ".fi\/[a-zA-Z\-^\/]*\/[0-9]{4}\/[0-9]{2}\/[0-9]{2}\/[0-9a-z\-^\/]*\/([0-9[^\/]*)\/[0-9]{2,3}";
+
+    var subDomain = 'm';
+    
+    var replaceString = "http://" + subDomain + "." + siteName + ".fi/?page=showSingleNews&newsID=$1";
+
+    var re = new RegExp(searchString, 'g');
+    
+    if (varIsSet('newsId')) {
+        var newUrl = 'http://m.' + siteName + '.fi/?page=showSingleNews&newsID=' + newsId + '&rss=mob&c=' + mversion;
+    } else if (originalUrl.match(re) && mversion != 'iphone') {
+        var newUrl = originalUrl.replace(re, replaceString);
+        newUrl = newUrl + '&c=' + mversion + "&rss=mob";
+    } else {
+        var newUrl = 'http://' + subDomain + "." + siteName + ".fi";
+        newUrl = newUrl + '/?c=' + mversion  + "&rss=mob";
+    }
+    
+    return newUrl;
+}
+
+function generateMainRedirUrl() {
+    var originalUrl = window.location.href;
+    var newUrl = '/mainSite.php?oldUrl=' + urlencode(originalUrl);
+    
+    return newUrl;
+}
+
+function urlencode(str) {
+    return escape(str).replace('+', '%2B').replace('%20', '+').replace('*', '%2A').replace('/', '%2F').replace('@', '%40');
+}
+
+function readCookie( check_name ) {
+    var a_all_cookies = document.cookie.split( ';' );
+    var a_temp_cookie = '';
+    var cookie_name = '';
+    var cookie_value = '';
+    var b_cookie_found = false; 
+    
+    for ( i = 0; i < a_all_cookies.length; i++ )
+    {
+        a_temp_cookie = a_all_cookies[i].split( '=' );
+
+        cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
+    
+        if ( cookie_name == check_name )
+        {
+            b_cookie_found = true;
+
+            if ( a_temp_cookie.length > 1 )
+            {
+                cookie_value = unescape( a_temp_cookie[1].replace(/^\s+|\s+$/g, '') );
+            }
+            return cookie_value;
+            break;
+        }
+        a_temp_cookie = null;
+        cookie_name = '';
+    }
+    if ( !b_cookie_found )
+    {
+        return null;
+    }
+}
+
+function createCookie(name, value, days) {
+    Set_Cookie(name, value, days, '/', '.' + siteName + '.fi');
+}
+
+function Set_Cookie( name, value, expires, path, domain, secure ) 
+{
+var today = new Date();
+today.setTime( today.getTime() );
+
+if ( expires )
+{
+expires = expires * 1000 * 60 * 60 * 24;
+}
+var expires_date = new Date( today.getTime() + (expires) );
+
+document.cookie = name + "=" +escape( value ) +
+( ( expires ) ? ";expires=" + expires_date.toGMTString() : "" ) + 
+( ( path ) ? ";path=" + path : "" ) + 
+( ( domain ) ? ";domain=" + domain : "" ) +
+( ( secure ) ? ";secure" : "" );
+}
+    
+
+
+function xmlHttpOnReady() {
+    if (xmlHttp.readyState==4) {
+        mobileVersion = xmlHttp.responseText;
+        
+        var confirmText = 'Luet sivustoa ilmeisesti kännykällä. Haluatko siirtyä kännyköille optimoituun mobiiliversioon?';
+        
+        if (mobileVersion == 'mobile' || mobileVersion == 'iphone') {
+            if (window.confirm(confirmText)) {
+                    createCookie('site', 'mobile', siteCookieLifeTime);
+                    var mobiUrl = generateMobileUrl(mobileVersion);
+                    window.location.href = mobiUrl;
+            } else {
+                createCookie('site', 'main', siteCookieLifeTime);
+                
+                if (readCookie('site') != 'main') {
+                    window.location = generateMainRedirUrl();
+                }
+            }
+        } else {
+            createCookie('site', 'main', siteCookieLifeTime);
+        }
+        
+    }
+}
+
+function initXMLHTTP() {
+    try {
+        xmlHttp = new XMLHttpRequest();
+    } catch (e) {
+      try {
+        xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+      }
+      catch (e) {
+        try {
+          xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        catch (e) {
+          return false;
+          }
+        }
+    }
+    
+    xmlHttp.onreadystatechange = xmlHttpOnReady;
+    
+    xmlHttp.open('GET', '/m/isMobile3.php', true);
+    xmlHttp.send(null);
+}
+
+var siteCookie = readCookie('site');
+
+var fullUrl = window.location.toString();
+
+if (!fullUrl.match('non=1')) {
+    if (document.referrer.match('m.' + siteName + ".fi")) {
+        createCookie('site', 'main', siteCookieLifeTime);
+    } else if (siteCookie == 'mobile' || siteCookie == 'iphone') {
+        var mobiUrl = generateMobileUrl(siteCookie);
+        
+        window.location = mobiUrl;
+    } else {
+        screenresolution = screen.width * screen.height;
+        maxresolution = (800*480) + 1;
+            
+        if (screenresolution < maxresolution && siteCookie != 'main' && !document.referrer.match('m.' + siteName + ".fi")) {
+            initXMLHTTP();
+        } else {
+            if (siteCookie != 'main') {
+                createCookie('site', 'main', siteCookieLifeTime);
+            }
+        }
+    }
+}
+</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    
+    <!-- CACHE TAGS -->
+    <meta name="MSSmartTagsPreventParsing" content="true">
+    <meta http-equiv="imagetoolbar" content="false">
+
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+
+    <!-- robots -->
+		<meta name="robots" content="index, follow, noodp">
+
+    <link title="Digitodayn uutishaku" rel="search" type="application/opensearchdescription+xml" href="http://www.digitoday.fi/digitoday_haku.xml" />
+
+
+    <link href="/css.php" rel="stylesheet" type="text/css" media="all">
+  
+
+<!--    <link href="/css/picture_set_video.css,t-navigation.css,otapart.css,oikotie_dt_premium.css," rel="stylesheet" type="text/css" media="all">
+    <link href="/css/reset-meyer.css,layout.css,hintaseuranta.css,keskustelut.css,forum.css,comments.css,compatbits.css,jquery.lightbox-0.4.css" rel="stylesheet" type="text/css" media="all">-->
+
+
+<!--    <link href="/css/reset-meyer.css,layout.css,keskustelut.css,forum.css,comments.css,compatbits.css,jquery.lightbox-0.4.css,picture_set_video.css,t-navigation.css,hintaseuranta.css,otapart.css" rel="stylesheet" type="text/css" media="all"> -->
+    <link href="/css/print.css" rel="stylesheet" type="text/css" media="print">
+
+    <script type="text/javascript" src="/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.plugins.js,common.js,jquery-fieldselection.js,rating.js,jquery.lightbox-0.4-modified.js,sf_ie6_dt.js"></script>
+    <script type="text/javascript" src="/jf/forumFunctions.js"></script>
+    <script type="text/javascript">
+
+
+
+$(document).ready(function() {
+
+    $('#loginFormArea').load('/loginBar.php', 0, function () {
+        sfHover('userNav'); // Fix suckerfish for IE6
+    });
+
+    //if ($("#frame")[0].offsetHeight < $("#adsOnRight")[0].offsetHeight) {
+    //    $("#frame")[0].style.height = 20 + $("#adsOnRight")[0].offsetHeight + 'px';
+    //}
+
+    $('#filterHelpLink').click(function(){
+        $('#filterHelp').toggle();
+        return false;
+    });
+
+    // God save IE6...
+    if ($.browser.msie && parseInt($.browser.version) == 6) {
+        $('#frame').css({ zoom: '1' });
+        sfHover('utilityNav'); // Fix suckerfish for IE6
+    }
+
+if ($('#floater').length > 0) {
+
+    // Flowing ad
+    var flowAdState = 0;
+    var flowAdOffsetY = $('#floater').position().top;
+    var flowAdOffsetX = $('#floater').position().left;
+    var isIE6 = ($.browser.msie && parseInt($.browser.version) < 7) ? true : false;
+
+    $(window).scroll(function () {
+        if ($(document).scrollTop() >= flowAdOffsetY-12 ) {
+            if (flowAdState == 0) {
+                flowAdState = 1;
+                if (!isIE6) {
+                    $("#floater").css({ position: "fixed", top: "10px" });
+                }
+                $("#floater").addClass('flowing');
+            }
+        } else {
+            if (flowAdState == 1) {
+                flowAdState = 0;
+                if (!isIE6) {
+                    $("#floater").css({ position: "static" , top: "0px" });
+                }
+                $("#floater").removeClass('flowing');
+            }
+        }
+    });
+
+}
+
+});
+    google_ad_client = "pub-4165631538991685";
+    </script>
+
+<link rel="alternate" media="handheld" href="http://m.digitoday.fi/?page=showSingleNews&newsID=201113312" title="Digitoday Mobile" />    <script type="text/javascript" src="/js/pg66.js,pg63-64-66.js,jquery.thickbox.js"></script>
+    <style type="text/css" media="screen">
+
+@import "/css/thickbox.css";
+
+a.thickbox {
+    float: left;
+    display: block;
+    margin: 0 10px 10px 0;
+    padding: 5px 5px 2px 5px;
+    border: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #999;
+    text-align: center;
+}
+
+</style>
+
+    <style type="text/css">
+
+.adGoogleOld {
+    margin: 5px 0;
+
+}
+
+.ad_header {
+    margin: 1em 0;
+    font-weight: bold;
+}
+
+.afc_title {
+    clear: both;
+    margin: 15px 0 3px;
+    padding: 3px 5px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 14px;
+    border-bottom: 2px solid #ccc;
+    background-color: #333;
+}
+
+.afc_title a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+
+
+
+
+.featuresSingleCol {
+    float: left;
+    width: 140px;
+    overflow: hidden;
+    margin: 0 10px 0 0;
+}
+
+.featuresSingleCol.right {
+    clear: none;
+    margin: 0;
+}
+
+.taloussanomat-headlines h3 {
+	padding: 3px 5px 0 70px;
+	font-size: 12px;
+	background-image: url(/img/header_taloussanomat_headlines.gif);
+}
+
+/* Insta-tyylit */
+
+.storyCollectionPromo {
+    margin: 30px 0;
+}
+
+.storyCollectionPromo .scpFrame {
+    margin: 12px;
+    padding: 15px 15px 15px 10px;
+    border: 1px solid #d8d8d8;
+}
+
+#mwcPromo {
+    position: relative;
+}
+
+#mwcPromo .scpLogo {
+    position: absolute;
+    z-index: 2;
+    top: -12px;
+    width: 209px;
+    height: 67px;
+} * html #mwcPromo .scpLogo {
+    left: -12px;
+}
+
+#mwcPromo h2.scpTitle {
+    margin: 0 0;
+    color: #90348e;
+    font-family: Verdana, sans-serif;
+    font-size: 9px;
+    letter-spacing: 0;
+    text-align: right;
+}
+
+.scRss {
+    float: right;
+}
+
+.storyCollectionPromo .more {
+    padding-left: 5px;
+}
+
+.storyCollectionPromo .more a {
+    padding-right: 14px;
+    background-image: url(/img/icon_triangle_left.gif);
+    background-position: right 90%;
+    background-repeat: no-repeat;
+}
+
+.storyCollectionPromo .newsListing {
+    margin-top: 10px;
+}
+
+.storyCollectionPromo .imageOnRight {
+    margin-right: 0;
+}
+
+.storyCollectionPromo .headlinesFeature {
+    border: 0;
+}
+
+.content .headlinesFeature ul {
+    list-style: none;
+}
+
+#logoNetwork {
+    position: absolute;
+    top: -26px;
+    left: 0;
+    margin: -4px 12px 0 -4px;
+    border: 4px solid #fff;
+}
+
+#siteBar {
+    position: relative;
+    z-index: 4;
+}
+
+#siteVersions {
+    margin-left: 88px;
+}
+
+#siteNav .first {
+    margin-left: 88px;
+}
+
+</style>
+
+<!--[if lte IE 6]>
+<style type="text/css">
+    body { background: url(hack) fixed; }
+    #floater.flowing { position: absolute; }
+    #floater.flowing {
+        left: 0;
+    }
+    #floater.flowing {
+        top: expression(
+            offset = 0 + parseInt(document.body.currentStyle.paddingTop) + 
+                parseInt(document.body.currentStyle.marginTop),
+            document.documentElement.scrollTop + offset + 'px'
+        );
+    }
+
+    #loginFormArea ul#userNav {
+        display: inline;
+    }
+
+    #loginBar span.item.first {
+        margin-right: 0.8em;
+    }
+
+    #loginBar span.item {
+        margin-left: 0;
+     }
+
+</style>
+<![endif]-->
+<meta name="medium" content="news" /><link rel="canonical" href="http://www.digitoday.fi/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66" />
+
+
+<meta property="fb:page_id" content="135549075573" />
+<meta property="fb:admins" content="522073531,579578013,543637478" />
+
+    <!-- rss + title -->
+<link rel="alternate" type="application/rss+xml" href="/feeds/digitoday-yhteiskunta.xml" title="Yhteiskunta / Digitoday">
+<title>Directa-syyttäjät alensivat menettämisseuraamusvaatimusta / Yhteiskunta / Digitoday</title>
+<meta name="description" content="20.9.2011 klo 09:18 - Syyttäjät ovat alentaneet Directan johtajilta vaadittavia korvauksia miljoonilla euroilla.">
+
+
+    <!-- AdTech-mainosten lataus -->
+                        <script type="text/javascript">
+                            //<![CDATA[
+                            document.write('<scr'+'ipt type="text/javascript" src="http://adserver.adtech.de/multiad/3.0/969.1/0/0/-1/ADTECH;mode=multiad;grp=66;misc='+new Date().getTime()+';alias=digitoday_uutiset_box3_300x250,digitoday_uutiset_jb1_980x120,digitoday_uutiset_st1_160x600,digitoday_uutiset_st2_160x600,digitoday_uutiset_box1_468x400,digitoday_uutiset_box2_468x400;key=yhteiskunta"></scr' + 'ipt>');
+                            //]]>
+                        </script>
+
+</head>
+<body>
+
+
+
+<div id="adsOnTop">
+    <div id="ad728-1" class="ad">
+<div id="adSpace3" class="adSpace">
+            <script type="text/javascript">
+                //<![CDATA[
+                ADTECH_showAd("digitoday_uutiset_jb1_980x120", document, false);
+                // ]]>
+            </script>
+            <noscript>
+                <a 
+                href="http://adserver.adtech.de/adlink|3.0|969.1|2179776|0|225|ADTECH;loc=300;alias=digitoday_uutiset_jb1_980x120;key=yhteiskunta;grp=66;cookie=info;" 
+                target="_blank"><img 
+                src="http://adserver.adtech.de/adserv|3.0|969.1|2179776|0|225|ADTECH;loc=300;alias=digitoday_uutiset_jb1_980x120;key=yhteiskunta;grp=66;cookie=info;" alt="" border="0"></a>
+            </noscript>
+            </div>
+            
+
+</div>
+</div><!--/adsOnTop-->
+<div id="ie6navigation">
+	<iframe id="ie6cover"></iframe>
+</div>
+
+<!-- Login bar starts -->
+<div id="loginBarArea">
+    <div id="loginBar">
+        <ul id="siteVersions">
+            
+            <li class="item first"><a href="http://m.digitoday.fi/?page=showSingleNews&newsID=201113312">Mobiiliversio</a></li>
+            <li class="item"><a href="/teksti/">Tekstiversio</a></li>
+
+        </ul>
+
+            <div id="loginFormArea">
+            
+		<noscript>
+    		<form method="post" action="/omasana_login.php">
+    			<span class="item first">
+    				<label>Sähköposti tai tunnus<input type="text" name="omasana_log" size="16"/></label> &nbsp;
+    				<label>Salasana <input type="password" name="omasana_pas" size="16"/></label> &nbsp;
+    				<input type="hidden" name="req" value="http://www.digitoday.fi/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66" />
+    				<input type="submit" class="submit" value="Kirjaudu"/>
+    			</span>
+    			<span class="item reg"><a href="/rekisteroidy">Rekisteröidy</a></span>
+    		</form>
+		</noscript>
+            </div>
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- Login bar ends -->
+
+<!-- Site bar starts -->
+<div id="siteBarArea">
+    <div id="siteBar">
+        <a id="logoNetwork" href="http://www.taloussanomat.fi/"><img src="/img/logo_taloussanomat_72x48.png" alt="Taloussanomat" /></a>
+        <ul id="siteNav">
+            <li class="item first"><a href="http://www.taloussanomat.fi/">Taloussanomat</a></li>
+            <li class="item"><a href="http://www.itviikko.fi/">It-viikko</a></li>
+            <li class="item"><a class="selected" href="http://www.digitoday.fi/">Digitoday</a></li>
+        </ul>
+        <ul id="utilityNav">
+            <li>
+                <div class="itemBg"><span class="isDropDown">Palvelut</span></div>
+                <div class="dropDownShadow">
+                    <div class="dropDown">
+                        <ul>
+                            <li><a href="/uutiskirjeet/">Uutiskirjeet</a></li>
+                            <li><a href="/rss/">RSS-sy&ouml;tteet</a></li>
+                            <li><a href="/yritysseuranta/">Yritysseuranta</a></li>
+                            <li><a href="http://www.taloussanomat.fi/rekisteriseloste-sivusto/">Rekisteriseloste</a></li>
+                            <li><a href="http://www.taloussanomat.fi/kayttoehdot/">K&auml;ytt&ouml;ehdot</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="itemBg"><span class="isDropDown">Osallistu</span></div>
+                <div class="dropDownShadow">
+                    <div class="dropDown">
+                        <ul>
+                            <li><a href="/keskustelut/">Keskustelut</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </li>
+            <li>
+                <div class="itemBg"><span class="isDropDown">Yhteydenotot</span></div>
+                <div class="dropDownShadow">
+                    <div class="dropDown">
+                        <ul>
+                            <li><a href="/toimitus/#palaute">Juttuvinkit ja palaute</a></li>
+                            <li><a href="/toimitus/">Toimitus ja yhteystiedot</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+            <li>
+                <div class="itemBg"><span class="isDropDown">Mediatiedot</span></div>
+                <div class="dropDownShadow">
+                    <div class="dropDown">
+                        <ul>
+                            <li><a href="http://www.taloussanomat.fi/mediatiedot/digitoday/">Mediakortti</a></li>
+                            
+                            <li><a href="http://www.taloussanomat.fi/mediatiedot/">Ajankohtaista</a></li>
+                            <li><a href="http://www.taloussanomat.fi/mediatiedot/mediatuotteet/">Mediatuotteet</a></li>
+                            <li><a href="http://www.taloussanomat.fi/mediatiedot/mainospaikat/">Mainospaikat</a></li>
+                            <li><a href="http://www.taloussanomat.fi/mediatiedot/tutkimukset/">Tutkimukset</a></li>
+                            <li><a href="http://www.taloussanomat.fi/mediatiedot/ota-yhteytta/">Ota yhteytt&auml;</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+        
+    </div>
+</div>
+<!-- Site bar ends -->
+<div id="frame" class="storyPage">
+    <div id="innerframe">
+        <div id="header">
+            <div id="logoAndSearch">
+                <div id="search">
+                    <div class="small">
+                        <a href="/haku/" onclick="$('#hakuohje').toggle(); return false;">Ohje</a>
+                    </div>
+                    <form id="headerSearchForm" method="get" action="/haku/">
+                        <input type="text" name="needle" id="q" value="" class="tf_l">
+                        <input type="submit" id="hae" value="Hae" class="button">
+                        
+                        <div id="hakuohje">
+                            <a href="/haku/" onclick="$('#hakuohje').toggle(); return false;">Sulje</a>
+                            <h3>Hakuohje</h3>
+                            <ul class="list">
+                            	<li>TAI-sanalla saat osumia, joissa esiintyy jokin hakusanoista: <strong class="hi">hakusana1 TAI hakusana2</strong></li>
+                            	<li>Välimerkit hakusanojen välillä tulkitaan JA-sanaksi: <strong class="hi">hakusana1 hakusana2</strong> = hakusana1 JA hakusana2</li>
+                            	<li>Lainausmerkeillä voit hakea täsmällisiä fraaseja: <strong class="hi">"koko lauseen haku"</strong></li>
+                            	<li>Rajaa osumia lisäämällä hakusanan eteen miinusmerkki: <strong class="hi">hakusana1 -hakusana2</strong> = hakusana1, mutta EI hakusana2</li>
+                            	<li><strong class="hi">*</strong>-merkki katkaisee hakusanan</li>
+                            </ul>
+                        </div>
+                    </form>
+                </div><!--/search-->
+                <h1 id="logo"><a href="/etusivu">digitoday</a></h1>
+            </div><!--/logoAndSearch-->
+            <div id="mainNav">
+                <ul>
+<li><a href="/etusivu">Etusivu</a></li>
+<li><a href="/keskustelut/">Keskustelut</a></li>
+<li><a href="/uutiskirjeet">Uutiskirjeet</a></li>
+<li><a href="/yritysseuranta">Yritysseuranta</a></li>
+<li><a href="/toimitus">Toimitus</a></li>
+<li class="talsa omasana"><a href="http://www.taloussanomat.fi/porssi/markkinat-tanaan/">Pörssi</a></li>
+<li class="talsa mediasales"><a href="http://www.verkkomediamyynti.fi/?id=verkkopalvelut&sub=digitoday">Mediakortti</a></li>
+
+                    <li class="rss"><a href="/rss">RSS</a></li>
+                </ul>
+            </div><!--/mainNav-->
+            <div id="subNav">
+                <ul>
+					<li class="etusivu"><a href="/">Etusivu</a></li>
+
+					<li class="uutislista"><a href="/uutiset/">Uutislista</a></li>
+<li><a href="/data">data</a></li>
+<li><a href="/bisnes">bisnes</a></li>
+<li><a href="/mobiili">mobiili</a></li>
+<li><a href="/tyo-ja-ura">työ ja ura</a></li>
+<li><a href="/tietoturva">tietoturva</a></li>
+<li><a href="/tiede-ja-teknologia">tiede ja teknologia</a></li>
+<li><a href="/vimpaimet">vimpaimet</a></li>
+<li class="here"><a href="/yhteiskunta">yhteiskunta</a></li>
+<li><a href="/viihde">viihde</a></li>
+<li><a href="/mielipide">mielipide</a></li>
+
+                </ul>
+            </div><!--/subNav-->
+        </div><!--/header-->
+        <div id="content">
+           <div id="news" class="content fullStory">
+                      <!--Uutinen-->
+
+    <div style="margin:0.85em 5px 0;"><img src="/img/icon_mobile_site_16x16.png" alt="" style="vertical-align: -3px;"> <a href="http://m.digitoday.fi/?page=showSingleNews&newsID=201113312">Lue uutinen mobiilisivustolla</a></div>
+<!-- google_ad_section_start -->
+    
+    <!-- ISI_LISTEN_START -->
+    <h1>Directan pomoilta vaaditaan pienempiä korvauksia</h1>
+
+                    <div class="imageOnRight">
+                       <img src="/files/200_1043216422.jpg" border="0" hspace="3" width="200" alt=""><p class="caption ISI_IGNORE"><span class="photographer ISI_IGNORE">Kuva: Antti Aimo-Koivisto  / Lehtikuva</span></p>
+
+                    </div><p class="ingress"><span class="date">20.9.2011 09:18</span> Syyttäjät ovat alentaneet Directan johtajilta vaadittavia korvauksia miljoonilla euroilla.</p>
+<p>Directa-jutun syytt&auml;j&auml;t ovat asian valmistelun aikana alentaneet vaatimustaan tulevista korvauksista. Menett&auml;misseuraamusvaatimus ei my&ouml;sk&auml;&auml;n en&auml;&auml; kohdistu kaikkiin vastaajiin yritystietopalvelua yritykselle tarjoavassa Directassa.</p>
+
+                <div class="storyTools vertical ISI_IGNORE">
+                    <ul class="facebook">
+	                    <li>
+		                    <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.digitoday.fi%2Fp%2F201113312&layout=button_count&show_faces=true&width=150&action=recommend&font=arial&colorscheme=light&height=21&locale=fi_FI&ref=artikkeli"
+            scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:150px; height:21px;" 
+            allowTransparency="true"></iframe>
+	                    </li>
+                    </ul>
+                    <ul id="vote201113312" class="first">
+                        <li class="recommend"><a href="/recommend.php?news_id=201113312&value=2&unajax=1">Suosittele</a></li>
+                        <li class="recommends"><span>2 suositusta</span></li>
+                    </ul>
+                    <ul>
+                        <li class="print"><a href="#" onclick="self.print(); return false;" onclick="pageTracker._trackPageview('/storytools/tulosta/'); return true;">Tulosta</a></li>
+                        <li class="pdf"><a href="/pdf/201113312" target="_blank" onclick="pageTracker._trackPageview('/storytools/tallenna/'); return true;">Pdf-versio</a></li>
+                    </ul>
+                    <ul>
+                        <li class="speaker"><a href="http://isi.phoneticom.com/cgi-bin/digitodayrsone?customerid=202&url=http://www.digitoday.fi/uutiset/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66" target="rs" id="listen201113312">Kuuntele</a></li>
+                    </ul>
+                    <ul>
+                        <li class="comment"><a href="#comments">Kommentoi</a></li>
+                        <li class="send"><a href="/laheta/201113312">Lähetä kaverille</a></li>
+
+                    </ul>
+                </div>
+<p>                     Syytt&auml;j&auml;t vaativat nyt&nbsp; Directan toimitusjohtajalta ja entiselt&auml; myyntijohtajalta rikoksen tuottamana <br />taloudellisena hy&ouml;tyn&auml; yhteens&auml; 1 772 369 euroa. Toimitusjohtajalta ja entiselt&auml; myyntijohtajalta&nbsp; vaadittava m&auml;&auml;r&auml; on rajoitettu 482 868 euroon. Alun perin syytt&auml;j&auml;t vaativat&nbsp; menett&auml;misseuraamuksena kaikilta vastaajilta yhteens&auml; 4,86 miljoonaa euroa.</p>
+<p>                    Directan johtohenkil&ouml;ihin kohdistettujen syytteiden <br />p&auml;&auml;k&auml;sittely alkaa Helsingin k&auml;r&auml;j&auml;oikeudessa 31. lokakuuta.</p>
+<p>                    Syytteet koskevat t&ouml;rke&auml;&auml; petosta ja <br />markkinointirikosta. Syytteen on saanut viisi entist&auml; tai nykyist&auml; Directan johtohenkil&ouml;&auml;. Syytt&auml;j&auml;t vaativat lis&auml;ksi Directan tuomitsemista yhteis&ouml;sakkoon. </p>
+<p>                      Asian p&auml;&auml;k&auml;sittelyn arvioidaan kest&auml;v&auml;n helmikuun loppuun 2012 saakka. P&auml;&auml;k&auml;sittelyss&auml; kuullaan n&auml;ill&auml; n&auml;kymin noin 50 asianomistajaa ja kymmeni&auml; todistajia.</p>
+<p></p>
+<p></p>
+<!-- 2011-9 (2011-09-20 09:18:00) -->
+<span style="display: none;">Jutun kirjoitti: Digitoday</span>
+<!-- ISI_LISTEN_STOP -->
+
+<!-- google_ad_section_end -->
+                <div class="authorAndCopyright">
+                    <div class="copyright">
+<a rel="license" href="/lisenssi/201113312"><img src="/img/cc.gif" width="130" height="54" alt="Nime&auml;-Ei muutoksia-Ep&auml;kaupallinen -lisenssi"></a>
+                    </div>
+<div class="agent vcard">
+                    <div class="avatar">
+                        <a href="http://www.omasana.fi/digitoday"><img src="/img/toimitus/digitoday_48_48.jpg" class="photo" width="48" height="48" alt=""></a>
+                    </div>
+                    <p><strong class="fn author">Digitoday</strong> <!-- <span class="authorProfile">(<a href="http://www.omasana.fi/digitoday">profiili</a>)</span> --><br>
+                        <em><a href="mailto:toimitus@digitoday.fi" class="email">toimitus@digitoday.fi</a></em></p>
+</div>
+<p class="license"><span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Text" rel="dc:type">Teksti</span> on lisensoitu <a rel="license" href="http://creativecommons.org/licenses/by-nd-nc/1.0/fi/">Creative Commons Nimeä-Ei muutoksia-Epäkaupallinen</a> -lisenssillä.</p>
+                </div>
+
+<!--468x60-->
+<div id="ad468-keyword" class="ad">
+<!--AD?size=468x60&pp=1&keyword=-->
+
+</div>
+
+                <div class="storyTools horizontal ISI_IGNORE">
+                    <ul class="facebook">
+	                    <li>
+		                    
+                <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.digitoday.fi%2Fp%2F201113312&layout=standard&show_faces=false&width=400&action=recommend&font=arial&colorscheme=light&height=35&locale=fi_FI&ref=artikkeli" 
+               scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:400px; height:35px;" 
+               allowTransparency="true"></iframe>
+            
+	                    </li>
+                    </ul>
+                    <ul id="vote201113312" class="first">
+                        <li class="recommend"><a href="/recommend.php?news_id=201113312&value=2&unajax=1">Suosittele</a></li>
+                        <li class="recommends"><span>2 suositusta</span></li>
+                    </ul>
+                    <ul>
+                        <li class="print"><a href="#" onclick="self.print(); return false;" onclick="pageTracker._trackPageview('/storytools/tulosta/'); return true;">Tulosta</a></li>
+                        <li class="pdf"><a href="/pdf/201113312" target="_blank" onclick="pageTracker._trackPageview('/storytools/tallenna/'); return true;">Pdf-versio</a></li>
+                    </ul>
+                    <ul>
+                        <li class="speaker"><a href="http://isi.phoneticom.com/cgi-bin/digitodayrsone?customerid=202&url=http://www.digitoday.fi/uutiset/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66" target="rs" id="listen201113312">Kuuntele</a></li>
+                    </ul>
+                    <ul>
+                        <li class="comment"><a href="#comments">Kommentoi</a></li>
+                        <li class="send"><a href="/laheta/201113312">Lähetä kaverille</a></li>
+
+                    </ul>
+                </div>
+
+
+
+                <div class="relatedArticles">
+                    <h3>Aiheeseen liittyviä uutisia</h3>
+                    <h4>Aiemmat</h4>
+                    <ul>
+                        <li><a href="/yhteiskunta/2011/05/17/directa-asiakkaitamme-peloteltiin/20116982/66">Directa: Asiakkaitamme peloteltiin</a> <span class="date">17.5.2011</span></li>
+                        <li><a href="/yhteiskunta/2011/04/06/directa-teki-tutkintapyynnon-pelottelijasta/20114854/66">Directa teki tutkintapyynnön pelottelijasta </a> <span class="date">6.4.2011</span></li>
+                        <li><a href="/yhteiskunta/2011/04/05/directalle-eratappio-markkinaoikeudessa/20114772/66">Directalle erätappio markkinaoikeudessa</a> <span class="date">5.4.2011</span></li>
+                        <li><a href="/yhteiskunta/2010/09/22/directan-tutkintapyynto-ei-johda-esitutkintaan-poliisista/201013126/66">Directan tutkintapyyntö ei johda esitutkintaan poliisista</a> <span class="date">22.9.2010</span></li>
+                        <li><a href="/yhteiskunta/2010/06/30/directan-pomot-joutuvat-syytteeseen/20109151/66">Directan pomot joutuvat syytteeseen</a> <span class="date">30.6.2010</span></li>
+                        <li><a href="/bisnes/2010/03/31/directa-kantelee-poliisin-toiminnasta/20104646/66">Directa kantelee poliisin toiminnasta</a> <span class="date">31.3.2010</span></li>
+                        <li><a href="/tyo-ja-ura/2010/03/12/presidentintekija-kiillottaa-nyt-directan-kuvaa/20103745/66">Presidentintekijä kiillottaa nyt Directan kuvaa</a> <span class="date">12.3.2010</span></li>
+                    </ul>
+                </div>
+<div class="relatedContent"><!-- startLeiki -->
+            <div class="leikiContent">
+                <div class="leikiTS">
+                    <script type="text/javascript"> 
+                    //<![CDATA[ 
+                    document.write('<scr'+'ipt src="http://kiwi8.leiki.com/focus/sanomacontentwidget?cid=http%3A%2F%2Fwww.digitoday.fi%2Fp%2F201113312&section=lk-ts-dt-1&t_type=TS&t_type=digitoday&t_type=itviikko&sourcebefore=1&charset=iso-8859-1&crv=ref%3Dlk_ts_dt_1&max=3&rnfilter&headline=Haku%20aihepiirist%E4&first='+top.leiki_first+'&df=dd.MM.yyyy&nopopular=1&ts='+new Date().getTime() + '"></scr'+'ipt>');
+                    //]]> 
+                    </script>
+                </div> <!-- /.leikiTS -->
+            
+        
+            <script type="text/javascript"> 
+            //<![CDATA[ 
+            document.write('<scr'+'ipt src="http://kiwi8.leiki.com/focus/sanomacontentwidget?cid=http%3A%2F%2Fwww.digitoday.fi%2Fp%2F201113312&section=lk-ts-dt-2&t_type=HS&t_type=SALE&t_type=VARTTI&t_type=magazines&sourcebefore=1&charset=iso-8859-1&crv=ref%3Dlk_ts_dt_2&max=3&rnfilter&headline=&first='+top.leiki_first+'&df=dd.MM.yyyy&nopopular=1&ts='+new Date().getTime() + '"></scr'+'ipt>');
+            //]]> 
+            </script>
+        
+                <div class="leikiMarkkinapaikat">
+                	<script type="text/javascript"> 
+                //<![CDATA[ 
+                document.write('<scr'+'ipt src="http://kiwi8.leiki.com/focus/sanomacontentwidget?cid=http%3A%2F%2Fwww.digitoday.fi%2Fp%2F201113312&section=lk-ts-dt-3&t_type=oikotie_asunnot&t_type=oikotie_autot&t_type=oikotie_tyopaikat&sourcebefore=1&charset=iso-8859-1&crv=ref%3Dlk_ts_dt_3&max=3&nfilter&headline=Oikotie.fi&first='+top.leiki_first+'&df=dd.MM.yyyy&nopopular=1&ts='+new Date().getTime() + '"></scr'+'ipt>');
+                //]]> 
+                </script>
+                </div> <!-- /.leikiMarkkinapaikat -->
+        </div> <!-- /.leikiMarkkinapaikat -->
+            </div> <!-- /.relatedContent -->
+            <!-- endLeiki -->
+<img src="/kuva.php?news_id=201113312" alt="" border="0" width="1" height="1"><script type="text/javascript"><!--
+google_ad_slot = "0171429349";
+google_ad_width = 336;
+google_ad_height = 280;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script><!--300x250-->
+<div id="ad300-1" class="ad">
+<div id="adSpace12" class="adSpace">
+            <script type="text/javascript">
+                //<![CDATA[
+                ADTECH_showAd("digitoday_uutiset_box1_468x400", document, false);
+                // ]]>
+            </script>
+            <noscript>
+                <a 
+                href="http://adserver.adtech.de/adlink|3.0|969.1|2179776|0|170|ADTECH;loc=300;alias=digitoday_uutiset_box1_468x400;key=yhteiskunta;grp=66;cookie=info;" 
+                target="_blank"><img 
+                src="http://adserver.adtech.de/adserv|3.0|969.1|2179776|0|170|ADTECH;loc=300;alias=digitoday_uutiset_box1_468x400;key=yhteiskunta;grp=66;cookie=info;" alt="" border="0"></a>
+            </noscript>
+            </div>
+            
+
+</div><!-- oikotie tyopaikat -->
+<div class="newsFrontAd ad">
+<div class="separator top"> </div>
+   <div class="centeredAd ad400wide">
+    <div id="otTp-container">
+        <div id="otTp-header">
+            <h2><a href="http://www.oikotie.fi">Oikotie</a></h2>
+            <h3><a href="http://tyopaikat.oikotie.fi">Ty&ouml;paikat</a></h3>
+            <a href="http://tyopaikat.oikotie.fi" class="otTp-more">Loput 3088 ty&ouml;paikkaa Oikotiell&auml;</a>
+        </div>
+        <ul>
+            <li><a href="http://tyopaikat.oikotie.fi/avoimet-tyopaikat/x/574662?sRef=BestITJobs"><img src="http://tyopaikat.oikotie.fi/sites/all/files/ilmoituskuvat/imagecache/tyopaikka_logo/logo_3723_1424426.JPG" alt="" /><span>Concept Owner, People Processes</span><em>Nokia</em></a></li><li><a href="http://tyopaikat.oikotie.fi/avoimet-tyopaikat/x/573305?sRef=BestITJobs"><img src="http://www2.oikotie.fi/ext/images/original/48083/48083843.gif" alt="" /><span>Myyntipäällikkö</span><em>Reaktor</em></a></li><li><a href="http://tyopaikat.oikotie.fi/avoimet-tyopaikat/x/571281?sRef=BestITJobs"><img src="http://www2.oikotie.fi/ext/images/original/42099/42099940.JPG" alt="" /><span>IT- ja tilitysvastaava</span><em>Gramex</em></a></li>        </ul>
+        <div id="otTp-footer">&nbsp;</div>
+    </div>
+    </div>
+</div>
+<!-- end oikotie tyopaikat --><!-- start -->
+<!-- cached 2011-09-23 00:06:01 -->
+				
+                            <div class="comments" id="comments">
+                             <div class="writeComment moreLink">
+                                    <a href="#commentBox">Kirjoita kommentti</a>
+                                </div>
+                                <h2 class="listHeading">Kommentit (5)</h2>
+                <div class="comment odd" id="viesti-6086124">     <div class="userImage"><img src="/omasana_kuva.php?user_id=false&amp;size=48" alt="" class="avatar"/></div>
+                <div class="body">
+                 <div class="ratingTools" id="rat-f6086124">
+                                    <div class="ratingPositive" title="Äänestä (+)">
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6mdevtsdh776ba00af4c22b0&amp;msgID=f6086124&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow">
+                                            <img class="icon" src="/img/icon_rating_positive_metadata.png" alt="Hyvä"/>
+                                        </a>
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6mdevtsdh776ba00af4c22b0&amp;msgID=f6086124&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow"><span class="pos">0</span></a>
+                                    </div>
+                                    <div class="ratingNegative" title="Äänestä (-)">
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6mdevtsdh776ba00af4c22b0&amp;msgID=f6086124&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><img class="icon" src="/img/icon_rating_negative_metadata.png" alt="Huono"/></a>
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6mdevtsdh776ba00af4c22b0&amp;msgID=f6086124&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><span class="neg">0</span></a>
+                                    </div>
+                                </div> 
+                                <div class="text" id="msg-6086124">
+                                Naurettavia summia. Tämä firma on kusettanut käytännössä kaikkia. Firma tulisi laittaa toimintakieltoon, sekä kaikki firmassa toimivat henkilöt liiketoimintakieltoon.<br />
+<br />
+Kukaan direktassa työskentelevä henkeilö ei saisi missään nimessä saada lupaa olla perustamassa tai olla osakkaana minkäänlaisessa yritystoiminnassa.<br />
+<br />
+Tuomiot täytyy olle kovempia!
+                                </div><div class="author">Saavat mitä tilasivat!</div><div class="tools metadata">
+                                    <span class="quote"><a onclick="quoteText(0)" href="#commentBox"><img src="/img/icon_comment_quote.png" alt="Lainaa" title="Lainaa"/></a> <a onclick="quoteText(0)" href="#commentBox">Lainaa</a></span>
+                                    <span class="notify"><a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6086124&amp;news_id=201113312"  rel="nofollow"><img src="/img/icon_comment_notify.png" alt="Ilmoita asiaton viesti" title="Ilmoita asiaton viesti"/></a> <a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6086124&amp;news_id=201113312" rel="nofollow">Ilmoita asiaton viesti</a></span>
+                                </div>
+                                <div class="date metadata">
+                                    <span class="date">
+                                    <a  href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66?offset=#viesti-6086124"># 20.9.2011 9:34</a>
+                                    <!-- #20.9.2011 9:34 -->
+                                    
+                                    </span>
+                                    <!--<span class="author">Saavat mitä tilasivat!</span>-->
+                              </div>
+                                   </div>
+                                <div class="clear"></div>
+                            </div>
+                        <div class="comment" id="viesti-6086557">     <div class="userImage"><img src="/omasana_kuva.php?user_id=false&amp;size=48" alt="" class="avatar"/></div>
+                <div class="body">
+                 <div class="ratingTools" id="rat-f6086557">
+                                    <div class="ratingPositive" title="Äänestä (+)">
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6yoiymaqza0da500a66d5dq0&amp;msgID=f6086557&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow">
+                                            <img class="icon" src="/img/icon_rating_positive_metadata.png" alt="Hyvä"/>
+                                        </a>
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6yoiymaqza0da500a66d5dq0&amp;msgID=f6086557&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow"><span class="pos">40</span></a>
+                                    </div>
+                                    <div class="ratingNegative" title="Äänestä (-)">
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6yoiymaqza0da500a66d5dq0&amp;msgID=f6086557&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><img class="icon" src="/img/icon_rating_negative_metadata.png" alt="Huono"/></a>
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6yoiymaqza0da500a66d5dq0&amp;msgID=f6086557&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><span class="neg">1</span></a>
+                                    </div>
+                                </div> 
+                                <div class="text" id="msg-6086557">
+                                Tässähän on siis kyse korvauksista, joita valtio vaatii Directalta. Asianomistajilla on tietysti sitten omat vaatimuksensa joihin sisältyy mm. satojen kantajien oikeudenkäyntikulut. Pelkistä oikeudenkäyntikuluista voi kertyä miljoonia maksettavaa.
+                                </div><div class="author">rmac</div><div class="tools metadata">
+                                    <span class="quote"><a onclick="quoteText(1)" href="#commentBox"><img src="/img/icon_comment_quote.png" alt="Lainaa" title="Lainaa"/></a> <a onclick="quoteText(1)" href="#commentBox">Lainaa</a></span>
+                                    <span class="notify"><a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6086557&amp;news_id=201113312"  rel="nofollow"><img src="/img/icon_comment_notify.png" alt="Ilmoita asiaton viesti" title="Ilmoita asiaton viesti"/></a> <a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6086557&amp;news_id=201113312" rel="nofollow">Ilmoita asiaton viesti</a></span>
+                                </div>
+                                <div class="date metadata">
+                                    <span class="date">
+                                    <a  href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66?offset=#viesti-6086557"># 20.9.2011 12:08</a>
+                                    <!-- #20.9.2011 12:08 -->
+                                    
+                                    </span>
+                                    <!--<span class="author">rmac</span>-->
+                              </div>
+                                   </div>
+                                <div class="clear"></div>
+                            </div>
+                        <div class="comment odd" id="viesti-6086679">     <div class="userImage"><img src="/omasana_kuva.php?user_id=false&amp;size=48" alt="" class="avatar"/></div>
+                <div class="body">
+                 <div class="ratingTools" id="rat-f6086679">
+                                    <div class="ratingPositive" title="Äänestä (+)">
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6rkxydbnw9f5d600ad5edfj0&amp;msgID=f6086679&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow">
+                                            <img class="icon" src="/img/icon_rating_positive_metadata.png" alt="Hyvä"/>
+                                        </a>
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6rkxydbnw9f5d600ad5edfj0&amp;msgID=f6086679&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow"><span class="pos">3</span></a>
+                                    </div>
+                                    <div class="ratingNegative" title="Äänestä (-)">
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6rkxydbnw9f5d600ad5edfj0&amp;msgID=f6086679&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><img class="icon" src="/img/icon_rating_negative_metadata.png" alt="Huono"/></a>
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6rkxydbnw9f5d600ad5edfj0&amp;msgID=f6086679&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><span class="neg">1</span></a>
+                                    </div>
+                                </div> 
+                                <div class="text" id="msg-6086679">
+                                ok. Hyvä juttu! Olisi valtio voinut kuitenkin hakea enemmän rahaa näin huonoina aikoina!
+                                </div><div class="author"> </div><div class="tools metadata">
+                                    <span class="quote"><a onclick="quoteText(2)" href="#commentBox"><img src="/img/icon_comment_quote.png" alt="Lainaa" title="Lainaa"/></a> <a onclick="quoteText(2)" href="#commentBox">Lainaa</a></span>
+                                    <span class="notify"><a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6086679&amp;news_id=201113312"  rel="nofollow"><img src="/img/icon_comment_notify.png" alt="Ilmoita asiaton viesti" title="Ilmoita asiaton viesti"/></a> <a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6086679&amp;news_id=201113312" rel="nofollow">Ilmoita asiaton viesti</a></span>
+                                </div>
+                                <div class="date metadata">
+                                    <span class="date">
+                                    <a  href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66?offset=#viesti-6086679"># 20.9.2011 13:05</a>
+                                    <!-- #20.9.2011 13:05 -->
+                                    
+                                    </span>
+                                    <!--<span class="author"> </span>-->
+                              </div>
+                                   </div>
+                                <div class="clear"></div>
+                            </div>
+                        <div class="comment" id="viesti-6087273">     <div class="userImage"><img src="/omasana_kuva.php?user_id=false&amp;size=48" alt="" class="avatar"/></div>
+                <div class="body">
+                 <div class="ratingTools" id="rat-f6087273">
+                                    <div class="ratingPositive" title="Äänestä (+)">
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6mmpfysku2351600aaeceam0&amp;msgID=f6087273&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow">
+                                            <img class="icon" src="/img/icon_rating_positive_metadata.png" alt="Hyvä"/>
+                                        </a>
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6mmpfysku2351600aaeceam0&amp;msgID=f6087273&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow"><span class="pos">1</span></a>
+                                    </div>
+                                    <div class="ratingNegative" title="Äänestä (-)">
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6mmpfysku2351600aaeceam0&amp;msgID=f6087273&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><img class="icon" src="/img/icon_rating_negative_metadata.png" alt="Huono"/></a>
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6mmpfysku2351600aaeceam0&amp;msgID=f6087273&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><span class="neg">1</span></a>
+                                    </div>
+                                </div> 
+                                <div class="text" id="msg-6087273">
+                                EI HURRIT SAA TUOMIOTA KUN JO UUDET BISNEET PYÖRII HERRA RITARISEURASSA...
+                                </div><div class="author">ÖÖKÖNPÖLLÖ</div><div class="tools metadata">
+                                    <span class="quote"><a onclick="quoteText(3)" href="#commentBox"><img src="/img/icon_comment_quote.png" alt="Lainaa" title="Lainaa"/></a> <a onclick="quoteText(3)" href="#commentBox">Lainaa</a></span>
+                                    <span class="notify"><a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6087273&amp;news_id=201113312"  rel="nofollow"><img src="/img/icon_comment_notify.png" alt="Ilmoita asiaton viesti" title="Ilmoita asiaton viesti"/></a> <a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6087273&amp;news_id=201113312" rel="nofollow">Ilmoita asiaton viesti</a></span>
+                                </div>
+                                <div class="date metadata">
+                                    <span class="date">
+                                    <a  href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66?offset=#viesti-6087273"># 20.9.2011 16:53</a>
+                                    <!-- #20.9.2011 16:53 -->
+                                    
+                                    </span>
+                                    <!--<span class="author">ÖÖKÖNPÖLLÖ</span>-->
+                              </div>
+                                   </div>
+                                <div class="clear"></div>
+                            </div>
+                        <div class="comment odd" id="viesti-6090344">     <div class="userImage"><img src="/omasana_kuva.php?user_id=false&amp;size=48" alt="" class="avatar"/></div>
+                <div class="body">
+                 <div class="ratingTools" id="rat-f6090344">
+                                    <div class="ratingPositive" title="Äänestä (+)">
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6cxtewimv49be300a00f7fu0&amp;msgID=f6090344&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow">
+                                            <img class="icon" src="/img/icon_rating_positive_metadata.png" alt="Hyvä"/>
+                                        </a>
+                                        <a class="ratingPlus" href="/cinc/recommend.php?gen=6cxtewimv49be300a00f7fu0&amp;msgID=f6090344&amp;unajax=1&amp;vote_thumb=positive" rel="nofollow"><span class="pos">0</span></a>
+                                    </div>
+                                    <div class="ratingNegative" title="Äänestä (-)">
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6cxtewimv49be300a00f7fu0&amp;msgID=f6090344&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><img class="icon" src="/img/icon_rating_negative_metadata.png" alt="Huono"/></a>
+                                        <a class="ratingMinus" href="/cinc/recommend.php?gen=6cxtewimv49be300a00f7fu0&amp;msgID=f6090344&amp;unajax=1&amp;vote_thumb=negative" rel="nofollow"><span class="neg">0</span></a>
+                                    </div>
+                                </div> 
+                                <div class="text" id="msg-6090344">
+                                Näinhän se menee. Minä varaton ja tuloton sain silti maksettavaksi ihan silkasta vahingosta tapahtuneen onnettomuuden kustannukset 200 000 euro. JA poliisiauto teki saman onnettomuuden matkalla paikalle.
+                                </div><div class="author"> </div><div class="tools metadata">
+                                    <span class="quote"><a onclick="quoteText(4)" href="#commentBox"><img src="/img/icon_comment_quote.png" alt="Lainaa" title="Lainaa"/></a> <a onclick="quoteText(4)" href="#commentBox">Lainaa</a></span>
+                                    <span class="notify"><a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6090344&amp;news_id=201113312"  rel="nofollow"><img src="/img/icon_comment_notify.png" alt="Ilmoita asiaton viesti" title="Ilmoita asiaton viesti"/></a> <a href="/keskustelut/ilmoita-asiaton-viesti?messageID=6090344&amp;news_id=201113312" rel="nofollow">Ilmoita asiaton viesti</a></span>
+                                </div>
+                                <div class="date metadata">
+                                    <span class="date">
+                                    <a  href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66?offset=#viesti-6090344"># 21.9.2011 23:17</a>
+                                    <!-- #21.9.2011 23:17 -->
+                                    
+                                    </span>
+                                    <!--<span class="author"> </span>-->
+                              </div>
+                                   </div>
+                                <div class="clear"></div>
+                            </div>
+                        
+                                <div class="xvPagination">
+                                    <span class="label">Sivut:</span>
+                            <a  class="page current"  href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66?offset=0#comments">1</a>
+                            <span class="button disabled">Edellinen</span>
+                                    <span class="button disabled">Seuraava</span>
+                                    <div class="clear"></div>
+                                </div><img src="/jf/kuva.php?threadID=279721" alt="" width="1" height="1" />
+            <script type="text/javascript">
+    if (!isset("votablesOnPage")) {
+        var votablesOnPage = "f6086124,f6086557,f6086679,f6087273,f6090344";
+    } else {
+        votablesOnPage += ",f6086124,f6086557,f6086679,f6087273,f6090344";
+    }
+</script>
+
+</div>
+<div id="commentForm" ><a name="commentBox"></a>
+                                    <div class="title">Kirjoita vastaus</div>
+                            <form name="postmessage" method="post" action="/keskustelut/">
+                        <div>
+                            <div class="instructions">
+                                <span class="start">Ohjeet:</span>
+                                Pysy aiheessa ja kirjoita napakasti. Muista, että haastateltavilla, kanssakeskustelijoilla 
+                                ja toimittajilla on oikeus omaan, eriävään mielipiteeseen. Ole kohtelias ja ystävällinen, 
+                                äläkä tarkoituksella provosoi tai hauku muita keskustelijoita. Taloussanomat varaa 
+                                oikeuden poistaa asiattomat viestit. Varauduthan siihen, että linkkejä sisältävät viestit tarkistetaan yksitellen roskapostin suodattamiseksi.
+                                Arvostamme mielipidettäsi!<br/>
+                                <a href="/keskustelut/ohjeet"><img alt=">" src="/img/arrow_blue.png"/></a> <a href="/keskustelut/ohjeet">Lue koko keskusteluetiketti</a>
+                            </div>
+                            <input type="hidden" name="action" value="reply" /><input type="hidden" name="threadID" value="279721" /><input type="hidden" name="news_id" value="201113312" /><input type="hidden" name="article" value="1" /><label for="test">Bottivarmistus: mitä on kaksi ynnä viisi?</label>
+                                <input type="text" id="test" class="text" value="" name="testi" /><div class="controls">
+                                <input type="button" value="Lihavoi" name="lihavoi" id="lihavoi" class="textareaBoldButton" onclick="styleTag('b'); return false;"/>
+                                <input type="button" value="Kursivoi" name="kursivoi" id="kursivoi" class="textareaItalicButton" onclick="styleTag('i'); return false;"/>
+                                <input type="button" value="Lainaa" name="lainaa" id="lainaa" class="textareaRegularButton" onclick="styleTag('q'); return false;"/>
+                    </div><label id="viestiLabel" for="viesti">Viesti</label>
+                            <textarea id="viesti" rows="10" cols="39" name="body"></textarea>
+                            <label for="nimi">Nimi</label>
+                            
+                            <input id="nimi" type="text" value="" maxlength="67" size="40" name="alias" />
+                            <div class="send">
+                                <input class="bbutton" type="submit" value="Lähetä viesti" name="doPost" />
+                                <!-- <input class="bbutton" type="button" value="Esikatselu" name="preview" /> -->
+                            </div> 
+                      </div>
+                  </form>
+                      </div> <!-- /#commentForm -->
+                        
+            
+                                <script type="text/javascript">
+                                var commentlist = true;
+                                </script>
+                                
+<!-- end --><div id="ad300-2" class="ad">
+<div id="adSpace13" class="adSpace">
+            <script type="text/javascript">
+                //<![CDATA[
+                ADTECH_showAd("digitoday_uutiset_box2_468x400", document, false);
+                // ]]>
+            </script>
+            <noscript>
+                <a 
+                href="http://adserver.adtech.de/adlink|3.0|969.1|2179776|0|170|ADTECH;loc=300;alias=digitoday_uutiset_box2_468x400;key=yhteiskunta;grp=66;cookie=info;" 
+                target="_blank"><img 
+                src="http://adserver.adtech.de/adserv|3.0|969.1|2179776|0|170|ADTECH;loc=300;alias=digitoday_uutiset_box2_468x400;key=yhteiskunta;grp=66;cookie=info;" alt="" border="0"></a>
+            </noscript>
+            </div>
+            
+
+</div><div id="isframeContainer" style="text-align: left;">
+<div id="is-promo-box">
+<div class="is-header">
+<div class="is-logo"><a href='http://www.iltasanomat.fi?ref=tf-promologo' target="_blank">Ilta-Sanomat</a></div>
+</div>
+<div class="is-content">
+<div class="is-main-promo-article">
+<div class="teaser tsr-right-img tsr-468-img-right negative">
+<a href='http://www.iltasanomat.fi/kotimaa/onko-tassa-suomen-noloin-facebook-moka/art-1288416032210.html?ref=tf-promo1' target="_blank">
+<img width="170" height="96" src='http://is13.snstatic.fi/kuvat/facebook/img-1288528382704.jpeg' alt='Onko tässä Suomen noloin Facebook-moka?'>
+</a>
+<h2><a href='http://www.iltasanomat.fi/kotimaa/onko-tassa-suomen-noloin-facebook-moka/art-1288416032210.html?ref=tf-promo1' target="_blank">Onko tässä Suomen noloin Facebook-moka?</a></h2>
+<p>
+<a href='http://www.iltasanomat.fi/kotimaa/onko-tassa-suomen-noloin-facebook-moka/art-1288416032210.html?ref=tf-promo1' target="_blank">
+Suomalaisten parhaat Facebook-mokat on kasattu uuteen kirjaan Netti ei vaan toimi (Atena).&#160; <span style=""><br />
+</span>
+</a>
+</p>
+</div>
+</div>
+<ul class="is-link-list">
+<li><a href='http://www.iltasanomat.fi/kotimaa/rehellisesta-huutonet-ilmoituksesta-tuli-nettihitti/art-1288416049768.html?ref=tf-promo2' target="_blank">Rehellisestä Huuto.net-ilmoituksesta tuli nettihitti</a></li>
+<li><a href='http://www.iltasanomat.fi/bigbrother/bb-tamako-aiheutti-benin-kovat-kivut/art-1288416071757.html?ref=tf-promo3' target="_blank">BB: Tämäkö aiheutti Benin kovat kivut?</a></li>
+<li><a href='http://www.iltasanomat.fi/viihde/antonio-banderas-avautui-vaimonsa-riippuvuudesta/art-1288416036493.html?ref=tf-promo4' target="_blank">Antonio Banderas avautui vaimonsa riippuvuudesta</a></li>
+<li><a href='http://www.iltasanomat.fi/kotimaa/lehdet-satu-hassi-matkusti-pummilla-markkinoimaan-joukkoliikennetta/art-1288416068985.html?ref=tf-promo5' target="_blank">Lehdet: Satu Hassi matkusti pummilla markkinoimaan joukkoliikennettä</a></li>
+<li><a href='http://www.iltasanomat.fi/kotimaa/murhatutkija-tama-on-oudompi-juttu-kuin-ulvilan-surma/art-1288416019838.html?ref=tf-promo6' target="_blank">Murhatutkija: Tämä on oudompi juttu kuin Ulvilan surma</a></li>
+</ul> 
+</div>
+<div class="is-footer">
+<a href="http://www.iltasanomat.fi/uutiset/?ref=tf-promonavi" target = "_blank">UUTISET</a>
+|
+<a href="http://www.iltasanomat.fi/saa/?ref=tf-promonavi" target = "_blank">SÄÄ</a>
+|
+<a href="http://www.iltasanomat.fi/viihde/?ref=tf-promonavi" target = "_blank">VIIHDE</a>
+|
+<a href="http://www.iltasanomat.fi/urheilu/?ref=tf-promonavi" target = "_blank">URHEILU</a>
+|
+<a href="http://www.iltasanomat.fi/videot/?ref=tf-promonavi" target = "_blank">IS TV</a>
+</div>
+</div> 
+
+
+</div><div id="hsframeContainer" style="text-align: center; width:400; height=252;">
+
+
+
+
+</div><div id="headlinesPopular">
+
+    <ul class="tabs">
+      <li id="most-uusimmat"><a href="/uutiset/">Uusimmat</a></li>
+      <li id="most-luetuimmat" class="here"><a href="/uutiset/luetuimmat">Luetuimmat</a></li>
+      <li id="most-suositelluimmat"><a href="/uutiset/suositelluimmat">Suositelluimmat</a></li>
+      <li id="most-kommentoiduimmat"><a href="/uutiset/kommentoiduimmat">Kommentoiduimmat</a></li>
+
+    </ul>
+    <div class="underline"></div>
+<ul id="nosto-uusimmat" class="hide">
+<li class="caption">Digitodayn tuoreimmat uutiset.</li>
+<li><span class="date">09:56</span> <a href="/bisnes/2011/09/23/verkkokauppacomin-uusi-houkutuslintu-mig-havittaja/201113556/66">Verkkokauppa.comin uusi houkutuslintu: Mig-hävittäjä</a></li>
+                <li><span class="date">09:29</span> <a href="/tyo-ja-ura/2011/09/23/hpn-paajohtaja-sai-potkut/201113554/66">HP:n pääjohtaja sai potkut</a></li>
+                <li><span class="date">22.9.</span> <a href="/data/2011/09/22/cisco-verkottaa-kiinassa-maanjaristysaluetta/201113455/66">Cisco verkottaa Kiinassa maanjäristysaluetta</a></li>
+                <li><span class="date">22.9.</span> <a href="/data/2011/09/22/microsoftin-mango-on-valmis-jakeluun/201113522/66">Microsoftin Mango on valmis jakeluun</a></li>
+                <li><span class="date">22.9.</span> <a href="/viihde/2011/09/22/angry-birds-huudattaa-yleisoa-f1-radalla/201113526/66">Angry Birds huudattaa yleisöä F1-radalla</a></li>
+                <li><span class="date">22.9.</span> <a href="/tiede-ja-teknologia/2011/09/22/ruotsia-varoitetaan-putoavasta-satelliitista/201113517/66">Ruotsia varoitetaan putoavasta satelliitista</a></li>
+                <li><span class="date">22.9.</span> <a href="/tyo-ja-ura/2011/09/22/hp-erottaa-paajohtajan/201113518/66">HP erottaa pääjohtajan?</a></li>
+                <li><span class="date">22.9.</span> <a href="/tyo-ja-ura/2011/09/22/ericsson-palkkaa-osaajia-ouluun-ja-kirkkonummelle/201113508/66">Ericsson palkkaa osaajia Ouluun ja Kirkkonummelle</a></li>
+                <li><span class="date">22.9.</span> <a href="/yhteiskunta/2011/09/22/yle-valtio-havisi-kiistan-surffauslaskusta/201113507/66">Yle: Valtio hävisi kiistan surffauslaskusta</a></li>
+                <li><span class="date">22.9.</span> <a href="/bisnes/2011/09/22/apple-ottaa-hajurakoa-samsungiin/201113498/66">Apple ottaa hajurakoa Samsungiin</a></li>
+                <li><span class="date">22.9.</span> <a href="/tyo-ja-ura/2011/09/22/it-ala-nosti-monia-miljardooreiksi/201113490/66">It-ala nosti monia miljardööreiksi</a></li>
+                <li><span class="date">22.9.</span> <a href="/bisnes/2011/09/22/microsoftin-rahamylly-linuxin-kaytto-maksaa/201113485/66">Microsoftin rahamylly: Linuxin käyttö maksaa</a></li>
+                <li><span class="date">22.9.</span> <a href="/tyo-ja-ura/2011/09/22/nokia-sijoittaa-uuden-teknologiapomonsa-piilaaksoon/201113480/66">Nokia sijoittaa uuden teknologiapomonsa Piilaaksoon</a></li>
+                <li><span class="date">22.9.</span> <a href="/tietoturva/2011/09/22/skype-puhelu-ohjaa-huijarisivulle/201113478/66">Skype-puhelu ohjaa huijarisivulle</a></li>
+                <li><span class="date">21.9.</span> <a href="/vimpaimet/2011/09/21/nain-facebook-uudistuu/201113452/66">Näin Facebook uudistuu</a></li>
+                <li><span class="date">21.9.</span> <a href="/yhteiskunta/2011/09/21/poliisi-puuhaa-nettiradiota/201113444/66">Poliisi puuhaa nettiradiota</a></li>
+                <li><span class="date">21.9.</span> <a href="/mobiili/2011/09/21/tablet-tietokoneen-valmistaja-sulkee-tuotantolinjoja/201113438/66">Tablet-tietokoneen valmistaja sulkee tuotantolinjoja</a></li>
+                <li><span class="date">21.9.</span> <a href="/bisnes/2011/09/21/idc-tablet-markkina-pitkalti-applen-hallussa/201113439/66">IDC: Tablet-markkina pitkälti Applen hallussa</a></li>
+                <li><span class="date">21.9.</span> <a href="/mobiili/2011/09/21/uusi-huhu-iphone-5-julkistetaan-lokakuun-alussa/201113433/66">Uusi huhu: IPhone 5 julkistetaan lokakuun alussa</a></li>
+                <li><span class="date">21.9.</span> <a href="/bisnes/2011/09/21/windows-kehittaja-sai-potkut-nokia-vuodoista/201113418/66">Windows-kehittäjä sai potkut Nokia-vuodoista</a></li>
+                
+    <li class="more"><a href="/uutiset/">Uusimmat</a></li>
+</ul>
+<ul id="nosto-luetuimmat" class="show">
+<li class="caption">48h luetuimmat kaikista uutisista.</li>
+<li><span class="date">20.9.</span> <a href="/tyo-ja-ura/2011/09/20/n9-valmis---ensimmaiset-meegolaiset-ulos-nokialta/201113355/66">N9 valmis - Ensimmäiset meegolaiset ulos Nokialta</a></li>
+                <li><span class="date">22.9.</span> <a href="/tiede-ja-teknologia/2011/09/22/ruotsia-varoitetaan-putoavasta-satelliitista/201113517/66">Ruotsia varoitetaan putoavasta satelliitista</a></li>
+                <li><span class="date">20.9.</span> <a href="/vimpaimet/2011/09/20/facebook-saa-pian-pysayttavan-kasvojenkohotuksen/201113314/66">Facebook saa pian pysäyttävän kasvojenkohotuksen</a></li>
+                <li><span class="date">20.9.</span> <a href="/mobiili/2011/09/20/wsj-samsung-avaa-badan-koodin-kehittajille/201113372/66">WSJ: Samsung avaa Badan koodin kehittäjille</a></li>
+                <li><span class="date">20.9.</span> <a href="/tiede-ja-teknologia/2011/09/20/satelliitti-putoaa-odotettua-nopeammin/201113342/66">Satelliitti putoaa odotettua nopeammin</a></li>
+                <li><span class="date">20.9.</span> <a href="/tietoturva/2011/09/20/applen-uusi-kayttojarjestelma-paastaa-ohi-salasanojen/201113350/66">Applen uusi käyttöjärjestelmä päästää ohi salasanojen</a></li>
+                <li><span class="date">22.9.</span> <a href="/bisnes/2011/09/22/microsoftin-rahamylly-linuxin-kaytto-maksaa/201113485/66">Microsoftin rahamylly: Linuxin käyttö maksaa</a></li>
+                <li><span class="date">22.9.</span> <a href="/tyo-ja-ura/2011/09/22/it-ala-nosti-monia-miljardooreiksi/201113490/66">It-ala nosti monia miljardööreiksi</a></li>
+                <li><span class="date">21.9.</span> <a href="/data/2011/09/21/kaikki-paasevat-googleaan/201113396/66">Kaikki pääsevät Google+:aan</a></li>
+                <li><span class="date">21.9.</span> <a href="/vimpaimet/2011/09/21/nain-facebook-uudistuu/201113452/66">Näin Facebook uudistuu</a></li>
+                
+    <li class="more"><a href="/uutiset/luetuimmat/24h">Luetuimmat</a></li>
+</ul>
+<ul id="nosto-suositelluimmat" class="hide">
+<li class="caption">48h suositelluimmat kaikista uutisista.</li>
+<li><span class="date">20.9.</span> <a href="/viihde/2011/09/20/angry-birds-ja-starbucks-harkitsevat-yhteistyota/201113311/66">Angry Birds ja Starbucks harkitsevat yhteistyötä</a></li>
+                <li><span class="date">20.9.</span> <a href="/bisnes/2011/09/20/nokia-siemens-rakentaa-tukiasematehtaan-venajalle/201113346/66">Nokia Siemens rakentaa tukiasematehtaan Venäjälle</a></li>
+                
+    <li class="more"><a href="/uutiset/suositelluimmat/24h">Suositelluimmat</a></li>
+</ul>
+<ul id="nosto-kommentoiduimmat" class="hide">
+<li class="caption">48h kommentoiduimmat kaikista uutisista.</li>
+<li><span class="date">20.9.</span> <a href="/tyo-ja-ura/2011/09/20/n9-valmis---ensimmaiset-meegolaiset-ulos-nokialta/201113355/66">N9 valmis - Ensimmäiset meegolaiset ulos Nokialta</a></li>
+                <li><span class="date">22.9.</span> <a href="/tiede-ja-teknologia/2011/09/22/ruotsia-varoitetaan-putoavasta-satelliitista/201113517/66">Ruotsia varoitetaan putoavasta satelliitista</a></li>
+                <li><span class="date">21.9.</span> <a href="/mobiili/2011/09/21/uusi-huhu-iphone-5-julkistetaan-lokakuun-alussa/201113433/66">Uusi huhu: IPhone 5 julkistetaan lokakuun alussa</a></li>
+                <li><span class="date">21.9.</span> <a href="/bisnes/2011/09/21/idc-tablet-markkina-pitkalti-applen-hallussa/201113439/66">IDC: Tablet-markkina pitkälti Applen hallussa</a></li>
+                <li><span class="date">20.9.</span> <a href="/tietoturva/2011/09/20/applen-uusi-kayttojarjestelma-paastaa-ohi-salasanojen/201113350/66">Applen uusi käyttöjärjestelmä päästää ohi salasanojen</a></li>
+                <li><span class="date">22.9.</span> <a href="/bisnes/2011/09/22/microsoftin-rahamylly-linuxin-kaytto-maksaa/201113485/66">Microsoftin rahamylly: Linuxin käyttö maksaa</a></li>
+                <li><span class="date">22.9.</span> <a href="/data/2011/09/22/microsoftin-mango-on-valmis-jakeluun/201113522/66">Microsoftin Mango on valmis jakeluun</a></li>
+                <li><span class="date">20.9.</span> <a href="/vimpaimet/2011/09/20/facebook-saa-pian-pysayttavan-kasvojenkohotuksen/201113314/66">Facebook saa pian pysäyttävän kasvojenkohotuksen</a></li>
+                <li><span class="date">20.9.</span> <a href="/mobiili/2011/09/20/wsj-samsung-avaa-badan-koodin-kehittajille/201113372/66">WSJ: Samsung avaa Badan koodin kehittäjille</a></li>
+                <li><span class="date">22.9.</span> <a href="/bisnes/2011/09/22/apple-ottaa-hajurakoa-samsungiin/201113498/66">Apple ottaa hajurakoa Samsungiin</a></li>
+                
+    <li class="more"><a href="/uutiset/kommentoiduimmat/24h">Kommentoiduimmat</a></li>
+</ul>
+<div class="sideboxes">
+<div class="sidebox">
+        <h4>Uutisviikko</h4>
+        <p>Mitä viikolla on tapahtunut, mikä puhuttanut eniten? <a href="/uutisviikko/" title="Uutisviikko">Koko viikon uutiset</a>.</p>
+    </div>
+<div class="sidebox">
+        <h4>Kevyt ja nopea</h4>
+        <p>Oletko jo tutustunut <a href="http://m.digitoday.fi/">m.digitoday.fi</a>-mobiilisivustoon?</p>
+    </div>
+</div>
+
+</div><!-- /#headlinesPopular -->
+            </div><!--/news-->
+            <div id="features1and2">
+                <div class="ad googleAd_300x250">
+<script type="text/javascript"><!--
+google_ad_client = "pub-4165631538991685";
+/* 300x250_TR */
+google_ad_slot = "4935193906";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div><!-- nosto starts -->
+
+				<!-- yhteiskunta -->
+                <h2 class="uusimmat">Uusimmat uutiset</h2>
+                <div class="headlinesFeature">
+                    <ul class="tabs">
+                        <li class="here"><a href="/yhteiskunta">yhteiskunta</a></li>
+                        <li><a href="/uutiset">kaikki</a></li>
+
+                    </ul>
+                    <ul>
+                            <li><a href="/data/2011/09/22/cisco-verkottaa-kiinassa-maanjaristysaluetta/201113455/66">Cisco verkottaa Kiinassa maanjäristysaluetta</a> <span class="date">17:16</span></li>
+                        <li><a href="/yhteiskunta/2011/09/22/yle-valtio-havisi-kiistan-surffauslaskusta/201113507/66">Yle: Valtio hävisi kiistan surffauslaskusta</a> <span class="date">13:49</span></li>
+                        <li><a href="/yhteiskunta/2011/09/21/poliisi-puuhaa-nettiradiota/201113444/66">Poliisi puuhaa nettiradiota</a> <span class="date">16:24</span></li>
+                        <li><a href="/yhteiskunta/2011/09/20/directan-pomoilta-vaaditaan-pienempia-korvauksia/201113312/66">Directan pomoilta vaaditaan pienempiä korvauksia</a> <span class="date">09:18</span></li>
+                        <li><a href="/yhteiskunta/2011/09/19/facebook-sai-sittenkin-rakennusluvan-ruotsissa/201113279/66">Facebook sai sittenkin rakennusluvan Ruotsissa</a> <span class="date">15:31</span></li>
+                        <li><a href="/bisnes/2011/09/19/samsung-aikoo-estaa-iphone-5n-myynnin/201113244/66">Samsung aikoo estää iPhone 5:n myynnin</a> <span class="date">10:58</span></li>
+                        <li><a href="/tietoturva/2011/09/18/fbi-hengittaa-kuvavarkaiden-niskaan/201113233/66">FBI hengittää kuvavarkaiden niskaan</a> <span class="date">22:47</span></li>
+                        <li><a href="/viihde/2011/09/16/facebookissa-voi-seurata-muitakin-kuin-kavereita/201113163/66">Facebookissa voi seurata muitakin kuin kavereita</a> <span class="date">11:17</span></li>
+                    <li class="more"><a href="/yhteiskunta">Lisää</a></li>
+                    </ul>
+
+
+                </div>
+	
+<!-- nosto ends --><!-- TwoColsFeatures -->
+	
+<div class="featuresTwoCols newsFeatures">
+<h2>Poiminnat</h2>
+<div class="newsFeature">
+<a href="/mobiili/2011/09/14/ruotsalaiskeksinto-iphone-sovellus-varoittaa-lappuliisoista/201113034/66" class="clippedImage" style="background-image:url(/files/140_parkkisakko.jpg);">
+<img src="/files/140_parkkisakko.jpg" width="140"></a>
+                  <a href="/mobiili/2011/09/14/ruotsalaiskeksinto-iphone-sovellus-varoittaa-lappuliisoista/201113034/66">Ruotsalaiskeksintö: iPhone-sovellus varoittaa lappuliisoista</a></div>
+<div class="newsFeature second">
+<a href="/tietoturva/2011/09/14/op-pohjola-varoittaa-huijausviesteista/201113049/66" class="clippedImage" style="background-image:url(/files/140_osuuspankin_uudistus.jpg);">
+<img src="/files/140_osuuspankin_uudistus.jpg" width="140"></a>
+                  <a href="/tietoturva/2011/09/14/op-pohjola-varoittaa-huijausviesteista/201113049/66">OP-Pohjola varoittaa huijausviesteistä</a></div></div>
+          <!--- /// twoColsFeatures -->
+          
+<div class="featuresTwoCols newsFeatures">
+<div class="newsFeature">
+<a href="/bisnes/2011/09/14/teliasonera-pudotti-nokian-ykkospaikalta/201113016/66" class="clippedImage" style="background-image:url(/files/140_nokia_myymala.jpg);">
+<img src="/files/140_nokia_myymala.jpg" width="140"></a>
+                  <a href="/bisnes/2011/09/14/teliasonera-pudotti-nokian-ykkospaikalta/201113016/66">TeliaSonera pudotti Nokian ykköspaikalta</a></div>
+<div class="newsFeature second">
+<a href="/tietoturva/2011/09/14/bittorrent-varoittaa-syotimme-haittaohjelmaa/201113008/66" class="clippedImage" style="background-image:url(/files/140_valkovirusVALKO.jpg);">
+<img src="/files/140_valkovirusVALKO.jpg" width="140"></a>
+                  <a href="/tietoturva/2011/09/14/bittorrent-varoittaa-syotimme-haittaohjelmaa/201113008/66">BitTorrent varoittaa: Syötimme haittaohjelmaa</a></div></div>
+          <!--- /// twoColsFeatures -->
+          
+<div class="featuresTwoCols newsFeatures">
+<div class="newsFeature">
+<a href="/data/2011/09/14/vr-korjaa-nettikauppaansa-lisaa-palvelintilaa/201113037/66" class="clippedImage" style="background-image:url(/files/140_lippuautomaatti.jpg);">
+<img src="/files/140_lippuautomaatti.jpg" width="140"></a>
+                  <a href="/data/2011/09/14/vr-korjaa-nettikauppaansa-lisaa-palvelintilaa/201113037/66">VR korjaa nettikauppaansa: lisää palvelintilaa</a></div>
+<div class="newsFeature second">
+<a href="/yhteiskunta/2011/09/15/ruotsin-sotilassalaisuudet-nakyvat-googlen-kartalla/201113108/66" class="clippedImage" style="background-image:url(/files/140_highres_00000402666129.jpg);">
+<img src="/files/140_highres_00000402666129.jpg" width="140"></a>
+                  <a href="/yhteiskunta/2011/09/15/ruotsin-sotilassalaisuudet-nakyvat-googlen-kartalla/201113108/66">Ruotsin sotilassalaisuudet näkyvät Googlen kartalla</a></div></div>
+          <!--- /// twoColsFeatures -->
+          <div class="ad promoColumnAd">
+<div id="adSpace2" class="adSpace">
+            <script type="text/javascript">
+                //<![CDATA[
+                ADTECH_showAd("digitoday_uutiset_box3_300x250", document, false);
+                // ]]>
+            </script>
+            <noscript>
+                <a 
+                href="http://adserver.adtech.de/adlink|3.0|969.1|2179776|0|170|ADTECH;loc=300;alias=digitoday_uutiset_box3_300x250;key=yhteiskunta;grp=66;cookie=info;" 
+                target="_blank"><img 
+                src="http://adserver.adtech.de/adserv|3.0|969.1|2179776|0|170|ADTECH;loc=300;alias=digitoday_uutiset_box3_300x250;key=yhteiskunta;grp=66;cookie=info;" alt="" border="0"></a>
+            </noscript>
+            </div>
+            
+
+</div><!-- START Admeta Placement Holder Web site: 'Digitoday.fi', Web page 'ROS 3', Format: 'Medium rectangle (300x250)' Priority: 1 START -->
+<script type='text/javascript'>
+  var ADM_PL = {tp:'sp', wId:3581, pId:9821, rank:1, width:300, height:250, clk:'[External click-tracking here]'}
+</script>
+<script type='text/javascript' src='http://s.atemda.com/Admeta.js'></script>
+<noscript>
+  <iframe src='http://atemda.com/NoJSAdserving.ashx?wId=3581&pId=9821&rank=1&clk=[URL-encoded external clicktracking link goes here]' width='300' height='250' frameborder='0' marginheight='0' marginwidth='0' scrolling='no'></iframe>
+</noscript>
+<!-- END End of Admeta Placement Holder 'Medium rectangle (300x250)' (1) END -->
+<!-- Arkistosta -->
+            <div class="featuresTwoCols fromTheArchives">
+                <h2>Digiyesterday</h2>
+                <img src="/img/year_2006.gif" class="yearImg">
+	                <h3>Viisi vuotta sitten</h3>
+	                <h4><a href="/uutiset/2006/09/23/yahoon-paakonttori-evakuoitiin-savuavan-akun-vuoksi/200612804/66">Yahoon pääkonttori evakuoitiin savuavan akun vuoksi</a></h4>
+	                <p><span class="date">23.09.2006</span> Internet-portaali Yahoon pääkonttori Santa Clarassa evakuoitiin keskiviikkona palavan akun vuoksi. Sadat ihmiset työntekijät poistettiin rakennuksesta lähes tunniksi.
+
+</p>
+                <hr>
+                <img src="/img/year_2008.gif" class="yearImg">
+	                <h3>Kolme vuotta sitten</h3>
+	                <h4><a href="/uutiset/2008/09/23/viestintavirasto-netin-uusi-protokolla-hyvin-hitaasti-kayttoon/200824779/66">Viestintävirasto: Netin uusi protokolla hyvin hitaasti käyttöön</a></h4>
+	                <p><span class="date">23.09.2008</span> Internetin IPv6-protokolla on pitkään ollut esillä nyt käytössä olevan IPv4-protokollan korvaajana. Kehitys IPv6-käyttöönotossa on Viestintäviraston mukaan ollut kuitenkin hyvin hidasta. 
+</p>
+            </div>
+<!--Taloussanomien ykkösuutiset-->
+<div class="featuresTwoCols">
+<div class="taloussanomat-headlines">
+    <h3>Taloussanomat</h3>
+    <ul>
+        <li class="n0"><a href="http://www.taloussanomat.fi/raha/2011/09/23/maksatko-liikaa-katso-halvempi-pankki/201113443/139" target="_top">Maksatko liikaa? Katso halvempi pankki</a> <span class="date">06:01</span></li>
+        <li class="n1"><a href="http://www.taloussanomat.fi/kansantalous/2011/09/23/ollila-tessa-tuloerot-eivat-ole-ongelma/201113553/12" target="_top">Ollila TE:ss&auml;: Tuloerot eiv&auml;t ole ongelma</a> <span class="date">09:43</span></li>
+        <li class="n2"><a href="http://www.taloussanomat.fi/rahoitus/2011/09/23/moodys-loi-jalleen-uuden-naulan-kreikan-arkkuun/201113558/12" target="_top">Moody's l&ouml;i j&auml;lleen uuden naulan Kreikan arkkuun</a> <span class="date">10:04</span></li>
+        <li class="n3"><a href="http://www.taloussanomat.fi/talouskriisi/2011/09/23/talouskriisi-mita-jaa-kateen/201113543/294" target="_top">Talouskriisi: Mit&auml; j&auml;&auml; k&auml;teen?</a> <span class="date">09:30</span></li>
+        <li class="n4"><a href="http://www.taloussanomat.fi/katsaukset/2011/09/23/porssirytina-jatkui-new-yorkissa/201113551/170" target="_top">P&ouml;rssirytin&auml; jatkui New Yorkissa</a> <span class="date">08:40</span></li>
+        <li class="n5"><a href="http://www.taloussanomat.fi/kansantalous/2011/09/23/ekp-pohjustaa-uusia-piristystoimia/201113552/12" target="_top">EKP pohjustaa uusia piristystoimia</a> <span class="date">09:14</span></li>
+        <li class="n6"><a href="http://www.taloussanomat.fi/katsaukset/2011/09/22/analyytikko-markkinoilla-pelataan-rajuja-tulospudotuksia/201113532/170" target="_top">Analyytikko: Markkinoilla pel&auml;t&auml;&auml;n rajuja tulospudotuksia</a> <span class="date">17:57</span></li>
+        <li class="n7"><a href="http://www.taloussanomat.fi/kansantalous/2011/09/23/liikanen-sklle-ylimielisyys-on-vahentynyt/201113549/12" target="_top">Liikanen SK:lle: "Ylimielisyys on v&auml;hentynyt"</a> <span class="date">08:50</span></li>
+        <li class="n8"><a href="http://www.taloussanomat.fi/tyo-ja-koulutus/2011/09/23/luottamusmiehet-vain-taysi-tyokyky-kelpaa-tyonantajille/201113557/139" target="_top">Luottamusmiehet: Vain t&auml;ysi ty&ouml;kyky kelpaa ty&ouml;nantajille</a> <span class="date">10:28</span></li>
+        <li class="n9"><a href="http://www.taloussanomat.fi/rakentaminen/2011/09/23/rakli-rakentajilla-toita-riittaa--ainakin-ensi-kesaan/201113555/12" target="_top">Rakli: Rakentajilla t&ouml;it&auml; riitt&auml;&auml; – ainakin ensi kes&auml;&auml;n</a> <span class="date">09:56</span></li>
+        <li>&raquo; <a href="http://www.taloussanomat.fi/">Taloussanomat.fi</a></li>
+    </ul>
+</div>
+
+</div>
+<!-- hise -->
+<!-- startHintaseuranta -->
+<div class="hintaseuranta">
+    <h2>
+        <a href="http://www.hintaseuranta.fi/"><img src="/img/hise_logo_120.png" alt="Hintaseuranta.fi" width="120"></a>
+    </h2>
+    <div class="title">Hintanousijat</div>
+    
+    
+    <ul><li>
+                <h3 class="red">
+                     261 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/633193" alt="">Sony Vaio VPCZ21L9E (Core i5-2410M, 4 GB, 13,1", Win 7 Home Premium), kannettava tietokone</a></p>
+            </li>
+<li class="odder">
+                <h3 class="red">
+                     107 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/452895" alt="">Fujitsu Lifebook S710 3G (Core i5-560M, 4 GB, 14", Win 7 Professional), kannettava tietokone</a></p>
+            </li>
+<li>
+                <h3 class="red">
+                     72 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/576798" alt="">Lenovo Thinkpad T520 NW928MS (Core i5-2540M, 4 GB, 500 GB, 15,6", Win 7 Professional), kannettava tietokone</a></p>
+            </li>
+<li class="odder">
+                <h3 class="red">
+                     60 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/575616" alt="">HP EliteBook 8760w LG674EA#AK8 (Core i7-2630QM, 8 GB, 750 GB, 12,1", Win 7 Professional), kannettava tietokone</a></p>
+            </li>
+<li>
+                <h3 class="red">
+                     50 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/601010" alt="">Acer Aspire 8951G LX.RJ202.016 (Core i7-2630QM, 8 GB, 18,4", Win 7 Home Premium), kannettava tietokone</a></p>
+            </li>
+
+    </ul>
+</div>
+<!-- endHintaseuranta --><!-- startHintaseuranta -->
+<div class="hintaseuranta right">
+    <h2>
+        
+    </h2>
+    <div class="title">Hintalaskijat</div>
+    
+    
+    <ul><li>
+                <h3 class="green">
+                     -397 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/612524" alt="">Acer Aspire 5950G LX.RA502.030.FF (Core i7-2630QM, 4 GB, 15,6", Win 7 Home Premium), kannettava tietokone</a></p>
+            </li>
+<li class="odder">
+                <h3 class="green">
+                     -271 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/600768" alt="">Acer Aspire 5950G LX.RA502.030.FF (Core i7-2630QM, 8 GB, 15,6", Win 7 Home Premium), kannettava tietokone</a></p>
+            </li>
+<li>
+                <h3 class="green">
+                     -250 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/497106" alt="">Samsung 900X3A (Core i5-2537M, 4 GB, 13,3", Win 7 Home Premium), kannettava tietokone</a></p>
+            </li>
+<li class="odder">
+                <h3 class="green">
+                     -187 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/499716" alt="">Apple MacBook Pro (Core i7 2,3 GHz, 8 Gt, 17", OS X), kannettava tietokone</a></p>
+            </li>
+<li>
+                <h3 class="green">
+                     -177 e</h3> 
+                <p><a href="http://hintaseuranta.fi/tuote.aspx/502349" alt="">Apple MacBook Pro (Core i7 2,3 GHz, 8 GB, 15,4", OS X), kannettava tietokone</a></p>
+            </li>
+
+    </ul>
+</div>
+<!-- endHintaseuranta -->
+<!-- /hise -->
+            </div>
+            <div id="features1" class="features">
+				
+				<!-- toinen alue  tuo alempi voidaan ottaa etusivulta--> 
+				
+            </div><!--/features1-->
+            <div id="features2" class="features">
+				
+				<!-- toinen alue  tuo alempi voidaan ottaa etusivulta--> 
+				
+			
+                            </div><!--/features2-->
+        </div><!--/content-->
+    </div><!--/innerframe-->
+    <div id="adsOnRight">
+<div id="ad140-1" class="ad">
+<!--AD?size=140x350&pp=1&keyword=-->
+<div id="adSpace5" class="adSpace">
+            <script type="text/javascript">
+                //<![CDATA[
+                ADTECH_showAd("digitoday_uutiset_st1_160x600", document, false);
+                // ]]>
+            </script>
+            <noscript>
+                <a 
+                href="http://adserver.adtech.de/adlink|3.0|969.1|2179776|0|82|ADTECH;loc=300;alias=digitoday_uutiset_st1_160x600;key=yhteiskunta;grp=66;cookie=info;" 
+                target="_blank"><img 
+                src="http://adserver.adtech.de/adserv|3.0|969.1|2179776|0|82|ADTECH;loc=300;alias=digitoday_uutiset_st1_160x600;key=yhteiskunta;grp=66;cookie=info;" alt="" border="0"></a>
+            </noscript>
+            </div>
+            
+</div>
+
+<div id="ad140-2" class="ad">
+<!--AD?size=140x350&pp=2&keyword=-->
+<div id="adSpace7" class="adSpace">
+            <script type="text/javascript">
+                //<![CDATA[
+                ADTECH_showAd("digitoday_uutiset_st2_160x600", document, false);
+                // ]]>
+            </script>
+            <noscript>
+                <a 
+                href="http://adserver.adtech.de/adlink|3.0|969.1|2179776|0|82|ADTECH;loc=300;alias=digitoday_uutiset_st2_160x600;key=yhteiskunta;grp=66;cookie=info;" 
+                target="_blank"><img 
+                src="http://adserver.adtech.de/adserv|3.0|969.1|2179776|0|82|ADTECH;loc=300;alias=digitoday_uutiset_st2_160x600;key=yhteiskunta;grp=66;cookie=info;" alt="" border="0"></a>
+            </noscript>
+            </div>
+            
+</div>
+
+<div id="ad140-3" class="ad">
+<!--AD?size=140x350&pp=3&keyword=-->
+
+</div>
+
+<div id="ad140-4" class="ad">
+<!--AD?size=140x350&pp=4&keyword=-->
+
+</div>
+
+<div style="clear: both; overflow: hidden; width: 100%; height: 1px; color: #fff;">.</div>
+
+<div id="floater" class="ad">
+<!--AD?size=140x350&pp=9&keyword=-->
+
+</div>
+
+    </div><!--/adsOnRight-->
+
+</div><!--/frame-->
+<div id="adBottom">
+<div id="ad728-3" class="ad">
+
+</div>
+</div> <!-- /adBottom -->
+<!--AD?size=1x1&pp=1&keyword=-->
+
+
+<div id="footer">
+    <div class="innerFooter">
+        <form class="searchFooter" method="get" action="/page.php">
+            <input type="hidden" name="page_id" value="76">
+            <input type="text" name="needle" id="qSearchFooter" value="" class="tf_xl">
+            <input type="submit" name="haet" id="submitSearchFooter" value="Hae" class="button">
+        </form>
+
+        <!--h1>digitoday</h1-->
+        
+        <img src="/img/logo_taloussanomat_104_68.png" width="104" height="68" alt="Digitoday on osa Taloussanomia - talous, pörssi ja teknologia">
+
+        <div class="vcard">
+            <div class="fn org">Sanoma News Oy / Taloussanomat / Digitoday</div>
+            <ul class="addressAndContact">
+                <li class="section"><span class="lbl">Osoite</span>
+                    <div class="adr">
+                        <div class="street-address">Töölönlahdenkatu 2</div>
+                        <div class="postal-code">00089 Sanomat</div>
+                    </div>
+                </li>
+                <li><span class="lbl">Puhelin</span>
+                    <span class="tel">+358&nbsp;9&nbsp;1221</span></li>
+      
+                <li class="section"><span class="lbl">Sähköposti</span>
+                    <a href="mailto:toimitus@digitoday.fi" class="email">toimitus@digitoday.fi</a>
+                </li>
+                <li class="hidden"><span class="lbl">WWW</span> 
+                    <a href="http://www.digitoday.fi/" class="url">http://www.digitoday.fi/</a></li>
+                <li><span class="lbl">Kustantaja, vastaava päätoimittaja</span>
+                    <strong>Tapio Sadeoja</strong></li>
+                <li><span class="lbl">Toimituspäällikkö</span>
+                    <strong>Anneli Koistinen</strong></li>
+                <li><span class="lbl">Toimituspäällikkö</span>
+                    <strong>Hannu Sokala</strong></li>
+                <li><span class="lbl">Myynti</span>
+                    <a href="http://www.sanoma.fi/verkkomedia/">Verkkomediamyynti</a><br>
+                    +358&nbsp;9&nbsp;122&nbsp;2873
+                </li>
+                <li class="section">
+                    &copy; Sanoma News Oy / Taloussanomat
+                </li>
+                <li class="section">
+                    <a href="http://www.naviatech.fi/julkaisujarjestelma" target="_blank"><img src="/pics/naviacms_julkaisujarjestelma.gif" border="0" title="Julkaisujärjestelmä" alt="Julkaisujärjestelmä" /></a>
+                </li>
+            </ul>
+        </div>
+        <div class="">
+            <ul class="sitemapCol">
+                <li class="main"><a href="/uutiset">Uutiset</a></li>
+                <li><a href="/data">data</a></li>
+                <li><a href="/bisnes">bisnes</a></li>
+                <li><a href="/mobiili">mobiili</a></li>
+                <li><a href="/tyo-ja-ura">työ ja ura</a></li>
+                <li><a href="/tietoturva">tietoturva</a></li>
+                <li><a href="/tiede-ja-teknologia">tiede ja teknologia</a></li>
+                <li><a href="/vimpaimet">vimpaimet</a></li>
+                <li><a href="/yhteiskunta">yhteiskunta</a></li>
+                <li><a href="/viihde">viihde</a></li>
+                <li><a href="/mielipide">mielipide</a></li>
+            </ul>
+            <ul class="sitemapCol">
+                <li class="main"><a href="/uutispaiva">Uutispäivä</a></li>
+                <li class="main"><a href="/uutisviikko">Uutisviikko</a></li>
+                <li>&nbsp;</li>
+                <li class="main"><a href="/yritysseuranta">Yritysseuranta</a></li>
+                <li class="main"><a href="/keskustelut/">Keskustelu</a></li>
+                <li class="main"><a href="http://www.omasana.fi">Oma sana</a></li>
+            </ul>
+            <ul class="sitemapCol">
+                <li class="main"><a href="http://m.digitoday.fi/">Mobiiliversio</a></li>
+                <li class="main"><a href="/teksti">Tekstiversio</a></li>
+                <li>&nbsp;</li>
+                <li class="main"><a href="/uutiskirjeet">Tilaa uutiskirje</a></li>
+                <li class="main"><a href="/rss">RSS</a></li>
+                <li><a href="/rss">Uutisikkuna omille sivuillesi</a></li>
+            </ul>
+            <ul class="sitemapCol">
+                <li class="main"><a href="http://www.taloussanomat.fi/mediatiedot/digitoday/">Mediakortti</a></li>
+                <li class="main"><a href="/toimitus">Yhteystiedot</a></li>
+                <li><a href="/toimitus">Toimitus</a></li>
+                <li><a href="/toimitus#palaute">Palaute</a></li>
+                <li><a href="/toimitus#palaute">Uutisvinkki</a></li>
+            </ul>
+        </div>
+
+        <div id="vmmFooter">
+            <h3>Sanoma Digital Verkkomediamyynti myy mediatilaa seuraaviin verkkopalveluihin.</h3>
+            <h4>Lue lis&auml;&auml; osoitteesta <a href="http://www.verkkomediamyynti.fi" class="otsikko">www.verkkomediamyynti.fi</a>.</h4>
+            <div><a href="http://www.akuankka.fi" target="_blank">AkuAnkka.fi</a></div>
+            <div><a href="http://www.autoilu.fi" target="_blank">Autoilu.fi</a></div>
+            <div><a href="http://www.blogilista.fi" target="_blank">Blogilista.fi</a></div>
+            <div><a href="http://www.cosmopolitan.fi" target="_blank">Cosmopolitan.fi</a></div>
+            <div><a href="http://www.digitoday.fi" target="_blank">Digitoday.fi</a></div>
+            <div><a href="http://www.esaimaa.fi" target="_blank">Etel&auml;-Saimaa</a></div>
+            <div><a href="http://www.geo-lehti.fi" target="_blank">Geo-Lehti</a></div>
+            <div><a href="http://www.glossy.fi" target="_blank">Glossy.fi</a></div>
+            <div><a href="http://www.gti.fi" target="_blank">GTI</a></div>
+            <div><a href="http://www.hintaseuranta.fi" target="_blank">Hintaseuranta.fi</a></div>
+            <div><a href="http://www.hs.fi" target="_blank">HS.fi</a></div>
+            <div><a href="http://www.huuto.net" target="_blank">Huuto.net</a></div>
+            <div><a href="http://hyvaterveys.fi" target="_blank">Hyv&auml;terveys.fi</a></div>
+            <div><a href="http://www.iltasanomat.fi" target="_blank">Iltasanomat.fi</a></div>
+            <div><a href="http://www.itviikko.fi" target="_blank">Itviikko.fi</a></div>
+            <div><a href="http://www.kiloklubi.fi" target="_blank">Kiloklubi.fi</a></div>
+            <div><a href="http://www.keltainenporssi.fi" target="_blank">Keltainenporssi.fi</a></div>
+            <div><a href="http://www.kouvolansanomat.fi" target="_blank">Kouvolan Sanomat</a></div>
+            <div><a href="http://www.kymensanomat.fi" target="_blank">Kymen Sanomat</a></div>
+            <div><a href="http://www.liigaporssi.fi" target="_blank">Liigaporssi.fi</a></div>
+            <div><a href="http://www.mbnet.fi" target="_blank">Mbnet.fi</a></div>
+            <div><a href="http://www.menaiset.fi" target="_blank">MeNaiset.fi</a></div>
+            <div><a href="http://www.metrolive.fi" target="_blank">Metrolive.fi</a></div>
+            <div><a href="http://www.nettiet.fi" target="_blank">NettiET.fi</a></div>
+            <div><a href="http://www.ohjehaku.fi" target="_blank">Ohjehaku.fi</a></div>
+            <div><a href="http://www.oikotie.fi" target="_blank">Oikotie.fi</a></div>
+            <div><a href="http://www.pelikone.fi" target="_blank">Pelikone.fi</a></div>
+            <div><a href="http://www.pelit.fi" target="_blank">Pelit.fi</a></div>
+            <div><a href="http://www.perhe.fi" target="_blank">Perhe.fi</a></div>
+            <div><a href="http://www.prosessori.fi" target="_blank">Prosessori.fi</a></div>
+            <div><a href="http://www.ruokala.net/" target="_blank">Ruokala.net</a></div>
+            <div><a href="http://www.verkkomediamyynti.fi" target="_blank">Sanoma Uniikki</a></div>
+            <div><a href="http://www.suosittele.fi" target="_blank">Suosittele.fi</a></div>
+            <div><a href="http://www.taloussanomat.fi" target="_blank">Taloussanomat.fi</a></div>
+            <div><a href="http://www.tiede.fi" target="_blank">Tiede.fi</a></div>
+            <div><a href="http://www.tietokone.fi" target="_blank">Tietokone.fi</a></div>
+            <div><a href="http://www.tyylitaivas.fi" target="_blank">Tyylitaivas.fi</a></div>
+            <div><a href="http://www.veekasi.net" target="_blank">V8-Magazine</a></div>
+            <div><a href="http://www.vartti.fi" target="_blank">Vartti.fi</a></div>
+            <div><a href="http://www.vauva.fi" target="_blank">Vauva.fi</a></div>
+            <div><a href="http://www.alypaa.fi" target="_blank">&Auml;lyp&auml;&auml;</a></div>
+        </div><!--/#vmmFooter-->
+    </div>
+</div><!--/footer-->
+<!-- mittaus -->
+      
+<script type="text/javascript" src="/js/tmv1.js"></script>
+<script type="text/javascript">
+		<!--
+		//1.1.6.3
+		var tmsec = new Array ('tmsec=Taloussanomat_Digitoday', 'tmsec=Digitoday_ITviikko', 'tmsec=Digitoday', 'tmsec=DT_Uutiset');
+                getTMqs('', '', 'talsa_fi', 'fi', 'ISO-8859-1', tmsec);
+                //-->
+</script>
+<noscript><img src="http://statistik-gallup.net/V11***talsa_fi/fi/ISO-8859-1/tmsec=Taloussanomat_Digitoday&tmsec=Digitoday_ITviikko&tmsec=Digitoday&tmsec=DT_Uutiset/" alt=""></noscript>
+                
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-705650-7");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+<!-- DOP -->
+<script language="javascript" src="/js/zig_c.min.js" type="text/javascript"></script>
+<!-- -->
+<!-- X -->
+</body>
+</html>
+<!-- Dynamically created with Navia CMS 2004 (c) Naviatech Oy 2004. www.naviatech.fi-->

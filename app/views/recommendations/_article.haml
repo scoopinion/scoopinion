@@ -1,0 +1,18 @@
+.score
+  %div.rank=(index+1).to_s + '.'
+  %div.interest= article.score
+.article-content
+  %h2
+    = link_to article.pretty_title, article.as_link, :class => "headline", :target => :_blank
+  .meta
+    %p
+      = "#{time_ago_in_words(article.created_at)} ago"
+      by
+      = render :partial => "users/link", :locals => { :user => article.finder }
+      - if article.visitors.count > 1
+        + #{article.visitors.count - 1}
+      \-
+      = render article.site
+      - if article.comments.any?
+        %p.comments= article.comments.count
+

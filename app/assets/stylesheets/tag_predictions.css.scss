@@ -1,0 +1,23 @@
+div.predictions {
+
+    .article-content {
+	margin-left: 0;
+
+	form {
+	    display: inline;
+	}
+
+	input[type=submit] {
+	    padding: 2px;
+	    margin-left: 5px;
+	    padding-left: 4px;
+	    padding-right: 4px;
+	}
+
+    }
+
+    .prediction {	
+	font-weight: bold;
+    }
+    
+}

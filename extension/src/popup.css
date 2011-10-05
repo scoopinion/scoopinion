@@ -1,0 +1,185 @@
+html {
+    border: 0;
+}
+
+body{
+	margin: 0;
+	padding: 15px;
+	font-family: Ubuntu, Helvetica, sans-serif;
+	min-width: 250px;
+}
+h1 {
+	color: #00c6ff; /*vaihda*/ 
+	font-size: 18px;
+	float: left;
+	padding-top: 10px;
+	margin: 0px;
+	padding-left: 4px;
+	position: relative;
+	z-index: 20;
+}
+
+.profile{
+	display: block;
+	float: right; 	
+	margin: 0px;
+	font-size: 14px;
+}
+.profile a {
+	color: #3b739f; /*vaihda*/
+	text-decoration: none;
+	font-size: smaller;
+}
+
+a:hover {
+        text-decoration: underline;
+}
+
+.buttons {
+	clear: both;
+	font-size: 13px;
+	width: 250px;
+	margin-bottom: 15px;
+	margin-top: 10px;
+}
+
+div.p p{
+	border-bottom: 1px solid grey;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;	
+}
+div.p p:hover{
+	background: #efefef;
+}
+h2{
+	color: #999999;
+	font-weight: normal;
+	font-size: 14px;
+	padding-top: 0px;
+	margin: 0px;
+	margin-top: 1em;
+	
+}
+	
+div.commentblock p{
+	border-bottom: 1px solid #888;
+	color: black;
+	font-size: 12px; 
+	margin-top: 5px;
+	padding-top: 8px;
+	padding-bottom: 8px;		
+	margin: 0px;
+}
+div.commentblock p a{
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+div.commentblock p input{
+	color: grey;
+}
+.removebutton, .hidebutton{
+	display: block;
+	height: 15px;
+	width: 15px;
+	margin-left: 10px;	
+	margin-right: 10px;
+}
+.removebutton{
+		background: url('./turn_off_icon.png') no-repeat top left;
+		float: left;
+}
+.hidebutton{
+	background: url('./hidebutton.png') no-repeat top left;
+		float: right;
+	
+}
+
+p.disable{
+	clear: both;
+	font-size: 12px;
+	padding-top: 10px;
+	padding-left: 4px;	
+	color: black;
+	text-decoration: none;
+	margin: 0px;
+}
+p.disable p span{
+	font-weight: bold;
+	
+}
+
+
+#loading {
+    background: white;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+#loading img {
+    display: block;
+    margin: auto;
+    margin-top: 90px;
+    position: relative;
+    left: -10px;
+}
+
+#new_comment {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
+    padding: 4px;
+    border: 1px solid gray;
+    font-family: Ubuntu, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+button {
+    width: 49%;
+    border: 0;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #438fd1), color-stop(0.8, #286192));
+    border-radius: 5px;
+    border: 1px solid #376389;
+    color: white;
+    font-size: smaller;
+    padding: 7px;
+}
+
+button:active {
+   background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, #438fd1), color-stop(0.8, #286192));
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+a.logo {
+    float: left;
+}
+
+#submit_comment {
+    width: 100%;
+    padding: 7px;
+    box-sizing: border-box;
+}
+
+hr {
+    border: 0;
+    background-color: gray;
+    height: 1px;
+}
+
+a.stats {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    color: #3b739f;
+}

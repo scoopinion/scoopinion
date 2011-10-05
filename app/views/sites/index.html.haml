@@ -1,0 +1,14 @@
+- title "Whitelist"
+
+#nosto
+  %h1 Whitelist
+#news.whitelist-wrapper
+  #list.whitelist
+    .text
+      Articles are shared from these sites only. The sites are well-established news sites suggested by users and handpicked by the Scoopinion team.
+    - cache [ "whitelist", Site.order("updated_at DESC").reverse.first, @sites.count ] do
+      = render "list_confirmed"
+      = render "list_suggested"
+      = render "list_rejected"
+  #sidebar
+    = render "suggest"

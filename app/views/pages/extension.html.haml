@@ -1,0 +1,40 @@
+#nosto
+  %h1 Step 2/3: Install the Scoopinion App
+
+#terms
+  - if chrome?
+    %p.bigtext The Scoopinion App is an important part of the Scoopinion experience.
+    %p
+      Scoopinion for Chrome
+    %ul
+      %li
+        notices whenever you read a news article and tells Scoopinion about it.
+  
+      %li
+        is only active on our #{link_to "whitelisted", sites_url} websites (such as The Guardian and The New York Times). The whitelist only contains handpicked, well-established news sites.
+  
+      %li
+        is never active in Incognito Mode or when secure browsing (https) is enabled.
+      
+      %li
+        uses your browser history only to analyze your preferred news reading languages. No data from your previous browsing on any site is published or saved.
+  
+      %li
+        requires access to "data on all websites" to measure your activity such as scrolling and mouse movement to give the news article you are reading an automatic rating. 
+  
+    %p= render :partial => "users/extension", :locals => { :linktext => "Install the Scoopinion browser app" }
+    %a{:href => "/alldone", :class => :next} Next step
+
+  - else
+
+    %p.bigtext The Scoopinion App is an important part of the Scoopinion experience.
+
+    %p 
+      The Scoopinion App is not yet available for your browser. Sorry about that! The Scoopinion App is currently only available for 
+      = link_to "Google Chrome.", "http://www.google.com/chrome"
+
+
+    %p You're free to use Scoopinion without installing the app. We will notify you when an app for your browser becomes available.
+    
+    %p
+      %a.button{:href => "/alldone", "style" => "float: right; margin-top: 20px"} Skip this step &raquo;

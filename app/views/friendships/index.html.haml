@@ -1,0 +1,43 @@
+- title "Fellows"
+
+#nosto
+  %h1 Fellows
+#news.fellows-wrapper
+  #list.fellows
+    %p{:style => "text-align: right"} Compatibility
+    %ul
+      - current_user.friends.sort_by{|u| -current_user.compatibility_with(u, :recalculate => false)}.each do |friend|
+        %li
+          = link_to friend do
+            %img{:src => friend.profile_pic}
+          .summary
+            = link_to friend do
+              %p.name= friend.display_name
+            - for visit in friend.visits[0..2]
+              %p.visit
+                = render :partial => "visits/summary", :locals => { :visit => visit }
+          = render :partial => "compatibility", :locals => { :user => current_user, :friend => friend }
+            
+  #sidebar
+    - if current_user.authenticated?
+      %h2 Invite friends
+      %a.invite_fb_friends{:href => '#'} Invite your Facebook friends who are not yet in Scoopinion.
+
+      %a#create_friendships{:href => "#", :rel => friendships_create_path}
+        -if current_user.friends_updated_at.blank?
+          Add your Facebook friends
+        -elsif Time.now - current_user.friends_updated_at > 1.day
+          Update your Facebook friends
+
+
+    -#%fb:serverFbml{:style => "width: 500px;"}
+    -#  %script{:type => "text/fbml"}
+    -#    %fb:fbml
+    -#      %fb:request-form{:action => "http://callbackurl", :content => "I'm sharing the news I read in Scoopinion. You are one of the few interesting people I'd like to follow <fb:req-choice url='#{root_url}' label='Accept' />", :invite => "true", :method => "POST", :target => "_top", :type => "Scoopinion"}
+    -#        %fb:multi-friend-selector{:actiontext => 'Select your most interesting friends', :showborder => 'false', :cols => '2', :skip => 'cancel', :exclude_ids => @friend_uids.join(',')}
+    -#%p Missing a friend? Fill in email address below to send invitations.
+    -#%form#invite-form{:action => "", :method => "post"}
+    -#  %p
+    -#    %input#invite-email{:name => "invite-email", :type => "text"}/
+    -#  %p
+    -#    %input#more{:name => "invite-submit", :type => "submit", :value => "Invite"}/

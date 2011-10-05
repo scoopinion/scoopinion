@@ -1,0 +1,13 @@
+- if current_user
+  = form_for Comment.new(:article => article),  :remote => true do |f|
+    = f.hidden_field :article_id
+    %div
+      = f.text_area :body, :rows => 5, :cols => 60
+    %div
+      = check_box_tag 'fb_comment'
+      = label_tag 'fb_comment', 'Share your comment on Facebook'
+    %div
+      = f.submit "Leave a comment"
+      = image_tag "loading-blue.gif", :class => "loading", :align => "top"
+- else
+  %p= link_to "Sign in to comment!", new_user_session_url

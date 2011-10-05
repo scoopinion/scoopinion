@@ -1,0 +1,39 @@
+- title "#{@article.site.try(:title)}: #{@article.pretty_title}"
+- thumbnail @article.image_url if @article.image_url
+
+#nosto
+  .interest
+    = @article.score
+  %h1
+    = link_to @article.pretty_title, @article.as_link, :target => "_blank"
+  = link_to @article.as_link, @article.as_link, :target => "_blank"
+#news
+  #list.normal
+    .summary
+      - if @article.average_time && @article.average_time > 0
+        %p
+          Average reading time #{pretty_seconds(@article.average_time)}
+      %p
+        Found by
+        = render :partial => "users/link", :locals => { :user => @article.finder }
+        #{time_ago_in_words(@article.created_at)} ago
+      .clear
+    .pictures
+      - for visit in @article.visits
+        = render :partial => "users/profile_picture", :locals => { :user => visit.user }
+      .clear
+    %ul.visits
+      - for visit in @article.visits
+        %li
+          %span.name
+            = render :partial => "users/link", :locals => { :user => visit.user }
+          read it 
+          - if visit.total_time
+            for #{pretty_seconds(visit.total_time)}
+          %span.time-ago
+            (#{time_ago_in_words(visit.created_at)} ago)
+          - if visit.via
+            %span.via
+              via #{visit.via}
+  #sidebar
+    = render :partial => "articles/sidebar", :locals => { :article => @article }

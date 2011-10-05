@@ -1,0 +1,23 @@
+- cache [ article, "list-item" ] do
+  .score
+    %div.rank
+    %div.interest{:title => "The rating of this article, based on how it was read by Scoopinion users."}= article.score
+  .article-content
+    %h2
+      = link_to html_entities(article.pretty_title), article.as_link, :class => "headline", :target => :_blank
+    %a.toggle_sidebar{:href => "javascript:void(0)"}
+      = image_tag asset_path "right_arrow.png"
+    .meta
+      %p
+        = render article.site if article.site
+        \-
+        %abbr.timeago{:title => article.created_at.iso8601 }
+        by
+        %span{:title => "The Scoopinion user who discovered the article."}
+          = render :partial => "users/link", :locals => { :user => article.finder }
+        - if article.visits_count > 1
+          %span{:title => "This is the number of readers the article has."}
+            + #{article.visits_count - 1}
+        - if article.comments.any?
+          %p.comments{:title => "Join the discussion!"}= article.comments_count
+  

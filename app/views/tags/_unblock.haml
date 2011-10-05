@@ -1,0 +1,4 @@
+= form_for current_user.tag_concealments.where("tag_id = ?", @tag.id).first, :remote => true, :method => :delete, :format => :html do |f|
+  = f.hidden_field :tag_id
+  = f.hidden_field :user_id
+  = f.submit "Unblock this tag"

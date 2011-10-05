@@ -1,0 +1,23 @@
+{
+    "name": "EXTENSION_NAME",
+    "version": "0.35",
+    "description": "Spread the news.",
+    "background_page": "background.html",
+    "update_url": "SERVER_URL/crx/API_KEY/update",
+    "icons": { "16": "icon16.png", "48": "icon48.png", "128": "icon128.png" },
+    "permissions": [
+	"history",
+	"http://*/"
+    ],
+    "content_scripts": [
+	{
+	    "matches": ["http://*/*"],
+	    "js": ["settings.js", "jquery.js", "scroll.js", "augment.js"],
+	    "run_at": "document_end"
+	}
+    ],
+    "page_action": {
+	"default_icon" : "icon_inactive.png",
+	"default_title": "EXTENSION_NAME"
+    }
+}

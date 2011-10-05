@@ -1,0 +1,22 @@
+- size ||= false
+- title ||= "#{tag.articles.count} articles"
+- article ||= nil
+- count ||= false
+- size_measure ||= false
+
+
+- if size
+  - pixels = [ [ (1000000 * tag.hotness) ** 0.3, 10 ].max, 50 ].min.to_i
+- elsif size_measure
+  - pixels = size_measure
+
+- style = pixels ? "font-size: #{pixels}px; line-height: #{pixels}px" : ""
+
+%a.tag{ :href => url_for(tag), :style => style, :title => title }
+  = tag.name
+  - if size
+    %span.size
+      (#{tag.articles.count})
+  - elsif article && admin?
+    = link_to "[x]", ArticleTag.for(article, tag), :class => "delete-tag", :remote => true, :method => :delete, :confirm => "Are you sure you want to remove this tag from this article?"
+    

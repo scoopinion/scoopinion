@@ -1,0 +1,5 @@
+%li
+  - unless params[:controller].parameterize == "users"
+    = form_for notification, :remote => true do |f|
+      = f.hidden_field :state, :value => "read", :id => "notification_state_#{notification.id}"
+  = render :partial => "notifications/#{notification.reason_type.parameterize}", :locals => { :notification => notification, notification.reason_type.parameterize.to_sym => notification.reason }

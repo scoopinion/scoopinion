@@ -1,0 +1,40 @@
+- title @site.title
+
+#nosto
+  %h1
+    = link_to @site.title, "http://" + @site.url
+    - if admin? && @articles.any?
+      %button.small{"data-toggle" => ".site_editor"} Edit
+  = link_to "http://" + @site.url, "http://" + @site.url
+#news
+  - if admin?
+    #terms.site_editor{:style => @articles.any? ? "display: none" : ""}
+      = form_for @site do |f|
+        = render :partial => "errors", :locals => { :record => @site }
+        
+        %div
+          = f.label :title
+          = f.text_field :title
+        %div
+          = f.label :url
+          = f.text_field :url
+        %div
+          = f.label :language
+          = f.select :language, language_codes.invert
+        %div
+          = f.label :state
+          = f.select :state, [ :confirmed, :rejected, :suggested ]
+        %div
+          = f.submit "Save"  
+
+
+  - if @articles.any?
+    #list.articles
+      - @articles.each_with_index do |article, i|
+        %div{:class => article_class(article, i), "data-replace-with" => article_path(article)}
+          = render(:partial => "articles/article", :locals => {:article => article, :index => i})
+  #sidebar
+    #scroller
+      - if @articles.any?
+        = render :partial => "articles/sidebar", :locals => {:article => @articles.first }
+

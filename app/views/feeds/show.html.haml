@@ -1,0 +1,10 @@
+- cache [ md5( [ "feed", params.to_a, @languages, current_user.nil?, current_user, cache_token(1.minute) ] ) ] do
+  - @articles = Article.feed(params.merge({ :user => current_user, :languages => @languages }))
+  - if @articles.any?
+    - @articles.each_with_index do |article, i|
+      %div{:class => article_class(article, i), "data-replace-with" => article_path(article)}
+        = render(:partial => "articles/article", :locals => {:article => article, :index => i})
+  - else
+    .article.blank
+      %h2 (This space intentionally left blank)
+  

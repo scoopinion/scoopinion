@@ -1,0 +1,8 @@
+.stats-container
+  %h2= title
+  
+  %table
+    - stats.each do |key, records|
+      %tr
+        %td= key
+        %td= records.count

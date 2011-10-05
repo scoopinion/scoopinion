@@ -1,0 +1,42 @@
+- unless current_user
+  - content_for :html_class, "landing"
+
+#nosto
+  - if current_user && current_user.unread_recommendations.any?
+    = render current_user.recommendations.first
+  - elsif ! current_user
+    %h3.please 
+      = link_to "Sign in or", new_user_session_url
+      = link_to "sign up to get recommendations!", new_user_url
+  - elsif current_user.visits.count == 0 && ! current_user.extension_installed_at
+    %h3.please
+      = link_to "Get the App to get recommendations!", page_url(:page => :extension)
+  - elsif current_user.visits.count < 5
+    %h3.please
+      = link_to "You've read #{current_user.visits.count} #{current_user.visits.count == 1 ? "article" : "articles"}. Read #{5 - current_user.visits.count} #{current_user.visits.count == 0 ? "" : "more"} to get recommendations!", page_url(:page => :extension)
+
+#news
+  = image_tag "loading-blue.gif", :class => "sidebar-loading"
+  #list.articles
+    .heading
+      - if weekend?
+        %a.active{"data-feed-param" => { :sort => :interestingness,  :min_time => 120, :period => 7.days, :min_visitors => 2, :unread_only => true }.to_query} Weekend
+        %a{"data-feed-param" => ""} Hot
+      - else       
+        %a.active{"data-feed-param" => ""} Hot
+      %a{"data-feed-param" => { :order => "articles.created_at" }.to_query} New
+      %a{"data-feed-param" => { :order => "articles.score" }.to_query} Top scoring
+      %a{"data-feed-param" => { :order => "articles.comments_count" }.to_query} Commented
+      %a{"data-feed-param" => { :order => "articles.average_time" }.to_query} Deepest
+    - if weekend?
+      #feed.loading{"data-feed-params" => { :period => 3.days, :limit => 20}.to_query, "data-feed-additional" => { :sort => :interestingness,  :min_time => 120, :period => 7.days, :min_visitors => 2, :unread_only => true, :limit => 20 }.to_query }
+    - else
+      #feed.loading{"data-feed-params" => { :period => 3.days, :limit => 20 }.to_query, "data-feed-additional" => ""}
+  #sidebar
+    #scroller
+      - unless current_user
+        .landing
+          %h2 Join the future of reading!
+          = render "vimeo"
+          %p Scoopinion notices whenever you read a news article online. The article gets an automatic rating and is published in Scoopinion for your friends and followers to see.
+          %a.button{"style" => "width: 320px; text-shadow: none; font-weight: bold; font-size: larger;", "href" => new_user_url} Sign me up!

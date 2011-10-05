@@ -1,0 +1,8 @@
+<% if chrome? %>
+    <form method="post" action="<%= extension_url %>" class="button-to">
+      <div>
+        <input type="hidden" name="api_key" value="<%= current_user.single_access_token %>"/>
+        <a href="#" class="app"><%= linktext %></a>
+      </div>
+    </form>
+<% end %>

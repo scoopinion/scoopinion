@@ -1,0 +1,71 @@
+- title @user.display_name
+
+#nosto
+  %h1= @user.display_name
+  
+#news                                    
+  #list
+    .heading
+      %a.active{ "data-tab" => "summary" } Summary
+      %a{ "data-tab" => "feed" } Feed
+      %a{ "data-tab" => "activity" } Activity
+
+    .profile.tab.summary
+  
+      - if current_user && current_user.id == @user.id && ! @user.visits.any?
+  
+        %p Oops, there seems to be no browsing data in your account. This might be because:
+  
+        %ol
+          %li
+            You haven't downloaded Scoopinion for Chrome.
+            = render :partial => "extension", :locals => { :linktext => "Download it here!" }
+          %li
+            You haven't browsed any #{link_to "whitelisted", whitelist_url} news articles.
+  
+          %p It is perfectly fine to use Scoopinion without installing the app. Enjoy!
+  
+      - else
+        .tags
+          - for tag, percentage  in @user.tag_percentages.to_a.select{|a| a[1] > 0.02}.shuffle
+            = render :partial => "tags/tag", :locals => {:tag => Tag.find_by_name(tag), :size_measure => [percentage, 0.2].min * 400, :count => false, :title => "#{(percentage * 100).round} %" }
+        .clear
+
+        - if @user.visits.any? && Time.now - @user.visits.first.created_at < 7.days
+  
+          %h2{:style => "margin-top: 20px"} This week I have been mostly reading:
+    
+          %ol.most_frequent
+            - @user.mostly_reading(7.days).take(10).each do |site, seconds|
+              - if site
+                %li.site
+                  %span= link_to site.title, site
+                  %span= pretty_seconds(round_to(seconds, 60))
+    
+    .profile.tab.feed.hidden
+      %ul{:style => "margin-bottom: 20px"}
+        - for visit in @feed
+          %li.visit
+            = render visit
+
+    .profile.tab.activity.hidden
+  
+      - if current_user && @user.id == current_user.id && @user.notifications.any?
+        %ul.notifications
+          = render @user.notifications.take(10)
+      - elsif @user.activity.any?
+        %ul.activity
+          = render @user.activity.take(10)
+  
+  #sidebar
+    - if @user.authenticated?
+      %img{:src => @user.profile_pic('?type=large')}
+
+    .languages
+      = comma_delimit(@user.languages.map(&:language).map{|code| link_to(language_name(code), language_path(code)) }).html_safe
+      
+    .badges
+      - for badge in @user.top_badges
+        = render badge
+
+    .clear

@@ -1,0 +1,22 @@
+- if visit && visit.article
+  .score
+    %p.interest{:title => "The rating of this article based on how you read it."}= visit.score
+  .article-content
+    %h2
+      = link_to html_entities(visit.article.pretty_title), visit.article, :class => "headline"
+    .meta
+      %p
+        = "#{time_ago_in_words(visit.created_at)} ago"
+        - if visit.article.site
+          via
+          = render visit.article.site
+        - if visit.total_time && visit.total_time > 0
+          for #{visit.total_time} s
+        - if visit.article.comments.any?
+          %p.comments= visit.article.comments.count
+  - if params[:controller].parameterize == "users" && current_user == @user
+    .actions
+      Actions
+    %ul.actions-nav
+      %li= link_to "Delete", visit_url(visit.article.id), :remote => true, :method => :delete, :class => "delete", "data-parent-to-delete" => "li.visit", :confirm => "Are you sure you want to delete this article from your feed?"
+  .clear

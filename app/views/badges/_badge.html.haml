@@ -1,0 +1,3 @@
+.badge
+  = image_tag asset_path("#{badge.badge_type.downcase}.png"), :title => badge_title(badge), :width => 50, :height => 50
+  .label= "Level #{badge.level} #{badge.badge_type}"

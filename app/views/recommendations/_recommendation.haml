@@ -1,0 +1,30 @@
+- if recommendation && recommendation.article
+  %h3.tag Recommended for you
+  .recommendation
+    %table
+      %tr
+        %td
+          .interest= recommendation.article.score
+        %td
+          - if recommendation.article.image_url
+            = image_tag recommendation.article.image_url
+        %td
+          .summary
+            %h2= link_to html_entities(recommendation.article.pretty_title), recommendation.article.as_link, :target => "_blank"
+            .source
+              = render recommendation.article.site
+            .clear
+            .description= html_entities(truncate(recommendation.article.description, :limit => 400))
+            .visitors
+              = "#{time_ago_in_words(recommendation.article.created_at)} ago"
+              by
+              = render :partial => "users/link", :locals => { :user => recommendation.article.finder }
+              - if recommendation.article.visitors.count > 1
+                and #{recommendation.article.visitors.count - 1}
+                - if recommendation.article.visitors.count > 2
+                  others
+                - else
+                  other
+            = link_to "Read the full story", recommendation.article.as_link, :class => :readfull, :target => "_blank"
+            = link_to "Statistics", recommendation.article, :class => :statistics
+            = link_to "Comments", recommendation.article, :class => :comments 

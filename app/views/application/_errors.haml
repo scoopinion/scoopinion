@@ -1,0 +1,8 @@
+- if record.errors.any?
+  .errors
+    %h3 Something went wrong!
+    %ul
+      - record.errors.each do |field, error|
+        %li
+          = field.capitalize unless field == :base
+          = error

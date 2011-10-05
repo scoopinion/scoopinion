@@ -1,0 +1,4 @@
+= form_for TagConcealment.new(:user => current_user, :tag => @tag), :remote => true, :format => :html do |f|
+  = f.hidden_field :tag_id
+  = f.hidden_field :user_id
+  = f.submit "Block this tag"

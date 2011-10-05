@@ -1,0 +1,15 @@
+#nosto
+  - if current_user && current_user.recommendations.any?
+    = render current_user.recommendations.first
+
+#news
+  #list
+    - @articles.each_with_index do |article, i|
+      %div{:class => article_class(article, i, !current_user.nil?), "data-replace-with" => article_path(article)}
+        = render(:partial => "articles/article", :locals => {:article => article, :index => i})
+  
+  #sidebar
+    #scroller
+      = render :partial => "articles/sidebar", :locals => { :article => @articles.first }
+    
+  

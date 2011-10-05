@@ -1,0 +1,17 @@
+html.fb{
+    #container, .wrap, .article, .article{
+        width: 760px;
+    }
+    #sidebar{
+        display: none;
+    }
+    #list.login{
+        padding: 0;
+        width: 100%;
+    }
+    #profile-menu-wrapper {
+        left: 610px;
+        width: 140px;
+        top: 90px;
+    }
+}

@@ -1,0 +1,9 @@
+.predictions
+  - if @predictions.any?
+    - @predictions.each_with_index do |prediction, i|
+      %div{:class => article_class(prediction.article, i) + " tag-prediction", "data-replace-with" => article_path(prediction.article)}
+        = render prediction
+  - else
+    .article.blank
+      %h2 (This space intentionally left blank)
+  

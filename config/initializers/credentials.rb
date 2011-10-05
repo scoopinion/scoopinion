@@ -1,0 +1,6 @@
+Huomenet::Application.config.facebook_app_id = ""
+Huomenet::Application.config.facebook_secret = ""
+Huomenet::Application.config.google_analytics_uid = ""
+Huomenet::Application.config.google_site_verification_key = ""
+Huomenet::Application.config.chrome_extension_id = ""
+Huomenet::Application.config.mailchimp_api_key = ""

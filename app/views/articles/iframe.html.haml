@@ -1,0 +1,7 @@
+.iframe
+  = link_to @article, :target => "_blank" do
+    %div.interest
+      = @article.score if @article.score > 0
+  - for user in @visitors
+    .visitor{:class => user == @article.finder ? "finder" : ""}
+      = render :partial => "users/profile_picture", :locals => { :user => user, :target => "_blank" }

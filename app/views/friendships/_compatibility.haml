@@ -1,0 +1,8 @@
+- compatibility = current_user.compatibility_with(friend, :recalculate => false)
+
+%p.compatibility{"data-compatibility" => compatibility, "data-friend-id" => friend.id}
+  - if compatibility == -1
+    Calculating...
+  - else
+    #{(compatibility * 100).round} %
+.clear

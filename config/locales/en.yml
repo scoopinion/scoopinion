@@ -1,0 +1,11 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  datetime:
+      distance_in_words:
+        about_x_hours:
+          # The defaults are "about 1 hour" and "about %{count} hours"
+          one: "1 hour"
+          other: "%{count} hours"

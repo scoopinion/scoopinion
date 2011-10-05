@@ -1,0 +1,30 @@
+- title "Create Account"
+
+#nosto
+  %h1 Create account
+
+#terms
+  %p.bigtext{"style" => "margin-bottom: 30px"} Scoopinion is a shared news community.
+
+  -# = link_to "Sign in with Facebook", authentication_path(:facebook)
+
+  = fb_registration_form("fields" =>"[{'name':'name'}, {'name':'username', 'view' : 'not_prefilled', 'description':'Username', 'type':'text'}, {'name':'email'}, {'name':'password', 'view' : 'not_prefilled'}]", "redirect-uri"=>users_url, "width" => 680).html_safe
+
+  = form_for @user, :url => {:action => "create"}, :html =>  { :style => 'display: none' } do |f|
+
+    = render :partial => "errors", :locals => { :record => @user }
+
+    %div
+      = f.label :login
+      = f.text_field :login, :placeholder => "peter"
+    %div
+      = f.label :email
+      = f.text_field :email, :placeholder => "peter@example.com"
+    %div
+      = f.label :password
+      = f.password_field :password
+    %div
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation
+    %div
+      = f.submit "Create", :class => "button-to"

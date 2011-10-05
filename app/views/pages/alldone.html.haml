@@ -1,0 +1,8 @@
+#nosto
+  %h1 Step 3/3: You're ready!
+#terms
+  %p.bigtext
+    Well done! Please enjoy our #{link_to 'latest scoops', articles_url}
+    -if current_user.authenticated?
+      or
+      %a.invite_fb_friends{:href => '#'} invite a fellow reader or two.

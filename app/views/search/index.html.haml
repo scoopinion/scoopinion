@@ -1,0 +1,21 @@
+#nosto
+  %h1 Search
+  .clear
+
+#news
+  .text
+    %form{:style => "margin-bottom: 0" }
+      = text_field_tag :query, "", :placeholder => "Coca-Cola", :style => "margin-bottom: 0; width: 580px"
+  #list
+    - if @articles.any?
+      - @articles.each_with_index do |article, i|
+        %div{:class => article_class(article, i, true), "data-replace-with" => article_path(article)}
+          = render(:partial => "articles/article", :locals => {:article => article, :index => i})
+    - else
+      .article.blank
+        %h2 (This space intentionally left blank)
+
+  #sidebar
+    #scroller
+      - if @articles.any?
+        = render :partial => "articles/sidebar", :locals => {:article => @articles.first }

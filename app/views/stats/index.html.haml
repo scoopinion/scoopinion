@@ -1,0 +1,31 @@
+
+#nosto
+  %h1 Statistics
+
+#news
+  #list
+    = render :partial => "cumulative_stats", :locals => { :title => "Cumulative", :stats => Stats.cumulative_summary }
+    
+    .clear
+    
+    = render :partial => "stats", :locals => { :title => "Article click-through", :stats => Stats.article_click_through }
+    = render :partial => "stats", :locals => { :title => "New accounts", :stats => Stats.new_users }
+    = render :partial => "stats", :locals => { :title => "New extensions", :stats => Stats.new_extensions }
+    = render :partial => "stats", :locals => { :title => "Tracked news article visits", :stats => Stats.visits }
+    = render :partial => "stats", :locals => { :title => "New articles", :stats => Stats.articles }
+    = render :partial => "stats", :locals => { :title => "Comments", :stats => Stats.comments }
+    
+    .stats-container
+      %h2 Users
+      
+      %table
+        %th id
+        %th name
+        %th extension?
+        %th email
+        - for user in User.order("id DESC")
+          %tr{ :class => user.team_member? ? "emphasis" : "" }
+            %td= user.id
+            %td= link_to user.display_name, user
+            %td= user.visits.any? ? "x" : ""
+            %td= user.email

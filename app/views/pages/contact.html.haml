@@ -1,0 +1,16 @@
+- title "Contact"
+
+#nosto
+  %h1 Contact
+#terms
+  %p.email 
+    Not sure who to call? 
+    %br
+    %br
+    #{link_to "contact@scoopinion.com", "mailto:contact@scoopinion.com"}
+  %ul.founders
+    = render :partial => "founder", :locals => { :name => "Kobra Koskinen", :image => "kobra.jpg", :email => "kobra@scoopinion.com", :phone => "+358 50 379 4642", :user_id => 27}
+    = render :partial => "founder", :locals => { :name => "Ville Sundberg", :image => "ville.jpg", :email => "ville@scoopinion.com", :user_id => 1}
+    = render :partial => "founder", :locals => { :name => "Mikael Koponen", :image => "mikael.jpg", :email => "mikael@scoopinion.com", :user_id => 7}
+    = render :partial => "founder", :locals => { :name => "Juha Leppänen", :image => "juha.jpg", :email => "juha@scoopinion.com", :user_id => 77}
+    = render :partial => "founder", :locals => { :name => "Johannes Koponen", :image => "johannes.jpg", :email => "johannes@scoopinion.com", :user_id => 2}

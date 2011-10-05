@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="<%= html_class :extra => yield(:html_class) %>">
+<head>
+  <title><%= this_or_default(yield(:title), "Scoopinion - Spread the News!") %></title>
+  <%= yield :head %>
+  <link rel="shortcut icon" href="<%= asset_path 'icon.png' %>"/>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:300&v2' rel='stylesheet' type='text/css'>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= render "analytics" %>
+  <meta name="scoopinion-extension-version" content=""/>
+  <meta name="description" content="<%= yield(:description).empty? ? default_description : yield(:description) %>"/>
+  <%= content_for :og_type, "website" %>
+  <%= render "opengraph" %>
+  <meta name="google-site-verification" content="<%= Rails.application.config.google_site_verification_key %>" />
+</head>
+<body>
+<div id="container">
+  <header>
+    <div class="wrap">
+      <div id="header-left">
+        <%= link_to root_url, {:id => "logo"} do %>
+            <img src="<%= asset_path 'logo.png' %>" width="223" height="42" alt="Scoopinion">
+        <% end %>
+        <nav>
+          <ul>
+            <li><%= link_to_unless_current "Scoops", root_url do
+                link_to "Scoops", root_url, :class => "active"
+            end %></li>
+            <% if current_user %>
+                <li><%= link_to_unless_current "Profile", current_user do
+                    link_to "Profile", current_user, :class => "active"
+                end %></li>
+                <li><%= link_to_unless_current "Fellows", friendships_url do
+                    link_to "Fellows", friendships_url, :class => "active"
+                end %></li>
+            <% end %>
+            <li><%= link_to_unless_current "Tags", tags_url do
+                link_to "Tags", tags_url, :class => "active"
+            end %></li>
+            <li><%= link_to_unless_current "Whitelist", whitelist_url do
+                link_to "Whitelist", whitelist_url, :class => "active"
+            end %></li>
+            <li><%= link_to_unless_current "About", page_url(:page => "about") do
+                link_to "About", page_url(:page => "about"), :class => "active"
+            end %></li>
+          </ul>
+        </nav>
+      </div>
+      <div id="header-right">
+        <%= render :partial => 'users/user' %>
+      </div>
+
+    </div>
+  </header>
+  <!-- !header -->
+
+  <div id="main" class="wrap" <%= yield :main_wrap_attributes %>>
+    <%= yield %>
+  </div>
+  <!-- !main -->
+
+  <footer class="wrap">
+    <%= yield :footer %>
+
+    <ul id="foo-nav">
+      <li>
+        <fb:like href="http://www.scoopinion.com" send="false" layout="button_count" width="0" show_faces="false" font=""></fb:like>
+      </li>
+      <li><%= link_to "About", page_url(:page => "about") %></li>
+      <li><%= link_to "Contact", page_url(:page => "contact") %></li>
+      <li><%= link_to "Feedback", feedback_index_url %></li>
+      <li><%= link_to "Privacy Policy", page_url(:page => "privacy") %></li>
+    </ul>
+  </footer>
+  <% if current_user && current_user.unread_notifications.any? %>
+      <ul id="notifications">
+        <%= render current_user.unread_notifications.limit(10) %>
+      </ul>
+  <% end %>
+</div>
+<!-- !container -->
+<%= init_fb_registration %>
+</body>
+</html>

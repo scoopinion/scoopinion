@@ -1,0 +1,41 @@
+= image_tag "loading-blue.gif", :class => "sidebar-loading"
+#list
+  .heading
+    %h1= feed_title
+    #sort_order
+      %form
+        - if ! @weekend
+          .option
+            %label{:for => 'select_sort_order'} Sort by:
+            %select{:id => 'select_sort_order', :name => 'sort_by'}
+              %option{:value => 'default'} Hotness
+              - for sort_order, humanized_term in @sort_orders
+                %option{ :selected => sort_order == params[:sort_by], :value => sort_order}= humanized_term
+        - if weekend?
+          .option
+            %input{:name => "weekend", :type => "hidden", :value => "off"}
+            %label
+              = check_box_tag "weekend", "on", @weekend
+              Weekend edition
+      
+  - cache cache_key(@articles) do
+    - @articles.each_with_index do |article, i|
+      %div{:class => article_class(article, i, !current_user.nil?), "data-replace-with" => article_path(article)}
+        = render(:partial => "articles/article", :locals => {:article => article, :index => i})
+
+#sidebar
+  #scroller
+    - unless current_user
+      .landing
+        %h2 Join the future of reading!
+        = render "vimeo"
+        %p Scoopinion is an effortless community-based news recommendation and spreading service. It has two parts: the Scoopinion website and the Scoopinion App for Chrome.
+        %p Scoopinion for Chrome notices whenever you read a news article and tells Scoopinion about it. The article gets and automatic rating and is published for your friends and followers to see.
+        %p.preview This is what the application looks like.
+        %p To join the fellowship and get the application
+        %ol
+          %li= link_to "Create an account in Scoopinion.", new_user_path
+          %li Download the Scoopinion App from the top right corner.
+          %li Have fun! Read the news, post comments and see what your fellow readers have read.
+    - else
+      = render :partial => "articles/sidebar", :locals => { :article => @articles.first }

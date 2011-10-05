@@ -1,0 +1,7 @@
+- if badge
+  - if current_user && badge.user == current_user
+    You 
+  - else
+    = link_to badge.user.display_name, badge.user
+  became a Level #{badge.level} #{badge.badge_type}!
+  

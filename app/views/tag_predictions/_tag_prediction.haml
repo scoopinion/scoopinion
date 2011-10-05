@@ -1,0 +1,23 @@
+- article = tag_prediction.article
+.article-content
+  %h2
+    = link_to article.pretty_title, article.as_link, :class => "headline", :target => :_blank
+  %a.toggle_sidebar{:href => "#"}
+    = image_tag asset_path "right_arrow.png"
+  .meta
+    %p
+      - if article.site
+        = render article.site
+      \-      
+      Is this about
+      %span.prediction
+        = tag_prediction.tag.name.humanize.titleize
+      ?
+      (We're #{(tag_prediction.confidence * 100).to_s[0..3]}% sure.)
+      = form_for tag_prediction, :remote => true do |f|
+        = f.hidden_field :state, :value => "confirmed"
+        = f.submit "Yes"
+
+      = form_for tag_prediction, :remote => true do |f|
+        = f.hidden_field :state, :value => "rejected"
+        = f.submit "No"

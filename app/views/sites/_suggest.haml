@@ -1,0 +1,18 @@
+- if current_user
+  %h2 Suggest a news site
+  
+  .text 
+    = form_for @site do |f|
+  
+      %p.notice= notice 
+      
+      = render :partial => "errors", :locals => { :record => @site }
+  
+      %div
+        = f.label :title
+        = f.text_field :title, :placeholder => "The New York Times"
+      %div
+        = f.label :url
+        = f.text_field :url, :placeholder => "nytimes.com"
+      %div
+        = f.submit "Suggest"  

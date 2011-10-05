@@ -1,0 +1,40 @@
+html.users {
+
+    #sidebar {
+	h3 {
+	    margin-top: 10px;
+	}
+    }
+
+    .languages {
+	margin-bottom: 10px;
+	font-weight: bold;
+    }
+
+    #sidebar > img {
+	margin-bottom: 1em;
+
+    }
+
+    .badges {
+
+	.badge {
+	    clear: both;
+	}
+
+	img {
+	    width: 50px;
+	    float: left;
+	    margin: 5px;
+	}
+
+	.label {
+	    font-size: 12px;
+	    font-weight: bold;
+	    line-height: 55px;
+	    text-indent: 5px;
+	}
+
+    }
+    
+}

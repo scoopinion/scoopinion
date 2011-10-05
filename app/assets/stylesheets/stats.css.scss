@@ -1,0 +1,28 @@
+html.stats {
+    .stats-container {
+	float: left;
+	margin: 25px;
+
+	table {
+
+	    tr.emphasis {
+		background-color: #ddd;
+	    }
+
+
+	    td {
+		font-size: 12px;
+		text-align: center;
+		border: 1px solid gray;
+		padding: 5px;
+
+
+	    }
+	}
+
+    }
+
+    h2 {
+	margin-bottom: 10px;
+    }
+}

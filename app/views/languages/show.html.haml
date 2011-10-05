@@ -1,0 +1,13 @@
+#nosto
+  %h1 Scoops in #{language_name(params[:id])}
+
+#news
+  = image_tag "loading-blue.gif", :class => "sidebar-loading"
+  #list.articles
+    .heading
+      %a.active{"data-feed-param" => ""} Hot
+      %a{"data-feed-param" => { :order => "articles.created_at" }.to_query} Newest
+      %a{"data-feed-param" => { :order => "articles.score" }.to_query} Top scoring
+    #feed.loading{"data-feed-params" => { :language => params[:id] }.to_query, "data-feed-additional" => ""}
+  #sidebar
+    #scroller

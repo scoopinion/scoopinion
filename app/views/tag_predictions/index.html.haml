@@ -1,0 +1,14 @@
+#nosto
+  %h1 Teach Scoopinion
+  .clear
+
+#news
+  .text
+    Our algorithm has guessed what these articles are about. Help Scoopinion by correcting our mistakes!
+  #list.articles.predictions{ "data-update-url" => tag_predictions_url }
+    = render "prediction_list"
+  #sidebar
+    #scroller
+      - if @predictions.any?
+        = render :partial => "articles/sidebar", :locals => {:article => @predictions.first.article }
+

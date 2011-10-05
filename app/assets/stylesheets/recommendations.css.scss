@@ -1,0 +1,74 @@
+html.recommendations {
+    .rank {
+	display: none;
+    }
+}
+
+#nosto {
+    .discussion {
+	display: none;
+    }
+
+    img {
+	max-width: 200px;
+    }
+
+    h3.tag {
+	text-transform: uppercase;
+	font-size: 10px;
+	position: absolute;
+	left: 84px;
+	top: 12px;
+	color: #ff7300;
+    }
+    
+    .recommendation {
+
+	img { 
+	    float: left; margin-right: 15px;
+	}
+
+	margin-top: 13px;
+
+	.interest {
+	    margin: 10px 10px 10px 20px
+	}
+
+	.summary {
+	    float: left;
+	}
+
+	h2 {
+	    text-transform: none;
+	    font-size: 18px;
+	    float: left;
+	}
+
+	td {
+	    vertical-align: top;
+	}
+
+	.description {
+	    margin-top: 3px;
+	}
+	
+	.visitors {
+	    margin-top: 15px;
+	    float: left;
+	    margin-right: 15px;
+	}
+
+	.source {
+	    float:left;
+	    margin-left: 10px;
+	    line-height: 24px;
+	}
+
+	.bottom {
+	    div, a {
+		margin-top: 8px;
+	    }
+	}
+
+    }
+}

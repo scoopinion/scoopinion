@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html class="<%= html_class :extra => yield(:html_class) %>">
+<head>
+  <title><%= this_or_default(yield(:title), "Scoopinion - Spread the News!") %></title>
+  <%= yield :head %>
+  <link rel="shortcut icon" href="<%= asset_path 'icon.png' %>"/>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu:300&v2' rel='stylesheet' type='text/css'>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <meta name="description" content="<%= yield(:description).empty? ? default_description : yield(:description) %>"/>
+  <%= content_for :og_type, "website" %>
+  <%= render "opengraph" %>
+</head>
+<body>
+  <%= yield %>
+</body>
+</html>

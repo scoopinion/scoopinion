@@ -1,0 +1,5 @@
+.comment
+  .user
+    = link_to comment.user.username || comment.user.login, comment.user
+  .body
+    = auto_link(h comment.body)

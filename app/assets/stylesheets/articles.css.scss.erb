@@ -1,0 +1,296 @@
+.languages, .articles, .sites, .tags, .tag_predictions, .search{
+    #sidebar {
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        form {
+            margin-top: 1em;
+        }
+	
+	.tags {
+	    margin-top: 10px;
+
+	    form {
+		margin: 0;
+		margin-top: 10px;
+		display: block;
+
+		input {
+		    margin: 0;
+		    float: left;
+		}
+		
+		.loading {
+		    float: left;
+		}
+
+	    }
+
+	}
+
+        .landing{
+
+            h2{
+                font-size: 19px;
+                font-weight: bold;
+                background: url('<%= asset_path "logo_sidebar.png" %>') no-repeat left;
+                text-indent: 33px;
+                margin-bottom: 20px;
+            }
+            p{
+                margin-bottom: 20px;
+            }
+            p.preview{
+                width: 250px;
+                height: 285px;
+                background: url('<%= asset_path "application_preview.png" %>') no-repeat;
+            }
+            ol{
+                margin-left: 20px;
+            }
+        }
+    }
+    
+    .visitors {
+	margin-top: 1em;
+    }
+
+    .description {
+	margin-top: 1em;
+    }
+
+     
+     .comments {
+ 	margin-top: 0;
+ 	padding-left: 15px;
+     }
+ 
+
+
+    form.new_comment {
+	margin-top: 1em;
+    }
+
+    form.new_comment > div{
+        margin-bottom: 5px;
+    }
+
+    #comment_body { 
+	width: 100%;
+	height: 95px; 
+	border: 1px solid #b8c6d3; 
+	box-shadow: inset 0 0 0 10px rgba(255,255,255,0.16); 
+	font: 12px normal Ubuntu, Helvetica, sans-serif;
+	padding: 2px 4px 2px 4px;
+	box-sizing: border-box;
+    }
+
+    .article {
+	width: 588px;
+    }
+
+
+    img.article-thumbnail {
+	float: left; 
+	margin-right: 20px; 
+	margin-bottom: 20px;
+	max-width: 340px;
+	max-height: 340px;
+    }
+
+
+
+}
+.articles, .languages, .sites, .tags {
+    body{
+        counter-reset: rank;
+    }
+    .score {
+        margin-right: 20px;
+        position:absolute;
+        top:0;
+        bottom:0;
+        margin: auto;
+        height: 30px;
+        left: 15px;
+    }
+
+    .interest, .rank{
+        display: inline-block;
+    }
+    .rank{
+        width: 13px;
+    }
+    .rank:before{
+        counter-increment: rank;
+        content: counter(rank) "."
+    }
+    .interest {
+        margin: 0 0 0 10px;
+    }
+    .article-content {
+        margin-left: 65px;
+    }
+        
+    #sort_order{
+        position: absolute;
+        right: 13px;
+        top: 13px;
+
+	.option {
+	    float: right;
+	    margin-left: 10px;
+	    line-height: 20px;
+	}
+
+	select {
+	    padding: 0;
+	    display: inline;
+	}
+
+    }
+
+}
+
+
+#main{
+    background: #fff;
+    min-height: 600px;
+
+}
+
+.recommendation {
+    img {
+	max-height: 100px;
+    }
+}
+
+#nosto > a {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 0;
+    color: lighten(#286092, 20%)
+}
+
+
+html.articles.show {
+
+    #nosto {
+	padding-bottom: 15px;
+
+	.interest {
+	    float: left;
+	    margin-left: 0;
+	    margin-right: 10px;
+	}
+    }
+
+    #sidebar{
+        position: static;
+    }
+
+    #news{
+        background: #C4DCEA url('<%= asset_path "content_bg.png" %>') repeat-y;
+    }
+
+    #list.normal{
+        border: 0;
+        box-shadow: none;
+    }
+
+
+    .summary {
+	border: 1px solid #d6f0ff;
+	padding: 15px;
+	font-weight: bold;
+
+	img {
+	    float: left;
+	    margin-right: 15px;
+	    max-width: 300px;
+	}
+
+	p {
+	    text-align: center;
+	}
+
+    }
+
+    .pictures {
+	margin: 15px 15px 0 15px;
+    }
+
+    .visits {
+	
+	margin: 15px 15px 0 15px;
+
+	li {
+	    margin-top: 3px;
+
+	    span.name {
+
+	    }
+
+	    span.time-ago {
+		color: gray;
+	    }
+
+	}
+
+	
+    }
+
+}
+
+
+.article {
+
+    a.toggle_sidebar {
+	position: absolute;
+	top: 35px;
+	right: 15px;
+	display: none;
+    }
+
+    &:hover, &.view {
+	a.toggle_sidebar {
+	    display: block;
+	}
+    }
+
+}
+
+html.articles.index {
+    
+    iframe {
+	margin-bottom: 10px;
+	border-top: 1px solid black;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+    }
+
+}
+
+
+html.articles.index.landing #scroller {
+    overflow: visible;
+}
+
+#news {
+    position: relative;
+}
+
+.sidebar-loading {
+    position: absolute;
+    right: 182px;
+    margin-left: -8px;
+    top: 160px;
+    display: none;
+
+    &.fixed {
+	right: auto;
+	position: fixed;
+	margin-left: 825px;
+    }
+
+}

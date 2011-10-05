@@ -1,0 +1,14 @@
+- title "Tags"
+
+#nosto
+  %h1= "Tags"
+#news
+  #list
+    - cache [ "tag-cloud", cache_token(1.hour) ] do
+      - for tag in @tags.select{ |t| t.articles.count > 0 }.sort_by{|t| -t.articles.count}
+        = render :partial => "tag", :locals => { :tag => tag, :size => true, :title => "The size of the tag indicates its hotness." }
+  #sidebar
+    - if current_user && current_user.concealed_tags.any?
+      %h2 Your blocked tags
+      .blocked
+        = render current_user.concealed_tags

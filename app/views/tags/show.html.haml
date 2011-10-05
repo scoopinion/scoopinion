@@ -1,0 +1,34 @@
+- title(@tag.name.try(:titleize) || @tag.parameter.humanize.titleize)
+- description("A collection of #{@tag.display_name} news articles. The articles have been gathered by Scoopinion users and rated by the Scoopinion algorithm.")
+- thumbnail @articles.sort_by(&:score).detect{|a| a.unique_image?}.try(:image_url)
+
+#nosto
+  = image_tag @articles.sort_by(&:score).take(20).select{|a| a.unique_image?}[0].try(:image_url)
+  .tag-meta
+    %h1
+      = @tag.display_name
+    %p= article_counts(@tag)
+    = render :partial => "recommend", :locals => { :href => tag_url(@tag) }
+
+  - if current_user && @tag.id
+    - if current_user.concealed_tags.include? @tag
+      = render :partial => "unblock"
+    - else
+      = render :partial => "block"
+  .clear
+
+#news
+  = image_tag "loading-blue.gif", :class => "sidebar-loading"
+  #list.articles
+    .heading
+      %a.active{"data-feed-param" => ""} Hot
+      %a{"data-feed-param" => { :order => "articles.created_at" }.to_query} Newest
+      %a{"data-feed-param" => { :order => "articles.score" }.to_query} Top scoring
+      -# %a{"data-feed-source" => users_url(:tag => @tag.name)} Readers
+      - if admin?
+        %a{"data-feed-source" => tag_predictions_url(:tag => @tag.name)} Teach
+    #feed.loading{"data-feed-params" => { :tag => @tag.name }.to_query, "data-feed-additional" => ""}
+  #sidebar
+    #scroller
+  
+  

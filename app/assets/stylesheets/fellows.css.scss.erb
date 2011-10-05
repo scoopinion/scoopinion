@@ -1,0 +1,79 @@
+/* Fellows --------------------- */
+.friendships{
+    .fellows-wrapper #sidebar { width: 348px; }
+
+    .fellows { padding: 20px;background: #fff;overflow: hidden;width: 588px; }
+    .fellows > p { margin-bottom: 5px; }
+    .fellows li { border-bottom: 1px solid #ededed; padding-bottom: 15px; margin-bottom: 15px;}
+    .fellows li:last-child { border: none; }
+    .fellows li p { padding-top: 0px; }
+    .fellows a { display: block; }
+
+    .fellows li img {
+        float: left;
+        margin-right: 15px;
+        width: 48px;
+        height: 48px;
+        border: 1px solid rgba(165,192,216,1);
+        border-radius: 3px;
+    }
+
+    .fellows-wrapper #sidebar h2 { margin-bottom: 20px; }
+    .fellows-wrapper #sidebar #invite-email {
+        padding: 7px;
+        border: 1px solid rgba(193, 205, 215, 1);
+        margin-top: 10px;
+        width: 170px;
+        color: #525252;
+        box-shadow: inset 0 0 5px rgba(0,0,0,.1);
+    }
+    .fellows-wrapper #sidebar #more { border: none;cursor: pointer;margin-top: 10px; }
+
+    .fellows {
+
+	.summary {
+	    float: left;
+	    max-width: 80%;
+	}
+
+	.name {
+	    font-weight: bold;
+	    margin-bottom: 5px;
+	}
+
+	.visit {
+
+	    .site {
+		opacity: 0.5;
+	    }
+
+	    .time {
+		opacity: 0.5;
+		padding-left: 5px;
+	    }
+
+	}
+	
+    }
+
+    .compatibility {
+	float: right;
+	padding-top: 20px !important;
+	font-weight: bold;
+    }
+
+    #invite_fb_friends{
+        width: 222px;
+        height: 31px;
+        text-indent: -9999px;
+        background: url('<%= asset_path "invite_fb.png" %>');
+        display: block;
+    }
+
+    #sidebar a {
+	text-decoration: underline;
+	margin-bottom: 10px;
+	display: block;
+    }
+
+}

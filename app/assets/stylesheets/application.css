@@ -1,0 +1,6 @@
+/*
+ * FIXME: Introduce SCSS & Sprockets
+ *= require_self
+ *= require fancybox
+ *= require_tree . 
+*/

@@ -1,0 +1,18 @@
+- if @sites.suggested.any?
+  %ul{:style => "margin-top: 30px"}
+    %li.letter
+      %a{"data-toggle" => "#suggested"}Suggested sites
+    .site-list#suggested
+      - @sites.suggested.group_by(&:initial).each do |initial, sites|
+        %li.letter= initial
+        - sites.each do |site|
+          %li
+            .left
+              = link_to site.title, site
+              = "(#{site.url})"
+              = site.language
+            .right
+              - if admin?
+                = render :partial => "state_change_button", :locals => { :site => site, :new_state => "confirmed", :submit => "Confirm" }
+                = render :partial => "state_change_button", :locals => { :site => site, :new_state => "rejected", :submit => "Reject" }
+            .clear

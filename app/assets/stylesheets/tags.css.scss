@@ -1,0 +1,93 @@
+a.tag {
+    text-transform: uppercase;
+    padding: 3px;
+    color: #ff7e00 !important;
+    background: #f0f0f0;
+    border: 1px solid #f0f0f0;
+    font-size: 9px;
+    margin-right: 3px;
+    line-height: 28px;
+
+    &:hover {
+	border: 1px solid #cccccc;
+    }
+}
+
+html.tags {
+    
+    #nosto form {
+	float: right;
+	margin: 0;
+	margin-top: -3px;
+	margin-bottom: -3px;
+	margin-right: -3px;
+
+	input[type=submit] {
+	    padding: 3px;
+	}
+    }
+
+    &.index {
+
+	#list {
+	    width: 588px;
+	    padding: 20px;
+
+	    a.tag {
+		float: left;
+		margin: 5px;
+	    }
+
+
+	}
+
+	.blocked {
+
+	    margin-top: 10px;
+
+	    a.tag {
+		margin: 3px;
+		margin-left: 0;
+		font-size: 12px;
+	    }
+
+	}
+
+    }
+
+    &.show {
+
+	#nosto {
+	    overflow: visible;
+	}
+
+	#nosto img {
+	    float: left;
+	}
+
+	.tag-meta {
+	    float: left;
+	    margin-left: 5px;
+
+	    h1, p {
+		margin: 5px;
+	    }
+
+	    p {
+		margin-top: 10px;
+		margin-bottom: 0;
+	    }
+
+	}
+
+	.fb_edge_widget_with_comment {
+	    margin: 5px;
+	}
+
+	#news {
+	    position: relative;
+	    z-index: 0;
+	}
+    }
+
+}

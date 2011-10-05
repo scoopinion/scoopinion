@@ -1,0 +1,8 @@
+- if current_user && comment.user.id == current_user.id
+  You
+- else
+  = link_to comment.user.display_name, comment.user
+commented on
+= link_to comment.article.pretty_title, comment.article
+
+(#{time_ago_in_words(notification.created_at)} ago).

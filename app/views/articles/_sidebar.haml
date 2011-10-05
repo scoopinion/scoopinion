@@ -1,0 +1,41 @@
+- if article
+  .sidebar-article{"data-update-url" => url_for(article)}
+    - cache [ article, "sidebar", admin? ] do
+      .news-viewed
+        - if article.image_url && !article.image_url.empty?
+          = image_tag article.image_url, :class => "article-thumbnail"
+        %h2= link_to html_entities(article.pretty_title), article.as_link, :target => "_blank"
+        .visitors
+          = "#{time_ago_in_words(article.created_at)} ago"
+          by
+          = render :partial => "users/link", :locals => { :user => article.finder }
+          - if article.visits_count > 1
+            and #{article.visits_count - 1}
+            - if article.visits_count > 2
+              others
+            - else
+              other
+        .source
+          Source:
+          - if article.site
+            = render article.site
+        .tags
+          = render :partial => "tags/tag", :collection => article.tags, :locals => { :article => article }
+          = render :partial => "articles/new_tag", :locals => { :article => article }
+        .clear
+        .description= html_entities(truncate(article.description, :limit => 400))
+        = link_to "Read the full story (#{pretty_seconds(article.average_time)})", article.as_link, :class => :readfull, :target => "_blank"
+        = link_to "Statistics", article, :class => :statistics
+  
+  
+      .discussion
+        - for comment in article.comments
+          - cache comment do
+            .talk
+              .talk-meta
+                = render :partial => "users/profile_picture", :locals => { :user => comment.user }
+                .commenter
+                  = render :partial => "users/link", :locals => { :user => comment.user, :html_class => "person-name" }
+                  %abbr.timeago{:title => comment.created_at.iso8601 }
+                %p.person-comment= auto_link(comment.body)
+    = render :partial => "articles/new_comment", :locals => { :article => article }

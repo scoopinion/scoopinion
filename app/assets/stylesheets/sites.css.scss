@@ -1,0 +1,58 @@
+html.sites {
+
+    .left {
+	float: left;
+    }
+    
+    .right {
+	float: left;
+    }
+
+    form.edit_site {
+	float: left;
+	margin-top: 0 !important;
+	margin-left: 5px;
+	position: relative;
+	top: -4px;
+	
+	input {
+	    padding: 3px;
+	}
+
+    }
+
+}
+
+html.sites.index {
+    #sidebar {
+	position: static;
+    }
+
+    .site-list {
+	padding-left: 20px; padding-top: 10px; display: none
+    }
+}
+
+html.sites.show {
+
+    #nosto {
+	padding-bottom: 10px;
+
+	button {
+	    float: right;
+	}
+
+    }
+
+   form.edit_site {
+	float: left;
+	margin-top: 10px !important;
+	margin-left: 0px;
+	
+	input {
+	    padding: 3px;
+	}
+
+    }
+
+}

@@ -1,0 +1,8 @@
+- phone ||= ""
+%li
+  = link_to user_url(:id => user_id) do
+    = image_tag image, :width => 128, :height => 128, :alt => name
+  .meta
+    %h2= link_to name, user_url(:id => user_id)
+    %p= link_to email, "mailto:#{email}"
+    %p= phone

@@ -1,0 +1,23 @@
+#profile-menu-wrapper.wrap
+  %ul.profile-menu
+    - if current_user
+      -#- if current_user.visits.any?
+      -#  #last_upload
+      -#    = "You last uploaded data #{time_ago_in_words(current_user.visits.first.created_at)} ago"
+      - unless current_user.authenticated?
+        %li= link_to "Connect FB", authentication_path(:facebook)
+      - else
+        %li
+          %a.invite_fb_friends{:href => "#"} Invite friends
+      %li= link_to "Sign out", logout_path, :class => "out"
+- if current_user
+  #profile
+    %a#person-name{:href => "#"}
+      =current_user.username || current_user.login
+  = render :partial => "users/extension", :locals => { :linktext => "Get the App!" }
+  %input{:type => 'hidden', :name => 'friends-updated-at', :value => current_user.friends_updated_at, :rel => friendships_create_path}
+
+- else
+  #profile
+    = link_to "Sign in", new_user_session_path
+    = link_to "Create account", new_user_path
