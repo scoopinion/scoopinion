@@ -1,39 +1,57 @@
-- title "#{@article.site.try(:title)}: #{@article.pretty_title}"
-- thumbnail @article.image_url if @article.image_url
+- title "#{@article.title} (via @scoopinion)", :complete => true, :separate_og_title => true
+= content_for :og_title, @article.title
+- thumbnail @article.original_image_url if @article.image_url
+= content_for :description, article_description(@article)
+= content_for :url, short_article_url(@article)
+= content_for :canonical_url, @article.remote_url
 
-#nosto
-  .interest
-    = @article.score
-  %h1
-    = link_to @article.pretty_title, @article.as_link, :target => "_blank"
-  = link_to @article.as_link, @article.as_link, :target => "_blank"
-#news
-  #list.normal
-    .summary
-      - if @article.average_time && @article.average_time > 0
-        %p
-          Average reading time #{pretty_seconds(@article.average_time)}
-      %p
-        Found by
-        = render :partial => "users/link", :locals => { :user => @article.finder }
-        #{time_ago_in_words(@article.created_at)} ago
-      .clear
-    .pictures
-      - for visit in @article.visits
-        = render :partial => "users/profile_picture", :locals => { :user => visit.user }
-      .clear
-    %ul.visits
-      - for visit in @article.visits
-        %li
-          %span.name
-            = render :partial => "users/link", :locals => { :user => visit.user }
-          read it 
-          - if visit.total_time
-            for #{pretty_seconds(visit.total_time)}
-          %span.time-ago
-            (#{time_ago_in_words(visit.created_at)} ago)
-          - if visit.via
-            %span.via
-              via #{visit.via}
-  #sidebar
-    = render :partial => "articles/sidebar", :locals => { :article => @article }
+= content_for :head_prefix do
+  og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#
+
+- hard = (!current_user && ab_test("iframe_bottom_landing_element_v2", [ true, false ], :conversion => "install_addon_or_sign_up"))
+
+#ribbon
+  .site-details
+    %h1
+      = link_to root_url, {:id => "logo"} do
+        %img{:alt => "Scoopinion", :src => asset_path('logo.png'), :width => "125"}
+    - if !hard
+      - unless current_user
+        - if chrome?
+          = link_to t("articles.index.download_the_app"), "#", class: "request install-chrome"
+        - elsif firefox?
+          = link_to t("articles.index.download_the_app_firefox"), firefox_extension_url("scoopinion"), class: "request install-firefox"
+   
+  .article-details.active
+    %p= @article.title
+    .share-actions{ "data-id" => @article.id, "data-local-url" => short_article_path(@article), "data-title" => @article.title, "data-original-url" => @article.original_image_url, "data-byline" => byline(@article), "data-description" => @article.clean_summary.first, "data-twitter-text" => article_tweet_text(@article) }
+      %p= t "feeds.index.share"
+      %button.actions-button.actions-button-twitter{ title: t("feeds.index.actions_button_twitter") }
+      %button.actions-button.actions-button-facebook{ title: t("feeds.index.actions_button_facebook") }
+      = instapaper_iframe(@article).html_safe
+
+  .actions
+    - unless current_user
+      = link_to t("general.login"), new_user_session_path
+    = link_to t(".close"), @article.remote_url, :target => "_top", :class => "close"
+
+
+
+%iframe.article-view{:src => @article.remote_url, :width => "100%", :allowtransparency => "true", :frameborder => "0", :style => hard ? "padding-bottom: 105px" : ""}
+
+- if hard
+  - heading ||= "Scoopinion helps you find the greatest journalism of the web."
+  .wrapper
+    %section.learn-more
+      .learn-more--title
+        %h1= heading
+      .learn-more--action
+        - if ab_test("iframe_only_signup_call_to_action", [ true, false ], :conversion => "install_addon_or_sign_up")
+          = link_to t("articles.index.sign_up"), new_user_url, class: "button button-large button-round button-arrowed-right"
+        - else 
+          - if chrome?
+            = link_to t("articles.index.download_the_app"), "#", class: "button button-large install-chrome button-icon-plus"
+          - elsif firefox?
+            = link_to t("articles.index.download_the_app_firefox"), firefox_extension_url("scoopinion"), class: "button button-large button-round button-icon-plus install-firefox"
+          - else 
+            = link_to t("articles.index.sign_up"), new_user_url, class: "button button-large button-round button-arrowed-right"

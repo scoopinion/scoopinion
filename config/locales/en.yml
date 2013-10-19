@@ -2,10 +2,645 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
-  datetime:
-      distance_in_words:
-        about_x_hours:
-          # The defaults are "about 1 hour" and "about %{count} hours"
-          one: "1 hour"
-          other: "%{count} hours"
+  views:
+    pagination:
+      first: "First"
+      last: "Last"
+      previous: "Prev"
+      next: "Next"
+      truncate: "&hellip;"
+  time:
+    formats:
+      pretty: "%A, %B %d, %Y"
+      weekday: "%A"
+
+  opengraph:
+    title: "Stories worth reading."
+    description: "Scoopinion is a crowdsourcing movement that helps you find the web's best journalism."
+
+  general:
+    sign_in: "Sign in"
+    register: "Register"
+    tagline: "Stories worth reading"
+    tag: "Tag"
+    email: "Email address"
+    login: "Log in"
+    logout: "Log out"
+    sign_up: "Sign up"
+    request_invite: "Request invite"
+    password: "Password"
+    contact: "Contact"
+
+  feeds:
+    index: 
+      download_data_nag_body: "Your raw Scoopinion data is now available to you."
+      download_data_nag_action: "Get it here!"
+      visits_count_nag:
+        none_body_html: "We <b class=brand>don't yet know</b> what you like to read, so these are <b class=brand-color>community favorites</b>."
+        one_body_html: "We know of only <b class=brand-color>1 story</b> you've read lately, so these are <b class=brand-color>community favorites</b>."
+        some_body_html: "We know of only <b class=brand-color>%{visits_count} stories</b> you've read lately, so these are <b class=brand-color>community favorites</b>."
+        many_body_html: "This selection is based on the <b class=brand-color>%{visits_count} stories</b> you've read in the last month."
+      share: "Share"
+      hide: "Hide"
+      actions_button_twitter: "Share on Twitter"
+      actions_button_facebook: "Share on Facebook"
+      actions_button_email: "Share by email"
+      actions_button_hide: "Hide"
+      actions_button_read-later: "Read later"
+      saved: "Saved"
+      hidden_story_text: "Control hidden content"
+      tweet: "Tweet"
+      post_to_facebook: "Post to Facebook"
+      send: "Send"
+      also_hide: "Also hide?"
+      confirm: "Confirm"
+
+  bookmarks: 
+    index:
+      title: "Magazine"
+      link: "Home"
+      subtitle: "Stories worth reading."
+      headline_html: "<span class='name brand-color--secondary'>%{name}</span> Stories"
+
+  # Front page / Feed
+  articles: 
+    index:
+      title: "Magazine"
+      link: "Home"
+      subtitle: "Stories worth reading."
+      headline_html: "<span class='name brand-color--secondary'>%{name}</span> Magazine"
+      for_you: "Daily"
+      top: "Weekly"
+      social1: "%{number} of your friends"    
+      social2: "and %{number} others have read top four stories above."
+      favorite_authors: "Your favorite authors"
+      just_in: "Just in"
+      yesterday: "Yesterdays stories"
+      this_week: "Earlier this week"
+      main_feed: "Main Feed"
+      featured: "Featured articles"
+      share_this_issue: "Share this issue"
+      app_nag_html: "<span class=link-complex__target>Add Scoopinion to <span class=browser>your browser</span></span>, make your reading matter!"
+      spread_the_word: "invites left"
+      invite_heading: "Spread the word"
+      subheading: [ "Help everyone you know just by reading.", "Every read makes your stories better." ]
+      invite_call_to_action: [ "Invite friends" ]
+      personal_message: "Personal message (optional)"
+      invitation_sent: "Invitation sent. Now their reading matters too!"
+      friends_email: "Friend's email"
+      share_this_article: "Share"
+      i_dont_like_this: "Hide..."
+      hide_site: "Hide site"
+      hide_author: "Hide author"
+      rating_subheading: "You can help by rating us in the Chrome Store."
+      feedback:
+        title: "We'd like to hear"
+        paragraph: "Are you happy with Scoopinion today?"
+        positive: "Yes"
+        negative: "No"
+        submit: "Submit"
+        positive_heading: "Glad to hear it!"
+        positive_paragraph: "If you want, we'd appreciate it if you specified what delighted you so we know what features are important to you."
+        negative_heading: "Sorry about that!"
+        negative_paragraph: "We are always trying to provide you with the best stories of the net. If you like, we'd appreciate it you left further details here about why you were not satisfied."
+        thankyou_heading: "Thanks!"
+        thankyou_paragraph: "Feedback – both positive and negative – is crucial in our mission to serve you the best possible reading experience."
+      tagline: "Stories worth reading."
+      tagline2: "Scoopinion turns your browser into a magazine that learns."
+      tagline2_html: "Scoopinion turns your browser <span>into a magazine that learns.</span>"
+      invite_button: "Request an invite »"
+      download_button: "Download now »"
+      signup_button: "Sign up now »"
+      sign_up: "Sign up now"
+      login_button: "Log in"
+      introduction:
+        heading: "Every read matters"
+        body_html: "Scoopinion only serves stories that are read and read well. That's why Scoopinion can guarantee the most interesting and immersive reading experience."
+        about_link: "Tell me more!"
+      counter: "Curated stories."
+      download_the_app: "Add Scoopinion to Chrome"
+      download_the_app_firefox: "Add Scoopinion to Firefox"
+      read_news: "Read"
+      get_personalized_picks: "Contribute"
+
+    # Iframe
+    show:
+      close: "Close"
+
+  # Landing
+
+  landing: 
+    index:
+      heading: "Find insightful stories without an effort."
+      subheading: "No clicks. No shares. No likes. Just reading."
+      call_to_action: "Add Scoopinion to Chrome"
+      link_to_digest: "No, thanks. I want only the email digest." #optional
+      marketing_points: [ "The add-on analyzes how you read and what you like.",
+                          "You discover stories that are read well by others.",
+                          "Just by reading, you help others discover stories worth reading." ]
+      question_1: "How does it work?"
+      question_2: "What does 'reading well' mean?"
+      question_3: "What if I'm reading something personal?"
+      #optional:
+      longer_1_1: "The Scoopinion browser add-on looks at your browsing activity on <a href='/whitelist'>well-established sites</a> such as The Guardian and The New York Times. It then analyzes the way you read stories on these sites and gives each story an automatic rating. This allows us to learn about what kind of stories you 'read well'. So, stories that you enjoyed reading are recommended to the rest of us."
+      longer_1_2: "Scoopinion gathers your browsing history anonymously on sites that are whitelisted. You can remove articles you have visited easily by clicking the add-on on the top right corner of your browser."
+      longer_2_1: "Each reader gives a personal and automatic score to each story they read while the Scoopinion browser add-on is active. The score depends on our estimate of how many words the reader actually read from the article. As such, longer articles have a higher score cap."
+      longer_2_2: "When a story has multiple readers, their scores are added together to produce the story's base score. Generally speaking, the highest score will be given to a story that is longer than average, has many readers, and that held those readers' attention all the way through."
+      longer_3_1: "We only follow your behavior on established media sites. You can remove articles you have visited easily by clicking the add-on on the top right corner of your browser."
+      longer_3_2: "Scoopinion scores the articles anonymously based on how closely you read them. Even though your reading behavior affects the score of the stories you read, you are not publicly connected to the story."
+
+  issues:
+    show:
+      title: "%{first_name}'s Stories for %{day}"
+      headline_html: "<span class=name></span>'s Stories for %{day}"
+
+  # Request an invitation
+  invite_requests: 
+    show:
+      title_no_invite: "Invite request"
+      title_invite: "Invite"
+      explain_html: '<span class="highlight">Request an invitation</span> to join Scoopinion.'
+      button: "Request Invitation"
+      invited: "You've been invited to Scoopinion."
+      someone_invited: "You've been invited to Scoopinion by %{friend}."
+      sign_up: "Sign me up!"
+      description_html: "You only need to read. <br />to discover new sources, authors and stories."
+      already_asked_html: '<span class="highlight">Thanks, your invite</span> will come soon!'
+    create:
+      error:  "Your email address does not look right. Please check for errors"
+
+  # Sign up
+  users:
+    new:
+      heading_addon_html: "Installation Successful.<br /> Almost there!"
+      heading_no_addon: "Sign up for Scoopinion"
+      subheading: "Get your free Scoopinion account today to discover stories worth reading."
+      facebook_promise: "(We never post anything unless you tell us to.)"
+      facebook_connect: "Connect with Facebook"
+      twitter_connect: "Connect with Twitter"
+      or_with_email: "or with email"
+      full_name_placeholder: "John Doe"
+      email_placeholder: "john.doe@email.com"
+      password_placeholder: "Password"
+      submit: "Sign up"
+      terms_agreement: "By signing up, you agree to the"
+      terms: "Terms and Conditions"
+      marketing_point_1_heading: "Enjoy the most well-read stories on the web"
+      marketing_point_1_paragraph: "Scoopinion is the best place to discover engaging stories. "
+      marketing_point_2_heading: "Read & Approved by the community"
+      marketing_point_2_paragraph: "Scoopinion stories are guaranteed to be worth reading."
+      marketing_point_3_heading: "You can install the add-on to make your reading matter"
+      marketing_point_3_paragraph: "It analyzes how well each story is read. So you'll be giving back to the community without any extra effort at all."
+      already_registered: "Already registered? Sign in here."
+      errors:
+        username: this field is required
+        email: not a valid email address
+        password: minimum %{count} characters
+  introduction:
+    site:
+      heading_html: "Welcome to a World of Discovery<br /> Where Your Reading Matters"
+      subheading: "Here’s how it works"
+      paragraph_1_html: "You’ll find immersive stories truly worth reading. <br /> All of them read and approved by the Scoopinion community."
+      paragraph_2: "On the top you have four stories picked just for you."
+      paragraph_3: "Below, you find feed of the most well-read stories in the web."
+      next: "Next"
+      skip: "Start enjoying stories worth reading right away."
+    digest:
+      heading_html: "Welcome to a World of Discovery<br /> Where Your Reading Matters"
+      subheading: "Get a Scoopinion Digest Twice a Week"
+      paragraph_1_html: "We offer a twice-a-week Scoopinion digest that’s delivered just for you <em>straight to your email.</em>"
+      paragraph_2: "All the stories in the Digest are guaranteed by our community of readers, based solely on their reading experience. So you just get the stories that are truly worthwhile."
+      previous: "Prev"
+      next: "Next"
+      skip: "Start enjoying stories worth reading right away."
+    addon:
+      heading_html: "Welcome to a World of Discovery<br /> Where Your Reading Matters"
+      subheading: "The Add-on that makes your reading matter"
+      paragraph_1: "Whenever you read enjoyable stories, you help the Scoopinion community to discover them as well. You don’t need to do a thing, everything happens in the background. "
+      paragraph_2: "You can always find Scoopinion next to your address bar. Click it to discover new stories that are recommended for you."
+      paragraph_3: "Here you can share the stories on Facebook and Twitter. If you don’t think what you’re reading is worth spreading, you can always tell Scoopinion to ignore it."
+      previous: "Prev"
+      next: "Next"
+      download_addon: "Download the add-on"
+    addon_firefox:
+      heading_html: "Welcome to a World of Discovery<br /> Where Your Reading Matters"
+      subheading: "The Add-on that makes your reading matter"
+      paragraph_1: "Whenever you read enjoyable stories, you help the Scoopinion community to discover them as well. You don’t need to do a thing, everything happens in the background. "
+      paragraph_2: "You can always find Scoopinion next to your address bar. The blue icon indicates that the add-on tracks reading on the page."
+      paragraph_3: "Clicking the add-on allows you to turn it on and off, and to ignore an article you are currently reading."
+      previous: "Prev"
+      next: "Next"
+      download_addon: "Download the add-on"
+    addon_other:
+      heading_html: "Welcome to a World of Discovery<br /> Where Your Reading Matters"
+      subheading: "The Scoopinion add-on makes your reading matter."
+      paragraph_1: "The add-on is currently available on Chrome and Firefox browsers."
+      install_chrome: "Install Chrome here"
+      paragraph_2: "If you install the add-on, you help the Scoopinion community to discover enjoyable stories you read."
+      paragraph_3: "You don’t need to do a thing, everything happens in the background."
+      previous: "Prev"
+      next: "Next"
+      download_addon: ""
+    addon_alone:
+      heading_html: "Scoopinion is a World of Discovery<br /> Where Your Reading Matters"
+      subheading: "The Add-on that makes your reads matter"
+      paragraph_1: "Whenever you read enjoyable stories, you help the Scoopinion community to discover them as well. You don’t need to do a thing, everything happens in the background. "
+      paragraph_2: "You can always find Scoopinion next to your address bar. The blue icon indicates that the add-on tracks reading on the page."
+      paragraph_3: "Clicking the add-on allows you to turn it on and off, and to ignore an article you are currently reading."
+      previous: "Prev"
+      next: "Next"
+      download_addon: "Download the add-on"
+
+  # Login
+  user_sessions:
+    new:
+      title: "Log in"
+      fb_login_button: "Log in with Facebook"
+      twitter_login_button: "Log in with Twitter"
+      normal_login_body: "Log in with your email"
+      email: "Email"
+      password: "Password"
+      remember: "Remember me"
+      login_button: "Login"
+      or_with_email: "or with email"
+      forgot_password: "(Forgot your password?)"
+      submit: Log in
+
+  # Whitelist
+  sites: 
+    index:
+      title: "Whitelist"
+      confirmed_sites: "Confirmed sites"
+      suggested_sites: "Suggested sites"
+      rejected_sites: "Rejected sites"
+      body: "Stories are shared from these sites only. The sites are established media sites curated by the Scoopinion community."
+      suggest: 
+        heading: "Suggest a site"
+        paragraph: "Is your favorite source missing? Additional media sites are added to the whitelist after review."
+        title: "Title"
+        title-placeholder: "New York Times"
+        url: "URL"
+        url-placeholder: "nytimes.com" 
+        button: "Suggest"
+      language: "Language"
+      "zh": "Chinese"
+      "da": "Danish"
+      "de": "German"
+      "nl": "Dutch"
+      "el": "Greek"
+      "en": "English"
+      "et": "Estonian"
+      "fi": "Finnish"
+      "fr": "French"
+      "hr": "Croatian"
+      "is": "Icelandic"
+      "it": "Italian"
+      "ja": "Japanese"
+      "ko": "Korean"
+      "no": "Norwegian"
+      "pl": "Polish"
+      "pt": "Portuguese"
+      "ru": "Russian"
+      "sl": "Slovenian"
+      "sv": "Swedish"
+      "es": "Spanish"
+      "ar": "Arabic"
+      "ca": "Catalan"
+      "ro": "Romanian"
+      "bs": "Bosnian"
+      "fa": "Persian"
+      "nb": "Norwegian Bokmâl"
+      "nn": "Norwegian Nynorsk"
+      "se": "Sami"
+      "tr": "Turkish"
+      "ur": "Urdu"
+      "lt": "Lithuanian"
+      unknown: "Unknown"
+
+  feedback:
+    index:
+      title: "Feedback"
+      headline: "We really appreciate your feedback."
+      body: "Many features and design decisions are inspired by feedback given by the community."
+      your_email: "Your email"
+      submit: "Submit"
+      captcha: "We have to make sure that you're human. Can you please type these two words?"
+      captcha_error: "We're still not quite sure you're human. Can you try again?"
+    thankyou:
+      title: "Thank you!"
+      headline: "Your feedback is greatly appreciated."
+      body: "We'll see what we can do about it. Did we say thanks already?"
+
+  pages:
+    about: 
+      title: "About"
+      introduction: "Introduction"
+      faq: "FAQ"
+      frequently_asked_questions: "Frequently Asked Questions"
+      business_collaboration: "(Business Collaboration)"
+    contact:
+      title: "Contact"
+      body: "Not sure who to call"
+    requested:
+      title: "Invite sent"
+      title2: "Thanks! We'll send you an invitation as soon as we can."
+      body_html: "In the meantime, why don't you %{tweet} about Scoopinion? It might get you past the queue."
+      body2_html: "You can also skip this step and go read some <a href=\"%{magazine_url}\">stories</a>."
+      tweet_message: "Making my reads matter @scoopinion - there's a lot of stories worth reading. Ask invites at"
+      tweet_button_size: "medium"
+    extension:
+      title: "Download"
+      headline_html: "At Scoopinion, curious minds<br />discover stories worth reading."
+      promises:
+        first_html: "Scoopinion is only active on <strong>established news websites</strong> (<em>The Guardian</em>, <em>The New York Times</em>, etc)."
+        second_html: "We <strong>kick-start your profile</strong> based on your browsing history. No data from your previous browsing is published."
+        third_html: "Learning about your news reading requires access to \"data on all websites\". However, Scoopinion is only active on media web sites."
+        fourth_html: "Scoopinion is not active in Incognito Mode or HTTPS mode."
+      skip: "Skip for now"
+      by_downloading: "By downloading, you accept our"
+      terms: "terms and conditions"
+      not_available:
+        headline: "The Scoopinion add-on is not yet available for your browser. Sorry about that!"
+        first_html: "The Scoopinion add-on is currently only available for <a href=\"http://www.google.com/chrome\">Google Chrome</a> and <a href=\"http://www.firefox.com\">Mozilla Firefox</a>."
+        second: "With Chrome or Firefox, you get to be an editor at Scoopinion. Our add-on automatically rates stories based on your reading. This way, Scoopinion can also recommend you stories you didn't find yet but will love."
+        third: "You're free to use Scoopinion without installing the add-on. You will still receive a biweekly issue to your email, and Scoopinion will learn about your reading preferences when you read news through the Scoopinion website. We will notify you when an add-on for your browser becomes available."
+        skip: "Skip installation"
+      buttons:
+        chrome: "Add Scoopinion to Chrome"
+        firefox: "Add Scoopinion to Firefox"
+      next_step: "Next step"
+      temporarily_disabled: "Downloading the Chrome add-on is temporarily disabled. Please check back later today!"
+
+    alldone:
+      # Sign up done
+      congratulate: "And that's it!"
+      taste: "Here's a taste of what's to come (once we get to know you well enough):"
+      goto_feed: "Done"
+      
+
+  blog:
+    index:
+      title: "Blog"
+    show:
+      title: "Blog"
+
+  number:
+    human:
+      format:
+        delimiter: ","
+
+  footer:
+    designed: "Designed in Helsinki, Finland"
+
+  privacy:
+    title: "Privacy"
+
+  helpers:
+    label:
+      user:
+        username: "Full name"
+        email: "Email"
+      user_session:
+        password_field: "Password"
+        remember_me: "Remember me"
+
+  settings:
+    index: 
+      title: "Settings"
+      view_name: "Language settings"
+      site_language: "Site language"
+      language_of_stories: "Language of stories"
+      save_changes: "Save changes"
+    update:
+      save_ok: "Successfully saved!"
+      one_language_needed: "At least one language is needed!"
+
+  user_settings:
+    index:
+      account_settings: "Account settings"
+    title: Profile Settings
+
+  concealments:
+    index:
+      title: "Settings"
+      view_name: "Content settings"
+      concealed_concealable: "Concealed %{concealable}"
+      no_concealments: "You have not concealed anything."
+      are_you_sure: "Are you sure?"
+      deletion_successful: "Deletion successful!"
+
+  profiles:
+    navigation_title: Profile
+    demo:
+      title: Get your own Media Fingerprint!
+    navi:
+      fingerprint: Media Fingerprint
+      settings: Settings
+    show:
+      title: "%{possessive} Media Fingerprint"
+      stories_read: Stories read
+      reading_time: Reading time
+      loading: Loading
+      days: days
+      hours: hours
+      minutes: minutes
+      seconds: seconds
+      share_on_facebook: Share on Facebook
+      share_on_twitter: Share on Twitter
+      share_with_email: Share with Email
+      share_cta_large: "Spread the word! Share your media fingerprint."
+      share_cta_small: "Share your media fingerprint"
+      lander_heading: "Get your own media fingerprint now!"
+      share_heading: "Share your media fingerprint"
+      email_subject: "Check out my media fingerprint in Scoopinion"
+      tweet_text: "Since joining @scoopinion I've been mostly reading these:"
+      email_text: "Since joining Scoopinion I've been mostly reading these:"
+      no_data: "Your media fingerprint will be here once you read at least one story.<br/><br/>Before then, check out the <a href=\"/profiles/demo\">demo profile!</a>"
+      download_addon_heading: "You don't have an active addon."
+      download_addon_link: "Download the addon"
+      download_addon_copy: "and keep building your profile!"
+
+      info:
+        heading: "Sharing your media fingerprint"
+        paragraph: "Your profile is unlisted, and nobody can see it without the secret address." 
+        secret_link: "The secret address of your profile:"
+    lander:
+      title: "Media Fingerprint"
+    visualization:
+      day_singular: day
+      day_plural: days
+      stories: stories
+      story: story
+      x_axis_label: Stories read per media
+      radius_axis_label: Reading time
+      type:
+        magazine: Magazine
+        newspaper: Newspaper
+        public: Public
+        blog: Blog
+        yellow_press: Tabloid
+        other: Other
+
+  mailer:
+    fingerprint_interesting:
+      subject: "Your Media Fingerprint is getting interesting"
+    fingerprint_launch:
+      subject: "New Feature: Your Media Fingerprint"
+    welcome:
+      subject: "Thanks for Joining the Scoopinion Invitation Waiting List"
+    invite:
+      subject: 
+        old: "Finally: Stories worth reading. Check out the Invitation to Join Scoopinion!"
+        new: "Invitation to Join Scoopinion"
+    remind:
+      subject: "Reminder: Your Scoopinion Invite"
+    password_request:
+      subject: "Reset your Scoopinion password"
+
+    digest:
+      heading: [ "Scoopinion Digest", "Stories worth reading" ]
+      introduction: "Hey %{name}, here are today's picks for you."
+      forward_link: "sign up here"
+      forward_html: "If a friend forwarded this to you, you can %{link} and start getting your own personalized digest."
+      more_news: "More news at Scoopinion.com"
+      footer_html: "This digest was brought to you by <a href=\"http://www.scoopinion.com\">Scoopinion</a>. At Scoopinion curious minds discover stories worth reading."
+      comments: If you have any comments about this digest, just reply to this email.
+      unsubscribe: "Stop getting these messages."
+      full_story_html: "Full story &raquo;"
+      title:
+        monday: Stories for Monday
+        tuesday: Stories for Tuesday
+        wednesday: Stories for Wednesday
+        thursday: Stories for Thursday
+        friday: Stories for Friday
+        saturday: Stories for Saturday
+        sunday: Stories for Sunday
+      invites: You have %{number} Scoopinion invites!
+      give_them: Give them to your friends.
+      extension_nag: Help others find good stories by
+      install_now: getting the Scoopinion add-on!
+      questionnaire: Help us improve Scoopinion by
+      questionnaire_link: answering a few questions! (5 min)
+      new_addon_text: The old Scoopinion Chrome add-on no longer works.
+      new_addon_link: Get the new one here!
+      please_review: Help Scoopinion by giving
+      review_link: a rating in the Chrome Store!
+      please_invite: "There's strength in numbers."
+      invite_link: Tell your friends about Scoopinion
+      invite_thanks: Thanks!
+      finnish_october: "Scoopinion Labs:"
+      finnish_october_link: Who is the most popular Finnish journalist?
+      visit_count_nag:
+        none:
+          html: "Since we <strong>don't know</strong> what you've been reading lately, <br/> this is a selection of community favorites."
+          link: "Fix this here!"
+        some:
+          html: "Since we can only see <strong>fewer than 30 stories</strong> you've read this month,<br/> this is mostly a selection of what many of us have enjoyed."
+          link: "Fix this here!"
+        many:
+          html: "This selection is based on the <strong>%{count} stories</strong> you've read this month."
+          link: "What's this?"
+
+    launch:
+      subject: "Please update your Scoopinion add-on"
+    invite_friend:
+      subject: "%{name} has invited you to Scoopinion"
+    you_have_invites:
+      subject: 
+        old: You have new Scoopinion invites
+        new: "Don't let the world pass you by: use your Scoopinion invites"
+    addon_nag:
+      subject: 
+        v1: A simple step to improve your Scoopinion experience
+        v2: Make Scoopinion work for you
+    welcome_all_done:
+      subject: Welcome to Scoopinion
+    welcome_no_addon:
+      subject: Welcome to Scoopinion - just one more thing!
+    addon_installed:
+      subject: The Scoopinion add-on is now installed
+    activation_ping:
+      subject: Can we do something to help you use Scoopinion?
+    your_data_is_ready:
+      subject: Your Scoopinion data is ready
+
+  invitations:
+    index:
+      title: Invite friends
+      subheading: Reading is better with friends.
+      invites_left: You have %{number} invites left.
+      invites_left_one: You have 1 invite left.
+      no_invites_left: Thanks for using all your invites! Check back later for more.
+      email_microcopy: "Tip: separate multiple addresses with commas."
+      suggestions:
+        title: Not sure who to invite?
+        in_already: friends in already
+      send: "Send invitation"
+
+    create:
+      notice_ok: Invitation sent!
+
+  data_requests:
+    new:
+      title: "Your Data"
+      heading_html: "Request your <br />Scoopinion reading data"
+      ingress: "Your Scoopinion reading data is available to you in a JSON file. In order to make use of this file, you’ll need knowledge of programming or a suitable data analysis program."
+      body: [
+        "One of our missions is to empower our users to find enjoyable and meaningful journalism, and to discover how they read these stories. Our hope is that by offering this data, we make it possible for our users to better understand the nature of their reading habits and which journalists, sources and stories matter to them the most.",
+        "The Twitter hashtag for visualizations based on this data is <a href=\"https://twitter.com/search/?q=%23howiread\">#howiread</a>.",
+        "Processing your data request will take a short while. You'll receive an email when it's done."
+      ]
+      button: "Request reading data"
+      request_sent: "Request sent. You will receive an email shortly."
+
+  labs24:
+    title: "Most popular, 24 hours"
+    header:
+      title: "Most Popular Today"
+      updated: "Updated"
+      ago: "ago"
+    languages:
+      en: "English"
+      fi: "Finnish"
+    tabs:
+      total_reading_time: "Total reading time"
+      trend: "Trend"
+
+  activerecord:
+    models:
+      article: 
+        one: "article"
+        other: "articles"
+      author: 
+        one: "author"
+        other: "authors"
+      site:
+        one: "site"
+        other: "sites"
+    attributes:
+      user:
+        subscribed: "Send me the Scoopinion Digest twice a week"
+
+  authlogic:
+    error_messages:
+      login_blank: can not be blank
+      login_not_found: is not valid
+      login_invalid: should use only letters, numbers, spaces, and .-_@ please.
+      consecutive_failed_logins_limit_exceeded: Consecutive failed logins limit exceeded, account is disabled.
+      email_invalid: should look like an email address.
+      password_blank: can not be blank
+      password_invalid: "isn't right. Can you try again?"
+      not_active: Your account is not active
+      not_confirmed: Your account is not confirmed
+      not_approved: Your account is not approved
+      no_authentication_details: You did not provide any details for authentication.
+      general_credentials_error: Login/Password combination is not valid
+    models:
+      user_session: UserSession
+    attributes:
+      user_session:
+        login: Email
+        email: Email
+        password: Password
+        remember_me: remember me
+  

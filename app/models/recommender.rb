@@ -4,9 +4,9 @@ class Recommender
     
     user.recommendations.where(:state => :new).each do |r|
       if r.article && r.article.visitors.include?(user)
-        r.update_attribute(:state, :read) 
+        r.update_attributes(:state => :read) 
       elsif Time.now - r.created_at > 10.minutes
-        r.update_attribute(:state, :expired)
+        r.update_attributes(:state => :expired)
       end
     end
         
@@ -42,11 +42,11 @@ class Recommender
   end
   
   def self.personal_hotness(article, user)
-    self.personal_interestingness(article, user) / (article.age + 10) ** 1.5    
+    (Math.log10(self.personal_interestingness(article, user)) + (article.average_visiting_time.to_f - 1304208000)/ 100000.0).round(7)
   end
   
   def self.personal_interestingness(article, user)
-    return (article.score + article.comments_count * 5 + article.visits_count) * self.friend_fraction(user, article) + article.tags.map{ |t| user.tags.where(:id => t.id).count}.inject(0){ |sum, x| sum + x}
+    return (article.score) * self.friend_fraction(user, article) + article.tags.map{ |t| user.tags.where(:id => t.id).count * 20}.inject(0){ |sum, x| sum + x}
   end
   
   def self.friend_fraction(user, article)

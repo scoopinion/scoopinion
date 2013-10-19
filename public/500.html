@@ -1,75 +1,194 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7 en no-js" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="lt-ie9 lt-ie8 en no-js" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="lt-ie9 en no-js" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="pages en no-js" lang="en"> <!--<![endif]-->
+<head>
+  <title>Error 500 | Scoopinion</title>
+  <script type="text/javascript">
+    (function() {
+      function fireEvent(element, event){
+          if (document.createEventObject){
+          // dispatch for IE
+          var evt = document.createEventObject();
+          return element.fireEvent('on'+event, evt)
+          }
+          else{
+          // dispatch for firefox + others
+          var evt = document.createEvent("HTMLEvents");
+          evt.initEvent(event, true, true ); // event type,bubbling,cancelable
+          return !element.dispatchEvent(evt);
+          }
+      }
+      var config = {
+        kitId: 'yoy4uej',
+        scriptTimeout: 3000,    
+        active: function() {
+          fireEvent(document, "fontsLoaded");
+        }
+      };
+      var h = document.getElementsByTagName('html')[0];
+      h.className += ' wf-loading';
+      var t = setTimeout(function() {
+        h.className = h.className.replace(/(\s|^)wf-loading(\s|$)/g, ' ');
+        h.className += ' wf-inactive';
+      }, config.scriptTimeout);
+      var d = false;
+      var tk = document.createElement('script');
+      tk.src = '//use.typekit.net/' + config.kitId + '.js';
+      tk.type = 'text/javascript';
+      tk.async = 'true';
+      tk.onload = tk.onreadystatechange = function() {
+        var rs = this.readyState;
+        if (d || rs && rs != 'complete' && rs != 'loaded') return;
+        d = true;
+        clearTimeout(t);
+        try { Typekit.load(config); } catch (e) {}
+      };
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(tk, s);
+    })();
+  </script>
+  <link href="/assets/scoopinion.css" media="screen" rel="stylesheet" type="text/css" />
+  <meta content="authenticity_token" name="csrf-param" />
+  <meta content="Cu2bGr4Y3kC8pIi5C4b5O8Ap9FIJ4zsb9AiSHzteTx4=" name="csrf-token" />
+  <meta content="Scoopinion is a crowdsourcing movement that helps you find the web's best journalism." name="description">
+  <meta content="Stories worth reading." property="og:title">
+  <meta content="website" property="og:type">
+  <meta content="https://www.scoopinion.com/assets/fb_share.jpg" property="og:image">
+  <meta content="Scoopinion is a crowdsourcing movement that helps you find the web's best journalism." property="og:description">
+  <meta content="http://scoopinion.dev/feedback" property="og:url">
+  <meta content="Scoopinion" property="og:site_name">
+  <meta content="662554047" property="fb:admins">
+  <meta content="586293940" property="fb:admins">
+  <meta content="YBlQ4I1yr9bOTTyt-eZYYV6yRjWydVAEhi4YV0Jvk2c" name="google-site-verification">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" id="scoopinion-extension-version" name="scoopinion-extension-version">
+  <link href="/assets/favicon.ico" rel="shortcut icon">
+  <link href="/assets/touch-icon-iphone.png" rel="apple-touch-icon-precomposed">
+  <link href="/assets/touch-icon-ipad.png" rel="apple-touch-icon-precomposed" sizes="72x72">
+  <link href="/assets/touch-icon-iphone4.png" rel="apple-touch-icon-precomposed" sizes="114x114">
+  <link href="/assets/touch-icon-ipad3.png" rel="apple-touch-icon-precomposed" sizes="144x144">
+  <script src="/assets/modernizr.js" type="text/javascript"></script>
+  <link href="https://chrome.google.com/webstore/detail/cojhbmpnoehchagcbojelmclgjgopilf" rel="chrome-webstore-item">
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-24073032-1']);
+    _gaq.push(['_setDomainName', 'www.scoopinion.com']);
+    _gaq.push(['_trackPageview', 'errors/500?original_url=' + window.location.pathname]);
 
-<!DOCTYPE html> 
-<html class="users show"> 
-<head> 
-  <title>Scoopinion - Spread the news!</title> 
-  <link rel="shortcut icon" href="/assets/icon.png"/> 
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu:300&v2' rel='stylesheet' type='text/css'> 
-  <link href="/assets/application.css" media="screen" rel="stylesheet" type="text/css" /> 
-  <script src="/assets/application.js" type="text/javascript"></script> 
-  <script type="text/javascript"> 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-24073032-1']);
-  _gaq.push(['_setDomainName', 'www.scoopinion.com']);
-  _gaq.push(['_trackPageview']);
- 
-  (function() {
+    (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
     ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
- 
-</script> 
- 
-  <meta name="scoopinion-extension-version" content=""> 
-  <meta property="og:image" content="//assets/fb_share.jpg"/> 
-  <meta property="og:description"
-        content="Scoopinion is an effortless community-based news recommendation and spreading service. It's the easiest way to know what your friends have read and you haven't."/> 
-</head> 
-<body> 
-<div id="container"> 
-  <header> 
-    <div class="wrap"> 
-      <div id="header-left"> 
-        <a href="/" id="logo"> 
-            <img src="/assets/logo.png" width="223" height="42" alt="Scoopinion"> 
-</a>        <nav> 
-          <ul> 
-            <li><a href="/">Scoops</a></li> 
-            <li><a href="/whitelist">Whitelist</a></li> 
-            <li><a href="/about">About</a></li> 
-          </ul> 
-        </nav> 
-      </div> 
-    </div> 
-  </header> 
-  <!-- !header --> 
- 
-  <div id="main" class="wrap"> 
-    <div id="nosto"><h1>Scoopinion is broken! (Error 500)</h1></div>
-    <div class="fullwidth">
-      <p>500 is geek code for "server error", that is, something happened in the server that shouldn't have. Scoopinion is still in beta, so this sometimes happens.</p>
-      <p>Please <a class="text" href="/feedback">send us feedback</a> and tell us what you were doing when you saw this error.</p>
-    </div>
-  </div>
+    })();
 
-  <!-- !main --> 
- 
-  <footer class="wrap"> 
+  </script>
+
+</head>
+<body class="en ">
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : "235977853087936", // App ID
+        channelUrl : "//www.scoopinion.com/channel.html", // Channel File
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+  
+      // Additional initialization code here
+    };
+  
+    // Load the SDK Asynchronously
+    (function(d){
+       var js, id = "facebook-jssdk", ref = d.getElementsByTagName("script")[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement("script"); js.id = id; js.async = true;
+       js.src = "//connect.facebook.net/en_US/all.js";
+       ref.parentNode.insertBefore(js, ref);
+     }(document));
+  </script>
+  <div class="wrapper landmark">
+    <header class="page-head">
+      <div class="page-head__top">
+        <div class="grid-wrapper">
+          <div class="page-head__logo">
+            <a href="/" class="logo"><img alt="Scoopinion" src="/assets/logo.svg" />
+            </a>
+            <div class="brand-face">
+              <strong>Stories worth reading</strong>
+            </div>
+          </div>
+          <div class="page-head__date" data-format="%A, %B %d, %Y" id="date">&nbsp;</div>
+          <div class="page-head__nav">
+            <ul class="nav--main">
+              <li><a href="/">Home</a></li>
+              <li><a href="/profiles/7">Profile</a></li>
+              <li><a href="/whitelist">Whitelist</a></li>
+              <li><a href="/feedback">Feedback</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="page-head__bottom">
+        <div class="grid-wrapper">
+          <div class="page-head__profile">
+            <div class="fr">
+             <ul class="nav--login">
+                <li class="nav--login__login"><a href="/user_sessions/new">Log in</a></li>
+                <li class="nav--login__sign-up"><a href="/users/new">Sign up</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="page-head__heading">
+            <h1>Error 500</h1>
+          </div>
+          <div class="page-head__subnav">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </header>
+    <section id="main" role="main">
+      <div class="text--center">
+        <h1>Sorry, we did something wrong.</h1>
+        <p>Please <a class="text" href="/feedback">send us feedback</a> and tell us what you were doing when you saw this error.</p>
+      </div>
+    </section>
     
- 
-    <ul id="foo-nav"> 
-      <li> 
-        <div class="fb_fix"> 
-          <fb:like href="https://www.facebook.com/pages/Scoopinion/163401230395546" send="false" layout="button_count" width="0" show_faces="false" font=""></fb:like> 
-        </div> 
-      </li> 
-      <li><a href="/about">About</a></li> 
-      <li><a href="/feedback">Feedback</a></li> 
-      <li><a href="/privacy">Privacy Policy</a></li> 
-    </ul> 
-  </footer> 
-</div> 
- 
-</body> 
-</html> 
+  </div>
+  <footer class="page-foot">
+    <ul class="nav nav--banner grey nav--small">
+      <li>Designed in Helsinki, Finland</li>
+      <li><a href="mailto:contact@scoopinion.com">contact@scoopinion.com</a></li>
+      <li><a href="/about">About</a></li>
+      <li class="tight"><a href="/blog">Blog</a></li>
+      <li class="tight"><a href="/feedback">Feedback</a></li>
+      <li class="tight"><a href="/terms">Privacy</a></li>
+    </ul>
+  </footer>
+  
+  <div class="render-time" style="position: absolute; top: 0; left: 0">
+    0.524299 seconds
+  </div>
+  
+  <script src="/assets/application.js" type="text/javascript"></script>
+  <script>
+    //<![CDATA[
+      I18n.defaultLocale = "en"
+      I18n.locale = "en"
+    //]]>
+  </script>
+  
+  <script>
+    //<![CDATA[
+      $(function () {
+        view = new StaticBodyView({ el: "body" });
+      });
+    //]]>
+  </script>
+</body>

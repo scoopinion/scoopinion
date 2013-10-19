@@ -1,6 +1,9 @@
 class TagsController < ApplicationController
   
+  respond_to :rss
+  
   def index
+    redirect_to root_url and return
     @tags = Tag.all
   end
   
@@ -9,7 +12,7 @@ class TagsController < ApplicationController
     if @tag.supertag
       redirect_to @tag.supertag and return
     end
-    @articles = @tag.articles.in_languages(current_user_languages).sort_by(&:hotness).reverse.take(50)
+    @articles = @tag.articles.where{ article_tags.created_at > 2.days.ago }.order("hotness desc").limit(10)
   end
   
 end

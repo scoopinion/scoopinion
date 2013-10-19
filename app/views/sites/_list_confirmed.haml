@@ -1,19 +1,22 @@
-%ul
-  - @sites.confirmed.group_by(&:language).sort_by{|a| -a[1].size}.each do |language, sites|
-    %li.letter
-      %a{"data-toggle" => "#sites-in-#{language}"}
-        = language_name(language)
-        %span{:style => "font-weight: normal"} (#{sites.size})
+- confirmed_sites = @all_sites.confirmed.group_by(&:language).sort_by{|a| -a[1].size}
 
-    %div.site-list{:id => "sites-in-#{language}"}
-      - sites.group_by(&:initial).each do |initial, sites2|
-        %li.letter= initial
-        - sites2.each do |site|
-          %li
-            .left
-              = link_to site.title, site
-              = link_to "(#{site.url})", "http://" + site.url, :target => "_blank"
-            .right
-              - if admin?
-                = render :partial => "state_change_button", :locals => { :site => site, :new_state => "rejected", :submit => "Remove" }
-            .clear
+.grid.one-fifth.lap-one-third.palm-one-whole
+  .bg--grey
+    .island
+      %h2.gamma.brand-color--tertiary= t("sites.index.language")
+      %ul.nav.nav--stacked.js-site-menu
+        - confirmed_sites.each do |language, sites|
+          %li.bold= link_to "#{t("sites.index.#{language || 'unknown'}")} (#{sites.size})", "##{language || 'unknown'}", :class => confirmed_sites.first[1] == sites ? "brand-face brand-color--tertiary" : "brand"
+
+.grid.two-fifths.lap-two-thirds.palm-one-whole
+  - confirmed_sites.each do |language, sites|
+    %section.island.js-grouped-sites{ id: language || "unknown", class: language || "unknown" }
+      %h2.gamma.brand-color--tertiary= t("sites.index.#{language || 'unknown'}")
+      %ul.nav.nav--stacked
+        - sites.group_by(&:initial).sort_by{|x| x[0]}.each do |initial, grouped_sites|
+          %li.cf.landmark
+            %h2.float--left.square.one-sixth= initial
+            %ul.float--left.nav.nav--stacked.push--left
+              - grouped_sites.sort.each do |site|
+                %li
+                  = link_to site.name, "http://" + site.url, target: "_blank", class: "brand-color"

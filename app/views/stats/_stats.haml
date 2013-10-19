@@ -1,8 +1,16 @@
-.stats-container
-  %h2= title
-  
-  %table
-    - stats.each do |day, records|
-      %tr
-        %td= day.strftime("%a %d %b")
-        %td= records.count
+- cache [ "stats", method, *args, Time.now.utc.beginning_of_day, Statistic.maximum(:created_at), params[:span] ] do
+  - description ||= ""
+  - height ||= nil
+
+  .stats-container
+    %h2= title
+    %p{:style => "color: gray; margin-bottom: 1em; margin-top: -.5em"}= description
+    %table.stats{ :style => "height: #{height}" }
+      - Stats.send(method, *args).each do |day, records|
+        %tr
+          %td= day.strftime("%a %d %b") rescue nil
+          - for num in Array.wrap(records)
+            - if num == false
+              %td null
+            - else
+              %td= num.respond_to?(:count) ? num.count : num

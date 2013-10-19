@@ -1,20 +1,20 @@
-- title @site.title
+- title @site.name
 
 #nosto
   %h1
-    = link_to @site.title, "http://" + @site.url
-    - if admin? && @articles.any?
+    = link_to @site.name, "http://" + @site.url
+    - if admin? && @site.articles.any?
       %button.small{"data-toggle" => ".site_editor"} Edit
   = link_to "http://" + @site.url, "http://" + @site.url
 #news
   - if admin?
-    #terms.site_editor{:style => @articles.any? ? "display: none" : ""}
+    #terms.site_editor{:style => @site.articles.any? ? "display: none" : ""}
       = form_for @site do |f|
         = render :partial => "errors", :locals => { :record => @site }
         
         %div
-          = f.label :title
-          = f.text_field :title
+          = f.label :name
+          = f.text_field :name
         %div
           = f.label :url
           = f.text_field :url
@@ -26,15 +26,19 @@
           = f.select :state, [ :confirmed, :rejected, :suggested ]
         %div
           = f.submit "Save"  
+          
+      - unless @site.confirmed?
+        = button_to "Delete permanently", @site, :method => :delete, :confirm => "Are you sure you want to permanently delete this site?", :style => "float: right"
 
 
-  - if @articles.any?
-    #list.articles
-      - @articles.each_with_index do |article, i|
-        %div{:class => article_class(article, i), "data-replace-with" => article_path(article)}
-          = render(:partial => "articles/article", :locals => {:article => article, :index => i})
+  #list.articles
+    .heading
+      %a.active{"data-feed-param" => {  }.to_query, "data-title" => "hot"} Hot
+      %a{"data-feed-param" => { :order => "articles.created_at" }.to_query, "data-title" => "new"} New
+      %a{"data-feed-param" => { :order => "articles.score" }.to_query, "data-title" => "top"} Top scoring
+      %a{"data-feed-source" => authors_url(:site_id => @site.id), "data-title" => "authors"} Authors
+    #feed.loading{"data-feed-params" => { :site => @site.id, :limit => 10, :period => 1.year }.to_query, "data-feed-additional" => ""}
+
   #sidebar
     #scroller
-      - if @articles.any?
-        = render :partial => "articles/sidebar", :locals => {:article => @articles.first }
-
+      .article-details

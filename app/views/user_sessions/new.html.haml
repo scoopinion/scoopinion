@@ -1,28 +1,31 @@
-- title "Sign In"
+- title t(".title")
+- heading t(".title")
 
-#nosto
-  %h1 Sign in
-#news.login-wrapper
-  #list.login
-    %p.bigtext You can log in below by using your Facebook account.
-    = link_to "Sign in with Facebook", authentication_path(:facebook), :id => "facebook_login"
+.text--center.island.landmark
+  = link_to  t(".fb_login_button"), authentication_path(:facebook) + "?state=#{params[:next]}", :class => "btn btn--fb btn--lrg", "data-scoopinion-method" => "Settings.onLoginClick"
 
-  #sidebar
-    %h2 Not connected to Facebook? Log in here.
-    = form_for @user_session, :url => {:action => "create"} do |f|
+  =# link_to t(".twitter_login_button"), authentication_path(:twitter), class: "connect-button-twitter", "data-scoopinion-method" => "Settings.onLoginClick" 
 
-      = render :partial => "errors", :locals => { :record => @user_session }
+%h2.base-font-size.rule.rule--text.max-two-thirds.align-center{ "data-text" => t(".or_with_email") }
+= form_for @user_session, url: { action: "create" }, html: { class: "island max-one-third align-center" } do |f|
+  %ul.form-fields
+    %li
+      = f.label :email, class: "text-input-label"
+      = f.email_field :login, placeholder: t("general.email"), class: "text-input", size: "", autofocus: @user_session.login.nil? 
+    %li
+      = f.label :password_field, class: "text-input-label"
+      = f.password_field :password, class: "text-input", size: "", autofocus: !@user_session.login.nil?
 
-      %div
-        %label{:for => "user_session_login"} Email
-        %br
-        = f.text_field :login, :class => 'text'
-      %div
-        = f.label :password
-        %br
-        = f.password_field :password, :class => 'text'
-      %div
-        = f.check_box :remember_me, :checked => "checked"
-        = f.label :remember_me, :class => "checkbox"
-      %div
-        %input{:type => 'image', :src => '/assets/login.png', :id => 'submit_login'}
+    %li.flexbox
+      .flexbox__item
+        = f.check_box :remember_me, checked: "checked"
+        = f.label :remember_me, class: "check-label"
+        = hidden_field_tag :next, params[:next]
+      .flexbox__item
+        = button_tag t(".submit"), class: "btn btn--submit btn--icon-arrow float--right", "data-scoopinion-method" => "Settings.onLoginClick"
+%ul.nav.nav--banner
+  = render partial: "errors", locals: { record: @user_session }
+
+%p.text--center
+  = link_to t(".forgot_password"), password_requests_path, class: "grey"
+

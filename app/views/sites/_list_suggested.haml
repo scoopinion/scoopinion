@@ -1,18 +1,13 @@
-- if @sites.suggested.any?
-  %ul{:style => "margin-top: 30px"}
-    %li.letter
-      %a{"data-toggle" => "#suggested"}Suggested sites
-    .site-list#suggested
-      - @sites.suggested.group_by(&:initial).each do |initial, sites|
-        %li.letter= initial
-        - sites.each do |site|
-          %li
-            .left
-              = link_to site.title, site
-              = "(#{site.url})"
-              = site.language
-            .right
-              - if admin?
-                = render :partial => "state_change_button", :locals => { :site => site, :new_state => "confirmed", :submit => "Confirm" }
-                = render :partial => "state_change_button", :locals => { :site => site, :new_state => "rejected", :submit => "Reject" }
-            .clear
+.grid.three-fifths
+  - if @all_sites.suggested.any?
+    .grouped-sites
+      %ul.nav.nav--stacked
+        - @all_sites.suggested.group_by(&:initial).sort_by{|x| x[0]}.each do |initial, sites|
+          %li.cf.landmark
+            %h2.float--left.square.one-sixth= initial
+            %ul.float--left.nav.nav--stacked.push--left
+              - sites.each do |site|
+                %li
+                  .inline-block= link_to site.name, "http://" + site.url, :target => "_blank", class: "brand-color"
+                  .inline-block= render :partial => "state_change_button", :locals => { :site => site, :new_state => "confirmed", :submit => "Confirm" }
+                  .inline-block= render :partial => "state_change_button", :locals => { :site => site, :new_state => "rejected", :submit => "Reject" }

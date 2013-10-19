@@ -1,12 +1,38 @@
-#nosto
-  %h1 Feedback
+- heading t(".title")
 
-= form_tag({:action => 'create'}, :id => 'feedback') do
-  %p.intro We really appreciate you do this. Many features and design decisions are already motivated by feedback given by you or people like you.
+.content
+  .text--center.island.landmark
+    %h2.brand= t ".headline"
+    
+    %p.intro.max-one-half.align-center= t ".body"
 
-  %p
-    = text_area_tag('message')
-  %p.intro
-    By default, your feedback is <strong>anonymous</strong>. If you wish that we get in touch, please include your name and email address.
-  %p
-    %input#more{:name => "submit", :type => "submit", :value => "Submit"}
+  = form_tag({:action => "create"}, :id => "feedback", :class => "island max-one-half align-center") do
+    %ul.form-fields
+
+      %li= text_area_tag("message", params[:message], :style => "width: 100%; height: 200px")
+
+      - unless current_user      
+        %li= email_field_tag("email", params[:email], :placeholder => t(".your_email"), class: "text-input")
+        
+      %li
+        .captcha{ :style => flash[:notice].blank? ? "" : "display: block", "data-keywords" => captcha_keywords }
+          %p= t(".captcha")
+          = recaptcha_tags(:ssl => true)
+
+      %li
+        %input.btn.btn--submit.float--right#more{:name => "submit", :type => "submit", :value => t(".submit")}
+
+- content_for :inline_css do
+  :sass
+    .captcha
+      display: none
+
+- content_for :javascript do
+  :coffeescript
+    $ ->
+      keywords = $(".captcha").data().keywords.split(" ")
+      $("textarea").live "keyup", ->
+        val = $(this).val()
+        $.each keywords, (i, word) ->
+          if val.indexOf(word) != -1
+            $(".captcha").css("display", "block")

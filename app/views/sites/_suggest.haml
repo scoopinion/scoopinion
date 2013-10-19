@@ -1,18 +1,18 @@
-- if current_user
-  %h2 Suggest a news site
-  
-  .text 
-    = form_for @site do |f|
-  
-      %p.notice= notice 
-      
-      = render :partial => "errors", :locals => { :record => @site }
-  
-      %div
-        = f.label :title
-        = f.text_field :title, :placeholder => "The New York Times"
-      %div
-        = f.label :url
-        = f.text_field :url, :placeholder => "nytimes.com"
-      %div
-        = f.submit "Suggest"  
+= form_for @site do |f|
+  .island
+    %fieldset.align-center.doodle-border
+      %legend.brand-face.brand-color--tertiary.gamma.bold.text--center{ align: "center" }= t("sites.index.suggest.heading")
+      - if @site.errors.any?
+        = render :partial => "errors", :locals => { :record => @site }
+      - else 
+        %p= notice || t("sites.index.suggest.paragraph")
+      %ul.form-fields
+        %li
+          = f.label :name, t("sites.index.suggest.title"), class: "text-input-label"
+          = f.text_field :name, placeholder:  t("sites.index.suggest.title-placeholder"), class: "text-input", size: ""
+        %li
+          = f.label :url, class: "text-input-label"
+          = f.text_field :url, placeholder: t("sites.index.suggest.url-placeholder"),class: "text-input"
+        %li
+          = hidden_field_tag :next, params[:next]
+          = f.submit t("sites.index.suggest.button"), class: "btn btn--submit btn--full"

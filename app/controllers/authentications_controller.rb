@@ -1,53 +1,48 @@
 class AuthenticationsController < ApplicationController
   def create
-    omniauth = request.env['omniauth.auth']
-    authentication = Authentication.find_by_provider_and_uid(omniauth['provider'], omniauth['uid'])
-
-    if authentication
-      # User is already registered with application
-      flash[:info] = 'Signed in successfully.'
-      sign_in_and_redirect(authentication.user)
-    elsif current_user
-      # User is signed in but has not already authenticated with this social network
-      current_user.authentications.create!(:provider => omniauth['provider'], :uid => omniauth['uid'])
-      current_user.apply_omniauth(omniauth)
-      current_user.save
-
-      flash[:info] = 'Authentication successful.'
-      redirect_to root_url
-    else
-      # User is new to this application
-      user = User.new
-      user.authentications.build(:provider => omniauth['provider'], :uid => omniauth['uid'])
-      user.apply_omniauth(omniauth)
-      user.crypted_password = ""
-      user.password_salt = ""
-
-      if user.save!
-        flash[:info] = 'User created and signed in successfully.'
-        sign_in_and_redirect(user)
+    @user = User.find_or_new_by_auth_hash_or_current_user(auth_hash, current_user(:anonymous => true), session[:abingo_identity])
+    if @user.save
+      bingo!("create_account") if @user.new_user
+      sign_in
+      if original_params[:close] == "true"
+        render :close_popup, layout: false
       else
-        flash[:info] = user.to_yaml
-        session[:omniauth] = omniauth.except('extra')
-        redirect_to new_user_path
+        redirect_to(params[:state] || (@user.new_user ? introduction_path : root_path))
       end
+    elsif @user.errors.get(:email)
+      @user.update_to_anonymous!
+      redirect_to edit_user_path(@user)
+    else
+      render :failure
     end
   end
 
   def destroy
     @authentication = current_user.authentications.find(params[:id])
     @authentication.destroy
-    flash[:notice] = 'Successfully destroyed authentication.'
+    flash[:notice] = "Successfully destroyed authentication."
     redirect_to authentications_url
   end
 
+  def failure
+    redirect_to params[:origin] if params[:origin]
+  end
+
   private
-  def sign_in_and_redirect(user)
-    unless current_user
-      user_session = UserSession.new(User.find_by_single_access_token(user.single_access_token))
+  
+  def auth_hash    
+    request.env["omniauth.auth"]
+  end
+
+  def original_params
+    (request.env['omniauth.params'] || {}).symbolize_keys
+  end
+
+  def sign_in
+    unless current_user and current_user == @user
+      user_session = UserSession.new(User.find_by_single_access_token(@user.single_access_token))
       user_session.remember_me = true
       user_session.save
     end
-    redirect_to root_url
   end
 end

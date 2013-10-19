@@ -3,55 +3,70 @@ require 'spec_helper'
 describe Site do
 
   before { @site = Site.new }
-
+  
   subject { @site }
 
   context "when empty" do
     it { should_not be_valid }
   end
 
-  context "when title not empty" do
-    before { @site.title = "Example" }
+  context "when name not empty" do
+    before { @site.name = "Example" }
     it { should_not be_valid }
   end
   
   context "when everything present" do
     
-    before do 
-      @site.title = "Example"
+    before(:each) do 
+      @site.name = "Example"
       @site.url = "example.com"
     end
     
-    after(:each) do
-      @site.should_not be_valid
-    end
-    
-    it "is invalid when the url ends in a slash" do
-      @site.url = "example.com/"
-    end
+    context "url=" do
+      
+      before(:each) do
+        @params = { :name => "Example" }
+      end
+      
+      after(:each) do
+        site = Site.create(@params)
+        site.normalize_url
+        site.url.should == "example.com"
+        site.destroy
+      end
+      
+      it "fixes the url when the url ends in a slash" do
+        @params[:url] = "example.com/"
+      end
 
-    it "is invalid when the url starts with http://" do
-      @site.url = "http://example.com"
+      it "fixes the url when the url starts with http://" do
+        @params[:url] = "http://example.com"
+      end
+      
+      it "fixes the url when the url starts with http://www." do
+        @params[:url] = "http://www.example.com"
+      end
+      
+      it "fixes the url when the url starts with http://www. and ends in a slash" do
+        @params[:url] = "http://www.example.com/"
+      end
+
+      it "fixes the url when the url starts with a dot" do
+        @params[:url] = ".example.com"
+      end
+      
+      it "fixes the url when the url ends with a dot" do
+        @params[:url] = "example.com."
+      end
+      
     end
-    
-    it "is invalid when the url starts with a dot" do
-      @site.url = ".example.com"
-    end
-    
-    it "is invalid when the url ends with a dot" do
-      @site.url = "example.com."
-    end
-    
-    it "is invalid when there are no dots" do
-      @site.url = "examplecom"
-    end
-    
+        
   end
   
   context "with valid data" do
     
     before do 
-      @site.title = "Example"
+      @site.name = "Example"
     end
     
     after(:each) do
@@ -73,7 +88,7 @@ describe Site do
   
   describe "#find_by_full_url(url)" do
     before do
-      @site.title = "Example"
+      @site.name = "Example"
       @site.url = "example.com"
       @site.state = "confirmed"
       @site.save
@@ -110,6 +125,11 @@ describe Site do
     it "should allow many subdomains" do
       Site.find_by_full_url("a.b.c.subdomain.example.com").should == @site
     end
-
+    
+    it "should not find a blacklisted section" do
+      @site.sections.create(:url => "discussion.example.com", :blacklisted => true)
+      Site.find_by_full_url("discussion.example.com/threads/foo").should == nil
+    end
+    
   end
 end

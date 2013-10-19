@@ -19,12 +19,6 @@ class ArticleTag < ActiveRecord::Base
     end
   end
   
-  after_destroy do
-    if tp = TagPrediction.where(:article_id => article.id, :tag_id => tag.id).first
-      tp.destroy if tp.state == "confirmed"
-    end
-  end
-  
   def self.for(article, tag)
     where(:article_id => article.id, :tag_id => tag.id).first
   end

@@ -1,5 +1,10 @@
-%meta{:property => "og:title", :content => this_or_default(yield(:title), "Scoopinion - Spread the News!") }
+%meta{:property => "og:title", :content => this_or_default(yield(:og_title), default_title) }
 %meta{:property => "og:type", :content => this_or_default(yield(:og_type), "article") }
-%meta{:property => "og:image", :content => this_or_default(yield(:thumbnail), asset_path('fb_share.jpg')) }
+%meta{:property => "og:image", :content => this_or_default(yield(:thumbnail), "https://www.scoopinion.com" + asset_path("fb_share.jpg")) }
 %meta{:property => "og:description", :content => this_or_default(yield(:description), default_description) }
-%meta{:property => "og:url", :content => request.url }
+%meta{:property => "og:url", :content => this_or_default(yield(:url), request.url) }
+%meta{:property => "og:site_name", :content => "Scoopinion" }
+%meta{:property => "fb:admins", :content => "662554047" }
+%meta{:property => "fb:admins", :content => "586293940" }
+
+

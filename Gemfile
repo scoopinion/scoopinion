@@ -1,47 +1,125 @@
-source 'http://rubygems.org'
+source "http://rubygems.org"
 
-gem 'rails', '3.1.0'
+ruby "2.0.0"
 
-gem 'pg'
+gem "rails", "3.2.12"
 
-# Asset template engines
-gem 'sass'
-gem 'coffee-script'
-gem 'uglifier'
+gem "pg"
 
-gem 'jquery-rails'
-gem 'sprockets'
-gem 'haml'
-gem 'authlogic'
-gem 'omniauth', '>= 0.2.6'
-gem 'yajl-ruby'
-gem 'taps'
-gem 'rails_autolink'
-gem 'fancybox-rails', '~> 0.1.1'
+group :assets do
+  gem "compass", "~> 0.13.alpha.0"
+  gem "compass-rails", "1.0.0.rc.3"
+  gem "compass-rgbapng"
+  gem "compass-inuit"
+  gem "coffee-rails", "~> 3.2.1"
+  gem "compass-h5bp"
+  gem "uglifier", ">=1.0.3"
+  gem "susy"
+  gem "sassy-buttons"
+end
 
-gem 'rake'
+gem "sass-rails", "  ~> 3.2.5" # https://github.com/haml/haml/issues/467#issuecomment-12710639
 
-gem 'crxmake'
+gem "backbone-on-rails"
+gem "jquery-rails"
+gem "jquery-rails-cdn"
 
-gem "transitions", :require => ["transitions", "active_record/transitions"]
+gem "html5-rails"
 
-gem "delayed_job", "2.1.4"
-gem "workless"
+gem "possessive"
+
+gem "haml", "~> 3.1.4"
+gem "haml_assets"
+gem "coffee-filter"
+gem "rdiscount"
+
+gem "facebox-rails"
+
+gem "tilt"
+gem "handlebars_assets"
+
+gem "asset_pipeline_routes"
+
+gem "execjs", :git => "git://github.com/sstephenson/execjs.git"
+
+gem "i18n-js"
+
+gem "authlogic"
+gem "omniauth-facebook", "~> 1.2.0"
+gem "omniauth-twitter"
+gem "yajl-ruby"
+gem "sanitize"
+gem "rabl", git: "https://github.com/nesquena/rabl"
+
+gem "fb_graph"
+gem "twitter"
+
+gem "rake"
+
+gem "transitions", :require => %w(transitions active_record/transitions)
+
+gem "delayed_job", "3.0.5"
+gem "delayed_job_active_record"
 
 group :development do
-  gem 'heroku'
-  gem 'rspec-rails'
-  gem 'active_reload'
+
+  # Live reload
+  gem "rb-fsevent"
+  gem "guard-livereload"
+
+  gem "guard-coffeescript"
+  gem "guard-zeus"
+  gem "guard-rspec"
+  gem "guard-copy"
+  
+  gem "therubyracer"
+  gem "sass-globbing"
+  
+  gem 'mail_view', :git => 'https://github.com/37signals/mail_view.git'
+
+  gem "heroku"
 end
 
 group :test do
-  # Pretty printed test output
-  gem 'turn', :require => false
+# Pretty printed test output
+  gem "turn", :require => false
+  gem "factory_girl_rails"
+  gem "webrat"
+  gem "shoulda-matchers"
+
+  gem "rspec-rails"
+  gem "rspec-core"
 end
 
-gem 'therubyracer-heroku'
 
-gem 'gibbon'
+gem "language_detector", :git => "git://github.com/feedbackmine/language_detector"
+gem "geoip"
 
-gem 'language_detector', :git => 'git://github.com/feedbackmine/language_detector'
-gem 'geoip'
+group :production do
+  gem "newrelic_rpm", "~> 3.5.7.59"
+  gem "unicorn"
+end
+
+gem "nokogiri"
+
+gem "awesome_print"
+
+gem "unicode_utils"
+
+gem "carrierwave", "~> 0.5.8"
+gem "fog"
+gem "rmagick"
+
+gem "squeel"
+
+gem "recaptcha", :require => "recaptcha/rails"
+
+gem "redcarpet"
+
+gem "dalli"
+
+gem "rack-rewrite"
+
+gem "dimensions-rails"
+gem "kaminari"
+gem "zip"

@@ -1,30 +1,82 @@
-- title "Create Account"
+- content_for :heading do
+  - if params[:addon]
+    = raw(I18n.t :heading_addon_html, scope: "users.new")
+  - else 
+    = I18n.t :heading_no_addon, scope: "users.new"
 
-#nosto
-  %h1 Create account
+- content_for :main do
 
-#terms
-  %p.bigtext{"style" => "margin-bottom: 30px"} Scoopinion is a shared news community.
+  - if @subheading_test
+    %h1= I18n.t :subheading, scope: "users.new"
+  - else
+    %h1 &nbsp;
+  
+  = link_to I18n.t(:facebook_connect, scope: "users.new"), authentication_path(:facebook, state: "/user_sessions" ) + "?state=/user_sessions", class: "connect-button-facebook"
 
-  -# = link_to "Sign in with Facebook", authentication_path(:facebook)
+  =# link_to I18n.t(:twitter_connect, scope: "users.new"), authentication_path(:twitter), class: "connect-button-twitter", "data-scoopinion-method" => "Settings.onLoginClick"
 
-  = fb_registration_form("fields" =>"[{'name':'name'}, {'name':'username', 'view' : 'not_prefilled', 'description':'Username', 'type':'text'}, {'name':'email'}, {'name':'password', 'view' : 'not_prefilled'}]", "redirect-uri"=>users_url, "width" => 680).html_safe
+  - if @facebook_promise_test
+    %p{ :style => "font-size: 12px; margin-top: -12px; margin-bottom: 5px" }= I18n.t :facebook_promise, scope: "users.new"
+  - if !@subheading_test
+    %div{ :style => "height: 20px" } &nbsp;
 
-  = form_for @user, :url => {:action => "create"}, :html =>  { :style => 'display: none' } do |f|
+  %h2= I18n.t :or_with_email, scope: "users.new"
 
-    = render :partial => "errors", :locals => { :record => @user }
+  = form_for @user do |f|
+    .column
+      = f.label :username
+      .input-area
+        = f.text_field :username, placeholder: I18n.t(:full_name_placeholder, scope: "users.new"), class: "text"
+        %span.input-arrow
 
-    %div
-      = f.label :login
-      = f.text_field :login, :placeholder => "peter"
-    %div
+    .column
       = f.label :email
-      = f.text_field :email, :placeholder => "peter@example.com"
-    %div
+      .input-area
+        = f.email_field :email, placeholder: I18n.t(:email_placeholder, scope: "users.new"), class: "text"
+        %span.input-arrow
+
+    .column.last
       = f.label :password
-      = f.password_field :password
-    %div
-      = f.label :password_confirmation
-      = f.password_field :password_confirmation
-    %div
-      = f.submit "Create", :class => "button-to"
+      .input-area
+        = f.password_field :password, class: "text"
+        = f.submit I18n.t(:submit, scope: "users.new"), class: "submit disabled", "data-scoopinion-method" => "Settings.onLoginClick"
+    %p#terms_agreement
+      = I18n.t :terms_agreement, scope: "users.new"
+      = succeed "." do
+        = link_to I18n.t(:terms, default: "Terms and Conditions", scope: "users.new"), "#terms", id: "terms_link"
+        
+  #terms.hidden
+    .scrollelement
+      = render "pages/terms_content"
+
+- if params[:addon]
+  
+  - content_for :footer do
+    = link_to I18n.t(:already_registered, scope: "users.new"), new_user_session_path
+
+- else
+
+  - content_for :html_class do
+    no-addon
+
+  - if @footer_test
+  
+    - content_for :footer do
+      %article.column
+        %h1= I18n.t :marketing_point_1_heading, scope: "users.new"
+        %p= I18n.t :marketing_point_1_paragraph, scope: "users.new"
+  
+      %article.column
+        %h1= I18n.t :marketing_point_2_heading, scope: "users.new"
+        %p= I18n.t :marketing_point_2_paragraph, scope: "users.new"
+  
+      %article.column.last
+        %h1= I18n.t :marketing_point_3_heading, scope: "users.new"
+        %p= I18n.t :marketing_point_3_paragraph, scope: "users.new"
+  
+  - else
+    - content_for :footer do
+      :css
+        footer { display: none; }
+
+

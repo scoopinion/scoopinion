@@ -3,7 +3,7 @@
     %p.interest{:title => "The rating of this article based on how you read it."}= visit.score
   .article-content
     %h2
-      = link_to html_entities(visit.article.pretty_title), visit.article, :class => "headline"
+      = link_to html_entities(visit.article.title), visit.article, :class => "headline"
     .meta
       %p
         = "#{time_ago_in_words(visit.created_at)} ago"

@@ -1,4 +1,5 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
   # List of authentication providers
-  provider :facebook, Rails.application.config.facebook_app_id, Rails.application.config.facebook_secret, {:scope => 'email', :client_options => {:ssl => {:ca_path => "/etc/ssl/certs"}}}
+  provider :facebook, ENV["FACEBOOK_APPID"], ENV["FACEBOOK_SECRET"], {:scope => 'email,user_birthday', :client_options => {:ssl => {:ca_path => "/etc/ssl/certs"}}}
+  provider :twitter, ENV["TWITTER_KEY"], ENV["TWITTER_SECRET"]
 end

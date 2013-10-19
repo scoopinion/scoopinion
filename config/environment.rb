@@ -1,5 +1,8 @@
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
+# Use double quotes in HAML
+Haml::Template.options[:attr_wrapper] = '"'
+
 # Initialize the rails application
-Huomenet::Application.initialize!
+Scoopinion::Application.initialize!

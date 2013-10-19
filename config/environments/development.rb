@@ -1,4 +1,4 @@
-Huomenet::Application.configure do
+Scoopinion::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -21,9 +21,11 @@ Huomenet::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
-
-  config.after_initialize do
-    Delayed::Job.scaler = :null
-  end
+  
+  config.assets.compress = false
+  config.assets.debug = false
+  
+  config.email_link_host = "scoopinion.dev"
+  
 end
 

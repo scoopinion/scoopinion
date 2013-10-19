@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token, :only => [:create]
-
+  skip_before_filter :verify_authenticity_token, :only => [:create, :update, :show]
+  
+  before_filter :require_no_user, :only => [ :new ]
+  before_filter :require_user_or_create_anonymous, :only => [ :new, :show ], :if => Proc.new { params[:action] == "new" || (params[:format] == "json" && params[:id] == "current" && !params[:check_only]) }
+  
   respond_to :json, :html
+
+  layout "distraction_free", only: [ :new, :update, :edit ]
   
   def index
     if params[:tag]
@@ -11,75 +16,121 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find_by_id params[:id]
-    @feed = @user.visits.limit(12)
+    @user = current_user(:anonymous => true) if params[:id] == "current"
+    @user ||= User.find_by_single_access_token(session[:api_key]) if session[:api_key]
+    @user ||= User.find_by_id(params[:id])
+    
+    if session[:api_key] && @user && @user.anonymous?
+      if u = User.normal.find_by_single_access_token(session[:api_key])
+        @user = u
+      end
+    end
+    
+    raise ActiveRecord::RecordNotFound unless @user
     
     respond_with(@user) do |format|
-      format.json { render :json => @user }
-      format.html
+      format.html { redirect_to new_user_url if @user.anonymous? }
+      format.json
     end
   end
 
   def new
-    @user = User.new
+    
+    if params[:addon] && current_user(:anonymous => true) && current_user(:anonymous => true).created_at < Time.utc(2012,12,27)
+      redirect_to new_user_session_url and return
+    end
+    
+    @user = current_user(:anonymous => true)
+    @subheading_test = ab_test("subheading_users_new", [ true, false ], :conversion => "create_account")
+    @facebook_promise_test = ab_test("facebook_promise_users_new", [ true, false ], :conversion => "create_account")
+    if !params[:addon]
+      @footer_test = ab_test("footer_users_new", [ true, false ], :conversion => "create_account")
+    else
+      @footer_test = true
+    end
   end
   
-  def update
+  def edit
     @user = User.find params[:id]
-    if @user == current_user
-      if params[:user][:extension]
-        @user.extension_installed_at = Time.now
-        @user.save
-      end
-      params[:user][:languages].each do |lang|
-        @user.languages.create(:language => lang[0])
-      end
+    redirect_to new_user_url unless @user == current_user(:anonymous => true)
+  end
+
+  def update
+    anonymous_user = current_user ? nil : current_user(anonymous: true)
+    
+    if anonymous_user && !params[:user_credentials]
+      create
+      return
     end
 
+    @user = User.find params[:id]
+
+    if @user == current_user(:anonymous => true)
+      extension_was = @user.extension_installed_at
+      
+      @user.update_attributes(params[:user])
+      
+      if @user.extension_installed_at && !extension_was
+        Abingo.identity = @user.abingo_identity
+        bingo!("install_addon")
+        bingo!("install_addon_or_sign_up")
+      end
+    else
+      head :status => 403 and return
+    end
+    
     respond_with(@user) do |format|
       format.json { render :json => @user }
+      format.html { redirect_to introduction_path }
     end
+        
   end
   
   def create
-    # Fetching user data from FB registration form using facebook_registration gem
-    fb_form_data = FacebookRegistration::SignedRequest.parse(params["signed_request"])
-
-      # Check if user logged in using FB credentials
-    if fb_form_data
-      @user = User.new
-
-        # If the FB registration form is used, save authentication data for user
-      if fb_form_data['user_id']
-        @authentication = @user.authentications.build(:provider => 'facebook', :uid => fb_form_data['user_id'])
-      end
-
-      @user.username = fb_form_data['registration']['name']
-      @user.email = fb_form_data['registration']['email']
-
-      if @user.authenticated?
-        @user.crypted_password = ''
-        @user.password_salt = ''
-        @user.login = fb_form_data['registration']['email']
-      else
-        @user.password = fb_form_data['registration']['password']
-        @user.password_confirmation = fb_form_data['registration']['password']
-        @user.login = fb_form_data['registration']['username']
-      end
-    else
-      @user = User.new(params[:user])
-
+    
+    return if current_user
+    
+    if !current_user(:anonymous => true) && params[:user][:anonymous] && request.xhr?
+      @current_user = User.create_anonymous(:locale => I18n.locale)
+      @current_user.set_abingo_identity(session[:abingo_identity])
+      @current_user_session = UserSession.new(:user => @current_user)
+      @current_user_session.save
+      render :json => { :status => :ok } and return
     end
+    
+    if current_user(:anonymous => true)
+      @user = current_user(:anonymous => true)
+    else
+      @user = User.new
+      @user.set_abingo_identity(session[:abingo_identity])
+    end
+    
+    additional_params = {
+      anonymous: false, 
+      signup_completed_at: Time.now, 
+      user_analytics_item_attributes: { 
+        referrer: session[:referrer], 
+        entry_point: session[:entry_point] 
+      }
+    }
+    @user.update_attributes(params[:user].merge(additional_params))
 
+    bingo!("create_account")
+    bingo!("install_addon_or_sign_up")
+    
     if @user.save
       flash[:notice] = "Login successful!"
-      redirect_back_or_default "/extension"
+      redirect_to introduction_path
     else
-      render :action => :new
+      @user.anonymous = true
+      render @user.authenticated? ? :edit : :new
     end
+  end
+  
+  private
+  
+  def single_access_allowed?
+    true
   end
 
 end
-
-
-

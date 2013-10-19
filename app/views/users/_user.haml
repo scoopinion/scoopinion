@@ -1,23 +1,33 @@
-#profile-menu-wrapper.wrap
-  %ul.profile-menu
-    - if current_user
-      -#- if current_user.visits.any?
-      -#  #last_upload
-      -#    = "You last uploaded data #{time_ago_in_words(current_user.visits.first.created_at)} ago"
-      - unless current_user.authenticated?
-        %li= link_to "Connect FB", authentication_path(:facebook)
-      - else
-        %li
-          %a.invite_fb_friends{:href => "#"} Invite friends
-      %li= link_to "Sign out", logout_path, :class => "out"
-- if current_user
-  #profile
-    %a#person-name{:href => "#"}
-      =current_user.username || current_user.login
-  = render :partial => "users/extension", :locals => { :linktext => "Get the App!" }
-  %input{:type => 'hidden', :name => 'friends-updated-at', :value => current_user.friends_updated_at, :rel => friendships_create_path}
+- iframe ||= false
 
-- else
-  #profile
-    = link_to "Sign in", new_user_session_path
-    = link_to "Create account", new_user_path
+%ul#profile-menu
+  - if current_user
+    %li= link_to "Profile", current_user
+    - unless current_user.authenticated?
+      %li= link_to "Connect FB", authentication_path(:facebook)
+    - else
+      %li
+        %a.invite_fb_friends{:href => "#"} Invite friends
+    %li= link_to "Sign out", logout_path, :class => "out"
+
+%ul#profile
+  - if current_user
+    %li
+      = link_to "Get the App!", page_url("extension"), :class => "get-app"
+    %li
+      %a#person-name{:href => "#"}= current_user.username || current_user.login
+    - unless iframe
+      %li
+        %a#toggle_notifications{ :href => notifications_url, :class => current_user.unread_notifications.any? ? 'new' : ''}
+          = current_user.unread_notifications.count
+        #notifications
+          %h2 Notifications
+          %ul
+          %a.seeall{:href => notifications_url} See all &raquo;
+  
+  - else
+    %li= link_to "Sign in", new_user_session_path
+    %li= link_to "Create account", new_user_path
+
+  - if iframe
+    %li= link_to "Close", "javascript:void(0)", :id => "close-iframe"

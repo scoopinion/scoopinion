@@ -1,12 +1,27 @@
-// FIXME: Tell people that this is a manifest file, real code should go into discrete files
-// FIXME: Tell people how Sprockets and CoffeeScript works
-//
+//= require json2
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
-//= require jquery.tools.min
-//= require jquery.timeago
-//= require jquery.timeago.scpn
-//= require jquery.jsort
-//= require_tree .
-//= require fancybox
+//= require jquery.details
+//= require jquery.placeholder
+//= require jquery.resizeend
+//= require jquery.metadata.js
+//= require jquery.tablesorter.js
+//= require jquery.strftime
+//= require waypoints
+//= require underscore
+//= require backbone
+//= require handlebars
+//= require infiniScroll
+//= require i18n
+//= require i18n/translations
+//= require respond
+//= require app
+//= require_tree ../templates
+//= require_tree ./helpers
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./views
+//= require_tree ./routers
+//= require socialite
+//= require misc/extension
+//= require_self

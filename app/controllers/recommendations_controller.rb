@@ -6,5 +6,10 @@ class RecommendationsController < ApplicationController
     Recommender.generate(current_user)
     @articles = current_user.recommended_articles
   end
-
+  
+  def show
+    Recommender.generate(current_user)
+    render :partial => "recommendations/recommendation", :locals => { :recommendation => current_user.recommendations.first }
+  end
+  
 end

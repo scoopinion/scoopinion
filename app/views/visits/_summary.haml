@@ -1,5 +1,5 @@
 - if visit && visit.article
   = link_to visit.article do
-    %span.site #{visit.article.site.title}:
-    = html_entities(truncate(visit.article.pretty_title, :limit => 60))
+    %span.site #{visit.article.site.name}:
+    = html_entities(truncate(visit.article.title, :length => 60))
     %span.time #{time_ago_in_words(visit.created_at)} ago

@@ -1,14 +1,35 @@
-- title "Whitelist"
+- title t(".title")
+- heading t(".title")
 
-#nosto
-  %h1 Whitelist
-#news.whitelist-wrapper
-  #list.whitelist
-    .text
-      Articles are shared from these sites only. The sites are well-established news sites suggested by users and handpicked by the Scoopinion team.
-    - cache [ "whitelist", Site.order("updated_at DESC").reverse.first, @sites.count ] do
-      = render "list_confirmed"
-      = render "list_suggested"
-      = render "list_rejected"
-  #sidebar
-    = render "suggest"
+- if admin?
+  - content_for :sort_menu do 
+    %li{ class: params[:list_type] !=  "suggested" ? "is-selected" : nil }
+      = link_to t(".confirmed_sites"), whitelist_path(list_type: "confirmed")
+      %span.nav--sort__arrow
+    %li{ class: params[:list_type] ==  "suggested" ? "is-selected" : nil }
+      = link_to t(".suggested_sites"), whitelist_path(list_type: "suggested")
+      %span.nav--sort__arrow
+    -# if admin?
+      %li
+        = link_to t(".rejected_sites"), whitelist_path(list_type: "rejected")
+        %span.nav--sort__arrow
+.container--inner
+  .grid-wrapper
+    - if ["suggested", "rejected"].include?(params[:list_type])
+      = render "suggested"
+    - else
+      = render "confirmed"
+
+    - if current_user
+      .grid.two-fifths.portable-one-whole= render "suggest"
+
+- content_for :javascript do
+  :coffeescript
+    $(".js-site-menu a").click (event) ->
+      event.preventDefault()
+      href = $(event.target).attr("href")
+      $(".js-site-menu a").removeClass("brand-color--tertiary").addClass("brand")
+      $(event.target).addClass("brand-color--tertiary")
+      $(".js-grouped-sites").hide()
+      $(href).show()
+    $(".js-site-menu a[href=#en]").click()

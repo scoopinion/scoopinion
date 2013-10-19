@@ -1,7 +1,16 @@
 class Friendship < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, :counter_cache => true
   belongs_to :friend, :class_name => "User"
-
+  
+  def self.make_friends(user1, user2)
+    Friendship.transaction do
+      [
+       user1.friendships.create(:friend => user2),
+       user2.friendships.create(:friend => user1)
+      ]
+    end
+  end
+  
   def compatibility(options={ })
     if ! self[:compatibility] || compatibility_expired?
       unless options[:recalculate] == false
@@ -33,8 +42,8 @@ class Friendship < ActiveRecord::Base
   def calculate_compatibility_later
     unless recalculation_scheduled
       delay.calculate_compatibility
-      update_attribute(:recalculation_scheduled, true)
-      inverse.update_attribute(:recalculation_scheduled, true)
+      update_attributes(:recalculation_scheduled => true)
+      inverse.update_attributes(:recalculation_scheduled => true)
     end
   end
   
@@ -45,13 +54,13 @@ class Friendship < ActiveRecord::Base
   def inverse
     @inverse ||= Friendship.where(:user_id => friend_id, :friend_id => user_id).first
   end
-  
-  def as_json(options={ })
-    { 
-      :compatibility => compatibility,
+
+  def as_json(options={})
+    {
+      :id => id,
       :user_id => user_id,
       :friend_id => friend_id,
-      :id => id
+      :compatibility => compatibility
     }
   end
   

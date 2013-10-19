@@ -2,11 +2,11 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# If you have a Gemfile, require the gems listed there, including any gems
-# you've limited to :test, :development, or :production.
-Bundler.require(:default, Rails.env) if defined?(Bundler)
+if defined?(Bundler)  
+  Bundler.require *Rails.groups(:assets => %w(development test))  
+end  
 
-module Huomenet
+module Scoopinion
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -24,7 +24,7 @@ module Huomenet
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = 'Helsinki'
+    # config.time_zone = 'Helsinki'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -50,10 +50,31 @@ module Huomenet
     # Enable the asset pipeline
     config.assets.enabled = true
     
-    config.active_record.observers = :user_observer, :article_observer
+    config.assets.version = '1.0'
+
+    config.assets.initialize_on_precompile = true
+    
+    config.active_record.observers = [ :article_observer, :bookmark_observer ]
 
     config.generators do |g|
       g.test_framework :rspec
     end
+    
+    config.middleware.insert_before(Rack::Lock, Rack::Rewrite) do
+      
+      r301 '/visualization/', '/viz/'
+      r301 '/visualization', '/viz/'
+      r301 '/visualization/index.html', '/viz/'
+      r301 '/top', '/weekly'
+    end
+
+    # Fix field error placement
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+      if html_tag =~ /^<label/
+        "#{html_tag} <em class=\"error\">(#{[instance.error_message].join(', ')})</em>".html_safe 
+      else
+        html_tag
+      end
+    }
   end
 end

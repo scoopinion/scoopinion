@@ -1,17 +1,12 @@
-
-- if admin? and @sites.rejected.any?
-
-  %ul{:style => "margin-top: 10px"}
-    %li.letter
-      %a{"data-toggle" => "#rejected"}Rejected sites
-    .site-list#rejected
-      - for site in @sites.rejected
-        %li
-          .left
-            = link_to site.title, site
-            = "(#{site.url})"
-            = site.language
-          .right
-            = render :partial => "state_change_button", :locals => { :site => site, :new_state => "suggested", :submit => "Restore" }
-          .clear
+- if admin? and @all_sites.rejected.any?
+  %ul
+    - for site in @all_sites.rejected
+      %li
+        .left
+          = link_to site.name, site
+          = link_to "(#{site.url})", "http://" + site.url, :target => "_blank"
+          = site.language
+        .right
+          = render :partial => "state_change_button", :locals => { :site => site, :new_state => "suggested", :submit => "Restore" }
+        .clear
   

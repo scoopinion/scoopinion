@@ -5,6 +5,8 @@
 
 config.exts << 'scss'
 config.exts << 'haml'
+config.exts << 'sass'
+
 
 # exclude files with NAMES matching this mask
 #config.exclusions << '~*'

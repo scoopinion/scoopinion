@@ -6,7 +6,7 @@ require 'rake/dsl_definition'
 
 require File.expand_path('../config/application', __FILE__)
 
-Huomenet::Application.load_tasks
+Scoopinion::Application.load_tasks
 
 begin
   require 'delayed/tasks'
